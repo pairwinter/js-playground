@@ -1,0 +1,70 @@
+<script type="text/javascript">
+<!--
+	function btn(n){
+		if(n=="alert"){
+			EB_Common.dialog.alert("您的操作权限不足！","警告",function(){alert("已经解除！")});
+		}else if(n=="confirm"){
+			EB_Common.dialog.confirm("您确定要执行这个操作吗？","确认",function(){$(this).dialog("close");alert("确定");},function(){alert("取消");});
+		}else if(n=="dom"){
+			EB_Common.dialog.dialog("dom-dialog",600,300,function(){
+				$("#dialog-form").submit();
+			});
+			$("#dialog-form").validate();
+		}
+	}
+//-->
+</script>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				<input type="button" value="Alert" onclick="btn('alert')"/>
+				<input type="button" value="Confirm" onclick="btn('confirm')"/>
+				<input type="button" value="Dialog" onclick="btn('dom')"/>
+			</td>
+		</tr>
+		<tr><td id="ajax-result"></td></tr>
+	</tbody>
+</table>
+<div id="dom-dialog" title="信息录入" style="display: none">
+	<form id="dialog-form" method="get" action="#">
+	<table>
+		<tbody> 
+			<tr>
+				<td class="td-right">用户名:</td>
+				<td><input type="text" id="userName" name="userName" class="input-text validate_field required " maxlength="5" tip="userName" pos="down"/><span class="valid-status"></span></td>
+				<td class="error-label">('eb' exised)</td>
+			</tr>
+			<tr>
+				<td class="td-right">密码:</td>
+				<td><input type="password" id="userPassword" name="userPassword" class="input-text validate_field {required:true,maxlength:10,minlength:5}" tip="请输入密码5~10" pos="down-absolute"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">重复密码:</td>
+				<td><input type="password" name="reUserPassword" class="input-text validate_field {required:true,equalTo:'#userPassword'}" tip="repassword" pos="left"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">Email:</td>
+				<td><input type="text" name="userEmail" class="input-text required email validate_field" tip="请输入正确的邮箱地址" pos="left"/><span class="valid-status"></span></td>
+			<td></td></tr>
+			<tr>
+				<td class="td-right">电话:</td>
+				<td><input type="text" name="userPhone" class="input-text required phoneUS validate_field" tip="phoneUS" pos="left"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">City:</td>
+				<td><input type="text" name="userCity" class="input-text validate_field {required:true,maxlength:10,minlength:5}" tip="请输入城市名称" pos="down-absolute"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">IP:</td>
+				<td><input type="text" name="userIp" class="input-text required ipv4 validate_field" tip="ip" pos="left"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+</div>

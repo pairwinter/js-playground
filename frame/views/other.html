@@ -1,0 +1,63 @@
+<script type="text/javascript">
+<!--
+	function nodeClick(event, treeId, treeNode, clickFlag){
+		//alert(treeNode.name);
+	};
+	$(function(){
+		$("#date").datepicker();
+		$("#tree").click(function(){
+			var setting = {
+				view: {
+					selectedMulti: false
+				},
+				async: {
+					enable: true,
+					url:"/other/tree_data",
+					type:"get",
+					autoParam:["id", "name=n", "level=lv"],
+					otherParam:{"otherParam":"zTreeAsyncTest"},
+					dataFilter: filter
+				},
+				callback: {
+					onClick: nodeClick
+				}
+			};
+			function filter(treeId, parentNode, childNodes) {
+				if (!childNodes) return null;
+				for (var i=0, l=childNodes.length; i<l; i++) {
+					childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+				}
+				return childNodes;
+			}
+			var zNodes =[];
+			zNodes.push({name:"父节点1",children:[{name:"子节点1"}]});
+			$.fn.zTree.init($("#treeDemo"), setting);
+		});
+		
+		$("#cookie-set").click(function(){
+			EB_Common.cookie.set("be_cookie",(new Date()+""));
+		});
+		$("#cookie-get").click(function(){
+			EB_Common.dialog.alert(EB_Common.cookie.get("be_cookie"));
+		})
+	});
+//-->
+</script>
+<div>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				<input type="text" name="date"id="date"/>
+				<input type="button" value="tree" id="tree"/>
+				<input type="button" value="cookie-setTime" id="cookie-set"/>
+				<input type="button" value="cookie-getTime" id="cookie-get"/>
+			</td>
+		</tr>
+		<tr><td id="ajax-result"></td></tr>
+	</tbody>
+</table>
+<div>
+	<ul id="treeDemo" class="ztree"></ul>
+</div>
+</div>

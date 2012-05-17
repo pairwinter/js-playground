@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>navigation</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript">
+    $(function(){
+        var iosocket = io.connect();
+        iosocket.on('connect', function () {
+            $('#incomingChatMessages').append($('<li>Connected</li>'));
+
+            iosocket.on('message', function(message) {
+                $('#incomingChatMessages').append($('<li></li>').text(message));
+            });
+            iosocket.on('disconnect', function() {
+                $('#incomingChatMessages').append('<li>Disconnected</li>');
+            });
+        });
+
+        $('#outgoingChatMessage').keypress(function(event) {
+            if(event.which == 13) {
+                event.preventDefault();
+                iosocket.send($('#outgoingChatMessage').val());
+                $('#incomingChatMessages').append($('<li></li>').text($('#outgoingChatMessage').val()));
+                $('#outgoingChatMessage').val('');
+            }
+        });
+        $('#privateMessage').keypress(function(event) {
+            if(event.which == 13) {
+                event.preventDefault();
+                iosocket.send($('#outgoingChatMessage').val());
+                iosocket.emit('private message', { my: 'data' });
+                $('#incomingChatMessages').append($('<li></li>').text($('#outgoingChatMessage').val()));
+                $('#outgoingChatMessage').val('');
+            }
+        });
+    });
+</script>
+</head>
+<body>
+	Incoming Chat:&nbsp;<ul id="incomingChatMessages"></ul>
+	<br />
+	all:<input type="text" id="outgoingChatMessage">
+	private<input type="text" id="privateMessage">
+</body>
+</html>

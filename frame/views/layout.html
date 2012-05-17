@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>${title}</title>
+<link href="/stylesheets/style.css" type="text/css" rel="stylesheet" charset="utf-8">
+<link href="/javascripts/plugin/jquery-ui/jquery-ui.css" type="text/css" rel="stylesheet" charset="utf-8">
+<script type="text/javascript" src="/javascripts/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/javascripts/plugin/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="/javascripts/plugin/jquery.bgiframe-2.1.2.js"></script>
+<script type="text/javascript" src="/javascripts/plugin/jquery-validation/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/javascripts/plugin/jquery-validation/jquery.metadata.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/EB_Common.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/eb_cookie.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/i18n/i18n.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/i18n/l.cn.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/eb_logger.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/eb_cookie.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/dialog/eb_dialog.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/ajax/eb_ajax.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/tree/eb_tree.js"></script>
+<script type="text/javascript" src="/javascripts/everbridge/validation/eb_validation.js"></script>
+
+
+<script type="text/javascript">
+	$(function(){
+		$("#language").change(function(){
+			console.log(EB_Common.message);
+			EB_Common.message.load($(this).val());
+		}).get(0).value=EB_Common.message.type;
+	});
+</script>
+</head>
+<body>
+	<div id="header" class="header">
+		<div class="header_sub1">
+			<div class="header_sub1_1"><select id="language"><option value="en">en</option><option value="cn">cn</option></select></div>
+			<div class="header_sub1_2"></div>
+			<div class="header_sub1_3">
+				<div class="header_sub1_3_1">
+					<ul>
+						<li class="li1"><a href="#">Dashboard</a></li>
+						<li class="li2"><a href="#">Universe</a></li>
+						<li class="li3"><a href="#">Notification</a></li>
+						<li class="li4"><a href="#">Contacts & Groups</a></li>
+						<li class="li5"><a href="#">Reports</a></li>
+						<li class="li6"><a href="#">Settings</a></li>
+						<li class="li6 {{if page=='validation'}}on{{/if}}"><a href="validation">validation</a></li>
+						<li class="li6 {{if page=='ajax'}}on{{/if}}"><a href="ajax">ajax</a></li>
+						<li class="li6 {{if page=='dialog'}}on{{/if}}"><a href="dialog">dialog</a></li>
+						<li class="li6 {{if page=='other'}}on{{/if}}"><a href="other">Other</a></li>
+					</ul>
+				</div>
+				<div class="header_sub1_3_2">
+					<p>Contacts & Groups</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="wrapper" class="wrapper">
+		<div>
+			{{html body}}
+		</div>
+	</div>
+	<div id="footer" class="footer">
+		<div></div>
+	</div>
+</body>
+</html>

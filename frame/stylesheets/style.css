@@ -1,0 +1,141 @@
+@CHARSET "UTF-8";
+html,body,ul,li,td,tr,th,p{margin:0;padding:0}
+body{font: 76% arial,sans-serif}
+a{color: #006;padding:10px}
+ul{
+	list-style-type: none;
+}
+li{
+	list-style-type: none;
+}
+.td-right{
+	text-align: right;
+}
+input.error{
+	border-color: red;
+}
+input.valid{
+}
+.valid-status{
+	width: 20px;
+	height: 14px;
+	line-height: 20px;
+	vertical-align: middle;
+}
+.valid-status.tip{
+	background: url(../images/icons.png) no-repeat transparent;
+	background-position: -14px -144px;
+}
+.valid-status.valid{
+	display: inline-block;
+	background: url(../images/right.png) no-repeat transparent;
+}
+.valid-status.hide{
+	display: none;
+}
+label.error{
+	background: url(../images/cha.gif) no-repeat transparent;
+	padding-left: 17px;
+	background-position: 0px -1px;
+}
+label.tip{
+	background: url(../images/tip.png) no-repeat transparent;
+	padding-left: 17px;
+	background-position: 0px -1px;
+}
+.input-text{
+	height: 20px;
+	line-height: 18px;
+	font-size: 14px;
+}
+.textarea{
+	font-size: 14px;
+}
+.select{
+	height: 20px;
+	line-height: 18px;
+	font-size: 14px;
+}
+.header{
+	border-bottom: 1px solid silver;
+	height: 160px;
+	width: 100%;
+}
+.header_sub1{
+	
+}
+.header_sub1_1{
+	width: 100%;
+	height: 20px;
+	background-color: gray;
+}
+.header_sub1_2{
+	width: 100%;
+	height: 70px;
+	background: url(../images/logo.png) no-repeat;
+}
+.header_sub1_3{
+	width: 100%;
+	height: 40px;
+	background-color: red;
+}
+.header_sub1_3_1{
+	margin-left: auto;
+	margin-right: auto;
+	height: 40px;
+}
+.header_sub1_3_1 ul li{
+	float: left;
+	height: 36px;
+	line-height: 40px;
+	font-size: 18px;
+	margin-right: 2px;
+	border-radius: 10px 10px 0 0;
+	padding: 0px;
+	margin-top: 4px;
+	margin-left: 2px;
+	padding-left: 10px;
+	background: url(../images/icons.png) no-repeat transparent;
+}
+.header_sub1_3_1 ul li a{
+	text-decoration: none;
+}
+.header_sub1_3_1 .li1{
+	background-position: -207px -181px;
+}
+.header_sub1_3_1 .li2{
+	background-position: -207px -181px;
+}
+.header_sub1_3_1 .li3{
+	background-position: -207px -181px;
+}
+.header_sub1_3_1 .li4{
+	background-position: -207px -181px;
+}
+.header_sub1_3_1 .li5{
+	background-position: -207px -181px;
+}
+.header_sub1_3_1 .li6{
+	background-position: -207px -181px;
+}
+.header_sub1_3_1 .on{
+	background-color: #ccc;
+}
+.header_sub1_3_2{
+	background-color: #ccc;
+	height: 30px;
+}
+.header_sub1_3_2 p{
+	height: 30px;
+	line-height: 30px;
+	font-size: 18px;
+}
+.wrapper{
+	width: 1024px;
+	background-color: skyblue;
+	margin-left: auto;
+	margin-right: auto;
+}
+.header{
+	
+}
