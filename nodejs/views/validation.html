@@ -1,0 +1,57 @@
+<script type="text/javascript">
+<!--
+$(function(){
+	$("#validation-form").validate({
+		rules: {
+			userName: {
+				minlength: 2,
+				remote: {url:"/validation/user",global:false}
+			}
+		}
+	});
+});
+//-->
+</script>
+<div id="validation">
+<form id="validation-form" method="get" action="#">
+	<table>
+		<tbody> 
+			<tr>
+				<td class="td-right">用户名:</td>
+				<td><input type="text" id="userName" name="userName" class="input-text validate_field required " maxlength="5" tip="userName" pos="down"/><span class="valid-status"></span></td>
+				<td class="error-label">('eb' exised)</td>
+			</tr>
+			<tr>
+				<td class="td-right">密码:</td>
+				<td><input type="password" id="userPassword" name="userPassword" class="input-text validate_field {required:true,maxlength:10,minlength:5}" tip="请输入密码5~10" pos="down-absolute"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">重复密码:</td>
+				<td><input type="password" name="reUserPassword" class="input-text validate_field {required:true,equalTo:'#userPassword'}" tip="repassword" pos="left"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">Email:</td>
+				<td><input type="text" name="userEmail" class="input-text required email validate_field" tip="请输入正确的邮箱地址" pos="left"/><span class="valid-status"></span></td>
+			<td></td></tr>
+			<tr>
+				<td class="td-right">电话:</td>
+				<td><input type="text" name="userPhone" class="input-text required phoneUS validate_field" tip="phoneUS" pos="left"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">City:</td>
+				<td><input type="text" name="userCity" class="input-text validate_field {required:true,maxlength:10,minlength:5}" tip="请输入城市名称" pos="down-absolute"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td class="td-right">IP:</td>
+				<td><input type="text" name="userIp" class="input-text required ipv4 validate_field" tip="ip" pos="left"/><span class="valid-status"></span></td>
+				<td></td>
+			</tr>
+			<tr><td class="td-right"></td><td><input type="submit" value="提交"/></td><td></td></tr>
+		</tbody>
+	</table>
+</form>
+</div>

@@ -1,0 +1,25 @@
+<script type="text/javascript">
+<!--
+	function btn(n){
+		EB_Common.Ajax.ajax("/ajax/"+n,"get","json",function(data){
+			$("#ajax-result").html(new Date()+data);
+		});
+	}
+//-->
+</script>
+<table>
+	<tbody>
+		<tr>
+			<td>
+				<input type="button" value="200" onclick="btn(200)"/>
+				<input type="button" value="notjson" onclick="btn('notjson')"/>
+				<input type="button" value="404" onclick="btn(404)"/>
+				<input type="button" value="500" onclick="btn(500)"/>
+				<input type="button" value="session time out" onclick="btn('sessiontimeout')"/>
+				<input type="button" value="no access" onclick="btn('noaccess')"/>
+				<input type="button" value="loading-style" onclick="btn('loading')"/>
+			</td>
+		</tr>
+		<tr><td id="ajax-result"></td></tr>
+	</tbody>
+</table>
