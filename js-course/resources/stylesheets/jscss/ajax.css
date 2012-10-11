@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+.ajax-bg {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background: url(jqueryui/ajax-bg.png);
+	opacity: 0.4;
+	z-index: 1003;
+	display: none;
+}
