@@ -20,10 +20,20 @@
 		var m = "hello";
 		var jc = js_course;
 		function showM(){
-			jc.utils.log(jc.codes[0],m);
+			jc.utils.log("code1",m);
 		}
 		m="hello2";
 		showM();
+		//---------------------------------
+		var iBaseNum = 10;
+		function addNum(iNum1, iNum2) {
+		  function doAdd() {
+			return iNum1 + iNum2 + iBaseNum;
+		  }
+		  return doAdd;
+		}
+		var doAdd = addNum(1,2);
+		jc.utils.log("code2",doAdd());
 	});
   //-->
   </script>
@@ -45,8 +55,20 @@
 	<td class="js_td_result" id="code1"></td>
   </tr>
   <tr class="js_td">
-	<td class="js_td_code"></td>
-	<td class="js_td_result"></td>
+	<td class="js_td_code">
+		<pre name="code" class="javascript">
+			var iBaseNum = 10;
+			function addNum(iNum1, iNum2) {
+			  function doAdd() {
+				return iNum1 + iNum2 + iBaseNum;
+			  }
+			  return doAdd;
+			}
+			var doAdd = addNum(1,2);
+			jc.utils.log("code2",doAdd());
+		</pre>
+	</td>
+	<td class="js_td_result" id="code2"></td>
   </tr>
   </table>
  </body>
