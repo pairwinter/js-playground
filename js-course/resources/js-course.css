@@ -1,0 +1,19 @@
+.js_table{
+	margin-left: auto;
+	margin-right: auto;
+}
+.js_tr{
+	
+}
+.js_td_code{
+	border: 1px solid burlyWood;
+	border-radius: 5px;
+	width:500px;
+}
+.js_td_result{
+	border: 1px solid burlyWood;
+	border-radius: 5px;
+	font: 82% arial,sans-serif;
+	width:200px;
+	text-align:center;
+}
