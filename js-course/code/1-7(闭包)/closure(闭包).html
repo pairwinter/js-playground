@@ -17,6 +17,7 @@
   <script type="text/javascript">
   <!--
 	$(function(){
+		/*---------------------------------*/
 		var m = "hello";
 		var jc = js_course;
 		function showM(){
@@ -24,7 +25,7 @@
 		}
 		m="hello2";
 		showM();
-		//---------------------------------
+		/*---------------------------------*/
 		var iBaseNum = 10;
 		function addNum(iNum1, iNum2) {
 		  function doAdd() {
@@ -34,6 +35,18 @@
 		}
 		var doAdd = addNum(1,2);
 		jc.utils.log("code2",doAdd());
+		/*---------------------------------*/
+		function Apple(){
+			var name = "苹果";
+			var num = 5;
+			this.getName = function(){
+				return name;
+			}
+			jc.utils.log("code3",num);
+		}
+		var apple = new Apple();
+		jc.utils.log("code3",apple.getName(),true);
+		/*---------------------------------*/
 	});
   //-->
   </script>
@@ -69,6 +82,23 @@
 		</pre>
 	</td>
 	<td class="js_td_result" id="code2"></td>
+  </tr>
+  <tr class="js_td">
+	<td class="js_td_code">
+		<pre name="code" class="javascript">
+			function Apple(){
+				var name = "苹果";
+				var num = 5;
+				this.getName = function(){
+					return name;
+				}
+				jc.utils.log("code3",num);
+			}
+			var apple = new Apple();
+			jc.utils.log("code3",apple.getName(),true);
+		</pre>
+	</td>
+	<td class="js_td_result" id="code3"></td>
   </tr>
   </table>
  </body>
