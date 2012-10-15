@@ -2,7 +2,7 @@
 <html>
  <head>
   <title> javascript 闭包 </title>
-  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="Generator" content="EditPlus">
   <meta name="Author" content="">
   <meta name="Keywords" content="">
@@ -14,42 +14,7 @@
   <script type="text/javascript" src="../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
   <script type="text/javascript" src="../../resources/utils.js"></script>
   <script type="text/javascript" src="../../resources/ready.js"></script>
-  <script type="text/javascript">
-  <!--
-	$(function(){
-		/*---------------------------------*/
-		var m = "hello";
-		var jc = js_course;
-		function showM(){
-			jc.utils.log("code1",m);
-		}
-		m="hello2";
-		showM();
-		/*---------------------------------*/
-		var iBaseNum = 10;
-		function addNum(iNum1, iNum2) {
-		  function doAdd() {
-			return iNum1 + iNum2 + iBaseNum;
-		  }
-		  return doAdd;
-		}
-		var doAdd = addNum(1,2);
-		jc.utils.log("code2",doAdd());
-		/*---------------------------------*/
-		function Apple(){
-			var name = "苹果";
-			var num = 5;
-			this.getName = function(){
-				return name;
-			}
-			jc.utils.log("code3",num);
-		}
-		var apple = new Apple();
-		jc.utils.log("code3",apple.getName(),true);
-		/*---------------------------------*/
-	});
-  //-->
-  </script>
+  <script type="text/javascript" src="closure.js"></script>
  </head>
  <body>
   <table class="js_table">
