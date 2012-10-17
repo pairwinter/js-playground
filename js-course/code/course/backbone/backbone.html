@@ -1,25 +1,58 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
- <head>
-  <title> backbone </title>
-  <meta charset="utf-8">
-  <meta name="Generator" content="EditPlus">
-  <meta name="Author" content="">
-  <meta name="Keywords" content="">
-  <meta name="Description" content="">
-  <link rel="stylesheet" type="text/css" href="../../resources/js-course.css">
-  <link rel="stylesheet" type="text/css" href="../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
-  <script type="text/javascript" src="../../resources/javascripts/jquery-1.7.2.js"></script>
-  <script type="text/javascript" src="../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
-  <script type="text/javascript" src="../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
-  <script type="text/javascript" src="../../resources/utils.js"></script>
-  <script type="text/javascript" src="../../resources/ready.js"></script>
-  <script type="text/javascript" src="underscore.js"></script>
-  <script type="text/javascript" src="backbone.js"></script>
-  <script type="text/javascript" src="html.js"></script>
- </head>
- <body>
- <button id="check">报到</button>
- <ul id="world-list"></ul>
- </body>
+<head>
+    <title> backbone </title>
+    <meta charset="utf-8">
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../resources/js-course.css">
+    <link rel="stylesheet" type="text/css" href="../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+    <script type="text/javascript" src="../../resources/javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../resources/javascripts/plugin/jsrender.js"></script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script type="text/javascript" src="backbone.js"></script>
+    <script type="text/javascript" src="../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../resources/ready.js"></script>
+    <script type="text/javascript" src="backbone_html.js"></script>
+</head>
+<body>
+<a href="../../index.html">Index</a>
+    <div class="jc_section">
+        <h3 class="jc_section_title">Base</h3>
+        <button id="check">报到</button>
+        <ul id="world-list"></ul>
+        <ul id="book-list"></ul>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">Router</h3>
+        <table class="jc_table">
+            <tr class="jc_tr">
+                <td class="jc_td_code"><a href="#showData/1000">showData/1000</a></td>
+                <td class="jc_td_code"><a href="#download/fileName">download/file</a></td>
+                <td class="jc_td_code"><a href="#list/books/20">list/books/20</a></td>
+                <td class="jc_td_code"><a href="#testRouter1_actions">testRouter1</a></td>
+            </tr>
+            <tr class="jc_tr">
+                <td class="jc_td_code"><span id="code1" class="jc_span_code"></span></td>
+                <td class="jc_td_code"><span id="code2" class="jc_span_code"></span></td>
+                <td class="jc_td_code"><span id="code3" class="jc_span_code"></span></td>
+                <td class="jc_td_code"><span id="code4" class="jc_span_code"></span></td>
+            </tr>
+        </table>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">View</h3>
+        <div id="search_container"></div>
+        <span id="code5"></span>
+    </div>
+</body>
+<script type="text/x-jsrender" id="search_template">
+    <label>{{:search_label}}</label>
+    <input type="text" id="search_input"/>
+    <input type="button" id="search_button" value="Search"/>
+</script>
 </html>

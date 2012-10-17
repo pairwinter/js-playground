@@ -14,4 +14,7 @@ var js_course = {};
 			$("#"+id).html("<p>"+val+"</p>");
 		
 	};
+    u.browserLog = function(v){
+        console.log(v);
+    }
 })(js_course);

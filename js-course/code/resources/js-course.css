@@ -1,22 +1,47 @@
 body{
 	font: 82% arial,sans-serif;
 }
-.js_table{
+.jc_h2{
+    border-bottom: 1px solid #8a2be2
+ }
+.jc_h3{
+    border-bottom: 1px solid #8a2be2
+}
+.jc_table{
 	margin-left: auto;
 	margin-right: auto;
 }
-.js_tr{
+.jc_tr{
 	
 }
-.js_td_code{
+.jc_td_code{
 	border: 1px solid burlyWood;
 	border-radius: 5px;
 	width:500px;
 }
-.js_td_result{
+.jc_span_code{
+    margin-right: 10px;
+    background-color: #f4a460;
+    display: inline-block;
+    margin: 5px;
+    padding: 5px;
+}
+.jc_td_result{
 	border: 1px solid burlyWood;
 	border-radius: 5px;
 	font: 82% arial,sans-serif;
 	width:200px;
 	text-align:center;
+}
+.jc_template{
+    display: none;
+}
+.jc_section{
+    background-color: bisque;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+.jc_section_title{
+    border-bottom: 1px solid #8a2be2
 }
