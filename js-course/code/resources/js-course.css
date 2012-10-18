@@ -2,10 +2,10 @@ body{
 	font: 82% arial,sans-serif;
 }
 .jc_h2{
-    border-bottom: 1px solid #8a2be2
+
  }
 .jc_h3{
-    border-bottom: 1px solid #8a2be2
+
 }
 .jc_table{
 	margin-left: auto;
@@ -37,11 +37,17 @@ body{
     display: none;
 }
 .jc_section{
-    background-color: bisque;
+    background-color: brown;
     border-radius: 5px;
-    margin: 10px;
+    margin: 20px;
     padding: 10px;
 }
 .jc_section_title{
-    border-bottom: 1px solid #8a2be2
+    color: white;
+}
+.jc_section_sub1{
+    background-color: cornsilk;
+    padding: 5px;
+    border-radius: 5px;
+    margin-bottom: 10px;
 }
