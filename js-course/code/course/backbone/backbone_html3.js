@@ -31,24 +31,6 @@
         obj.trigger("change");
         /************************************************************************************/
     };
-    page.model.test1=function(){
-        var TestModel = Backbone.Model.extend({
-            defaults:{
-                color:"white"
-            }
-        });
-        var tm = new TestModel();
-        tm.bind("change:color",function(t,color){
-            $("body").css({"background-color":color});
-        });
-        $("#color").keypress(function(e){
-            if(e.keyCode == 13)
-            {
-                tm.set({"color":this.value});
-                u.log("code_model_tojson",JSON.stringify(tm));
-            }
-        });
-    };
     page.comparator = function(){
         var Chapter  = Backbone.Model;
         var chapters = new Backbone.Collection;
@@ -65,6 +47,5 @@
 $(function(){
     var bb3= js_course.backbone3;
     bb3.events.bindTest();
-    bb3.model.test1();
     bb3.comparator();
 });

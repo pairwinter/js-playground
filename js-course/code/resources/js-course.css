@@ -51,3 +51,18 @@ body{
     border-radius: 5px;
     margin-bottom: 10px;
 }
+.section_sub_title{
+    cursor: pointer;
+    padding: 5px;
+    margin: 0;
+    border-radius: 5px;
+}
+.section_sub_title:HOVER{
+    background-color: lightskyblue;
+}
+.section_sub_content{
+    display: none;
+}
+.jc_section_sub1.open{
+    background-color: #f5f5f5;
+}

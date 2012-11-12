@@ -34,14 +34,33 @@
         );
         //实例化AppView
         var appview = new AppView;
-    }
+    };
+    page.model=function(){
+        var TestModel = Backbone.Model.extend({
+            defaults:{
+                color:"white"
+            }
+        });
+        var tm = new TestModel();
+        tm.bind("change:color",function(t,color){
+            $("body").css({"background-color":color});
+        });
+        $("#color").keypress(function(e){
+            if(e.keyCode == 13)
+            {
+                tm.set({"color":this.value});
+                u.log("code_model_tojson",JSON.stringify(tm));
+            }
+        });
+    };
     page.collection = function(){
         var Book = Backbone.Model.extend({
             default : {
                 title:'default'
             },
             initialize: function(){
-                //alert('Hey, you create me!');
+                //here you could bind some method for collection,
+                //eg:this.bind("add", callback);
             }
         });
         var BookShelf = Backbone.Collection.extend({
@@ -62,6 +81,26 @@
             jBookList.append("<li>"+book.get('title')+"</li>");
         });
     };
+    page.searchView = function(){
+        var searchTemplate = $.templates("#search_template");
+        var SearchView = Backbone.View.extend({
+            initialize:function(){
+                this.render();
+            },
+            render:function(){
+                var template = searchTemplate.render({search_label:"name"})
+                this.$el.html(template);
+            },
+            events:{
+                "click #search_button":"doSearch"
+            },
+            doSearch:function(){
+                jc.utils.log("code5",$("#search_input").val());
+            }
+        });
+        var searchView = new SearchView({el:$("#search_container")});
+    }
+
     page.fetch = function(){
         $.ajax({
             url:"http://maps.googleapis.com/maps/api/geocode/json?address="+t.jAddress.val()+"&region=us&sensor=false&callback=?",
@@ -81,6 +120,7 @@
                 "showData/:id":"showData",//如果写成“/showData/:id”将不起作用！必须去掉前面的斜线！
                 "download/*path":"download",
                 "list/*path/:id":"list",
+                "newAddA/:id":"newAdd",
                 "*actions" : "defaultRoute"
             },
             showData:function(id){
@@ -93,36 +133,24 @@
                 jc.utils.log("code3",path);
                 jc.utils.log("code3",id,true);
             },
+            newAdd:function(id){
+                jc.utils.log("clickNewAddA",id);
+            },
             defaultRoute : function(actions){
                 jc.utils.log("code4",actions);
             }
         });
         var app_router = new AppRouter;
         Backbone.history.start();
-    }
-    page.searchView = function(){
-        var searchTemplate = $.templates("#search_template");
-        var SearchView = Backbone.View.extend({
-            initialize:function(){
-               this.render();
-            },
-            render:function(){
-                var template = searchTemplate.render({search_label:"name"})
-                this.$el.html(template);
-            },
-            events:{
-                "click #search_button":"doSearch"
-            },
-            doSearch:function(){
-                jc.utils.log("code5",$("#search_input").val());
-            }
+        $("#addA").click(function(){
+            $("#clickNewAddA").after('<a style="margin-left: 5px;" href="#newAddA/'+Math.random()+'">new Add'+($("#clickNewAddA").siblings().size()+1)+'</a>');
         });
-        var searchView = new SearchView({el:$("#search_container")});
     }
 })(js_course);
 $(function(){
     js_course.backbone.view();
+    js_course.backbone.model();
     js_course.backbone.collection();
-    js_course.backbone.router();
     js_course.backbone.searchView();
+    js_course.backbone.router();
 });

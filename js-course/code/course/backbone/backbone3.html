@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title> backbone </title>
+    <title> backbone3 </title>
     <meta charset="utf-8">
     <meta name="Generator" content="EditPlus">
     <meta name="Author" content="">
@@ -58,32 +58,6 @@
             </pre>
             <span id="code_events_obj_change_start"></span>
             <span id="code_events_obj_change_end"></span>
-        </div>
-    </div>
-    <div class="jc_section">
-        <h3 class="jc_section_title">Model</h3>
-        <div class="jc_section_sub1">
-            <h4>Model的简单实例</h4>
-                <pre name="code" class="javascript">
-                    var TestModel = Backbone.Model.extend({
-                        defaults:{
-                            color:"white"
-                        }
-                    });
-                    var tm = new TestModel();
-                    tm.bind("change:color",function(t,color){
-                        $("body").css({"background-color":color});
-                    });
-                    $("#color").keypress(function(e){
-                        if(e.keyCode == 13)
-                        {
-                            tm.set({"color":this.value});
-                            u.log("code_model_tojson",JSON.stringify(tm));
-                        }
-                    });
-                </pre>
-            Body Background Color:<input type="text" id="color" />
-            <span id="code_model_tojson"></span>
         </div>
     </div>
     <div class="jc_section">
