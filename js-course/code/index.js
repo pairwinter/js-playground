@@ -13,4 +13,11 @@ http.createServer(app).listen(app.get('port'), function () {
 app.get('/',  function(req, res){
     res.redirect('/static/index.html');
 });
+app.get("/list/users",function(req,res){
+    var users = [];
+    for(var i=1;i<=100;i++){
+        users.push({id:i,name:"name"+i,age:i});
+    }
+    res.send(users);
+});
 
