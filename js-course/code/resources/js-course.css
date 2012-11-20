@@ -1,6 +1,12 @@
 body{
 	font: 82% arial,sans-serif;
 }
+.b{
+    font-weight: bold;
+}
+.red{
+    color: red;
+}
 .jc_h2{
 
  }
@@ -45,6 +51,10 @@ body{
 .jc_section_title{
     color: white;
 }
+.jc_section_remark{
+    color: #ffffff;
+    margin-bottom: 10px;
+}
 .jc_section_sub1{
     background-color: cornsilk;
     padding: 5px;
@@ -65,4 +75,7 @@ body{
 }
 .jc_section_sub1.open{
     background-color: #f5f5f5;
+}
+.p_line_height{
+    line-height: 28px;
 }
