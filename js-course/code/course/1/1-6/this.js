@@ -1,5 +1,20 @@
 $(function(){
 	var jc = js_course;
+
+    var obj1 = {
+        id:1,
+        name:"eb1",
+        getName:function(){
+            return this.name;
+        }
+    }
+    var resultName = obj1.getName();//result eb1;
+    jc.utils.log("resultName1",resultName);
+    var obj2= {name:"eb2"};
+    resultName = obj1.getName.call(obj2);//result  eb2;
+    jc.utils.log("resultName2",resultName);
+
+
 	/*---------------------------------*/
 	var obj1 = {
 		id:1,

@@ -9,9 +9,9 @@ var js_course = {};
 		if(isAppend === undefined)
 			isAppend = false;
 		if(isAppend)
-			$("#"+id).append("<p>"+val+"</p>");
+			$("#"+id).append("<p>"+id+": "+val+"</p>");
 		else
-			$("#"+id).html("<p>"+val+"</p>");
+			$("#"+id).html("<p>"+id+": "+val+"</p>");
 		
 	};
     u.browserLog = function(v){

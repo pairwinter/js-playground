@@ -1,0 +1,187 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> javascript中类的实质及实现</title>
+  <meta charset="utf-8">
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+     <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+     <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+     <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+     <script type="text/javascript" src="../../../resources/utils.js"></script>
+     <script type="text/javascript" src="../../../resources/ready.js"></script>
+  <script type="text/javascript" src="class.js"></script>
+ </head>
+ <body>
+ <div class="control_container">
+     <a href="../../../index.html">Index</a>
+            <span class="control">
+                <a href="javascript:" class="openControl">+</a>
+                <a href="javascript:" class="closeControl">-</a>
+            </span>
+     <h2 class="title">javascript中类的实质及实现</h2>
+ </div>
+     <div class="jc_section">
+         <h3 class="jc_section_title">javascript中类的实质（没有类）及实现</h3>
+         <div class="jc_section_remark">javascript中不存在明确或者有确切定义的类，自然也不会存在什么继承之类的东西。javascript中的类的概念及继承完全是模拟出来的。</div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">第一步：定义基类</h4>
+             <div class="section_sub_content">
+                 所谓类其实就是一个对象，用对象来模拟一个类，写法与java中的类类似：
+                 <pre name="code" class="javascript">
+                      var Person={
+                        create:function(id,name){//构造函数
+                            this.id = id;
+                            this.name = name;
+                        }
+                        getId:function(){
+                            return this.id;
+                        }
+                        getName:function(){
+                            return this.name;
+                        }
+                      }
+                 </pre>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">第二步：创建一个基类的实例对象</h4>
+             <div class="section_sub_content">
+                 所谓实例就是拥有基类的属性和方法，那么怎么让这个实例拥有这些东西呢。前面说过原型链的概念，我们只要指定这个实例的原型链就可以让这个实例拥有这些属性和方法。
+                 <pre name="code" class="javascript">
+                    var jobs = {};
+                    //jobs.prototype=Person;//如果这么写就犯了上一节那个特别特别注意的一点的错误，
+                    jobs.__proto__=Person;//这个地方是指定原型链而不是指定原型，意思就是说，如果在jobs中找不到某个属性，就去Person中找。
+                    jobs.create(1,"jobs");//初始化实例对象数据
+                    jc.utils.log("code1",jobs.getId());
+                    var bill = {};
+                    bill.__proto__=Person;
+                    bill.create(2,"bill");//初始化实例对象数据
+                    jc.utils.log("code2",bill.getId());
+                 </pre>
+                <span class="jc_code_result" id="code1"></span>
+                <span class="jc_code_result" id="code2"></span>
+                 OK，这样jobs就可以认为是Person的一个实例了。
+                 但是__proto__这个东西，并不是所有的浏览器都可以直接访问并读写的（就是说xxx.__proto = XXX，这个表达式在有些浏览器中会报错！）。<br/>
+                 所以为了兼容浏览器，就需要拐个弯儿。
+                <pre name="code" class="javascript">
+                    var Jobs=function(){}; //一个临时函数
+                    Jobs.prototype = Person;//函数的原型指向Person
+                    var j = new Jobs(); //j.__proto__=Jobs.prototype=Person
+                    j.create(3,"J"); //初始化实例对象数据
+                    jc.utils.log("code3",j.getName());
+                 </pre>
+                <span class="jc_code_result" id="code3"></span>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">第三步：像java那样通过XXX.instance()来生成一个对象</h4>
+             <div class="section_sub_content">
+                 有了第二步的东西我们就可以封装一个方法来专门生成某个Class的实例对象，并且完成初始化工作
+                 <pre name="code" class="javascript">
+                     function newInstance(Class,args){
+                        function _new(){
+                            Class.create.apply(this,arguments[0]);//假设基类的初始化函数都是create
+                        }
+                        _new.prototype=Class;
+                        return new _new(args);
+                     }
+                    var person = newInstance(Person,[4,"css"]);
+                    jc.utils.log("code4",person.getName());
+                 </pre>
+                <span class="jc_code_result" id="code4"></span>
+             </div>
+         </div>
+     </div>
+     <div class="jc_section">
+         <h3 class="jc_section_title">javascript中类的继承</h3>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">继承的实现</h4>
+             <div class="section_sub_content">
+                 继承可以认为是基类属性的扩展，怎么扩展？说白了就是给类的实例添加属性和方法。<br/>
+                 上面我们在创建一个基类实例的时候，是让一个对象拥有了基类的属性，看来基类的实例和基类的子类有一个共同点就是都拥有基类的属性和方法，不同点是<br/>
+                 实例是初始化了的，而子类没有初始化，且属性或方法应该>=基类。
+                 <pre name="code" class="javascript">
+                    /**
+                     * Class:被继承的类
+                     * attributes,子类新加的或者重载的属性（方法），没有多态（多态可以通过arguments来模拟，前面提到过）
+                     */
+                    function newSubClass(Class,attributes){
+                        function _new(attrs){
+                            if(attrs){
+                                for(var a in attrs){
+                                    this[a] = attrs[a];//拷贝新定义的属性到子类中。
+                                }
+                             }
+                        }
+                        _new.prototype=Class;
+                        return new _new(attributes);
+                     }
+                    var options = {
+                            create:function(id,name,great){
+                                this.id = id;
+                                this.name = name;
+                                this.great=great;
+                            },
+                            getGreat:function(){
+                                return this.great;
+                            }
+                        }
+                    var StudentClass = newSubClass(Person,options);
+                    var student = newInstance(StudentClass,[5,"student","great 3"]);
+                    jc.utils.log("code5",student.getGreat());
+                 </pre>
+                 <span class="jc_code_result" id="code5"></span>
+             </div>
+         </div>
+     </div>
+     <div class="jc_section">
+         <h3 class="jc_section_title">总结</h3>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">总结</h4>
+             <div class="section_sub_content">
+                 说这些就一个目的，熟悉javascript中对象与对象之间的关系，尤其是prototype和__proto__是非常重要的东西<br/>
+                 明白这些就能够很好的控制程序的逻辑，优化代码的结构。<br/>
+                 还有就是两个函数call和apply的运用，在javascript的框架prototype.js中类概念表现的淋漓尽致。 <br/>
+                 下面通过一个实例来说明一下：<br/>
+                 <pre name="code" class="javascript">
+                 var Class = {
+                     create: function() {
+                         return function() {
+                            this.initialize.apply(this, arguments);
+                         }
+                     }
+                 }
+                 </pre>
+                 乍一看，难点在于create方法返回了一个函数，一时不能理解为什么这么做。<br/>
+                 分析一下：<br/>
+                 这个Class对象是用来生成一个类的，在其他地方调用Class.create()来生成一个类（类是一个对象，函数也是对象，这里就把返回的函数对象称作类）。<br/>
+                 <pre name="code" class="javascript">
+                     var Person = Class.create();
+                     /*也就是
+                        Person=function(){
+                            this.initialize.apply(this, arguments);
+                        };
+                     */
+                     Person.prototype = {//给这类指定原型，相当于给类中添加属性或者方法。
+                        initialize:function(id,name){
+                            this.id=id;
+                            this.name=name;
+                        }
+                        getName:function(){
+                            return this.name;
+                        }
+                     }
+                     var tom = new Person(1,"tom"); //tom.__proto__==Person.prototype
+                     jc.utils.log("tom_name",tom.getName());//tom.getName==Person.prototype.getName
+                 </pre>
+                 <span class="jc_code_result" id="tom_name"></span>
+             </div>
+         </div>
+     </div>
+ </body>
+</html>

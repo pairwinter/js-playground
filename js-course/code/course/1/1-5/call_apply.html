@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> 全面理解javascript的arguments,callee,caller,apply,call概念 </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+     <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+     <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+     <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+     <script type="text/javascript" src="../../../resources/utils.js"></script>
+     <script type="text/javascript" src="../../../resources/ready.js"></script>
+  <script type="text/javascript" src="call_apply.js"></script>
+ </head>
+ <body>
+ <div class="control_container">
+     <a href="../../../index.html">Index</a>
+            <span class="control">
+                <a href="javascript:" class="openControl">+</a>
+                <a href="javascript:" class="closeControl">-</a>
+            </span>
+     <h2 class="title">全面理解javascript的arguments,callee,caller,apply,call概念</h2>
+ </div>
+ <div class="jc_section">
+     <h3 class="jc_section_title">arguments,callee,caller,apply,call</h3>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">1，arguments</h4>
+         <div class="section_sub_content">
+             arguments，在函数体内读取，它是一个对象，代表当前执行的函数的参数集合。<br/>
+             [function.]arguments[n]<br/>
+             参数<br/>
+             function ：选项。当前正在执行的 Function 对象的名字。<br/>
+             n ：选项。要传递给 Function 对象的从0开始的参数值索引。<br/>
+             说明 <br/>
+             arguments是进行函数调用时，除了指定的参数外，还另外创建的一个隐藏对象。<br/>
+             arguments是一个类似数组但不是数组的对象，说它类似数组是因为其具有数组一样的访问性质及方式，可以由arguments[n]来访问对应的单个参数的值，并拥有数组长度属性length。<br/>
+             还有就是arguments对象存储的是实际传递给函数的参数，而不局限于函数声明所定义的参数列表，而且不能显式创建 arguments 对象。arguments 对象只有函数开始时才可用。<br/>
+             下边例子详细说明了这些性质:  <br/>
+             <pre name="code" class="javascript">
+                function testArguments(a, b) {
+                    var i, s = "函数testArguments期望传入";
+                    var numargs = arguments.length;// 获取被传递参数的数值。
+                    var expargs = testArguments.length;// 获取期望参数的数值。functionName.length，返回的是函数定义指定的参数
+                    s += expargs + "个参数，";
+                    s += numargs + "个参数已被传入！";
+                    s += "它们是："
+                    for (i = 0; i < numargs; i++) {// 获取参数内容。
+                        s += "参数" + i + " = " + arguments[i] + (i == numargs - 1 ? "" : "，");
+                    }
+                    jc.utils.log("result", s,true);
+                    if(testArguments2.arguments){//说明testArguments2这个方法正在执行，且在它里面调用了testArguments这个方法。
+                        var a = testArguments2.arguments;
+                        var a_length = a.length;
+                        var args = "testArguments2的参数，它们是：";
+                        for (i = 0; i < a_length; i++) {// 获取参数内容。
+                            args +="参数"+i + " = " + testArguments2.arguments[i] + (i == a_length - 1 ? "" : "，");
+                        }
+                        jc.utils.log("result", args,true);
+                    }
+                }
+                testArguments(100, "everbridge");//单独执行
+                function testArguments2(c,d,e,f) {
+                    testArguments(c,d); //被其他函数调用
+                };
+                testArguments2(1,2,3,4);
+             </pre>
+            <span class="jc_code_result" id="result"></span>
+            javascript中可以通过判断arguments来模拟面向对象语言中的多态特性
+            <pre name="code" class="javascript">
+                //多态
+                function testPolymorphic(){
+                    switch (arguments.length){
+                        case 0 :
+                            jc.utils.log("testPolymorphic", "no arguments");
+                            break;
+                        case 1 :
+                            jc.utils.log("testPolymorphic", arguments[0],true);
+                            break;
+                        case 2 :
+                            jc.utils.log("testPolymorphic", arguments[0] + "," + arguments[1],true);
+                            break;
+                        default :
+                            break;
+                    }
+                }
+                testPolymorphic();
+                testPolymorphic(1);
+                testPolymorphic(1,2);
+            </pre>
+            <span class="jc_code_result" id="testPolymorphic"></span>
+         </div>
+     </div>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">2，callee</h4>
+         <div class="section_sub_content">
+             返回正被执行的 Function 对象，也就是所指定的 Function 对象的正文。<br/>
+             [function.]arguments.callee<br/>
+             可选项 function 参数是当前正在执行的 Function 对象的名称。<br/>
+             说明<br/>
+             callee 属性的初始值就是正被执行的 Function 对象。 <br/>
+             callee 属性是 arguments 对象的一个成员，它表示对函数对象本身的引用，这有利于匿名函数的递归或者保证函数的封装性，例如下边示例的递归计算1到n的自然数之和。<br/>
+             而该属性仅当相关函数正在执行时才可用。 <br/>
+             还有需要注意的是callee拥有length属性，这个属性有时候用于验证还是比较好的。<br/>
+             arguments.length是实参长度，arguments.callee.length是形参长度，由此可以判断调用时形参长度是否和实参长度一致。<br/>
+             <pre name="code" class="javascript">
+                //callee可以打印其本身
+                function calleeDemo() {
+                    jc.utils.log("calleeDemo_toString", arguments.callee.toString());
+                }
+                calleeDemo();
+            </pre>
+            <span class="jc_code_result" id="calleeDemo_toString"></span>
+             <pre name="code" class="javascript">
+                    //用于验证参数
+                    function calleeLengthDemo(arg1, arg2) {
+                        if (arguments.length==arguments.callee.length) {
+                            jc.utils.log("calleeDemo_checkLength", "参数个数相同",true);
+                        } else {
+                            jc.utils.log("calleeDemo_checkLength", "实参长度：" +arguments.length+"；形参长度： " +arguments.callee.length , true);
+                        }
+                    }
+                    calleeLengthDemo(1,2);
+                    calleeLengthDemo(1);
+             </pre>
+            <span class="jc_code_result" id="calleeDemo_checkLength"></span>
+             <pre name="code" class="javascript">
+                    //递归计算
+                    var sum = function(n){
+                        if (n > 0)
+                            return n+arguments.callee(n - 1);
+                        else
+                           return 0;
+                    }
+                    var calleeDemo_sum = sum(10);
+                    jc.utils.log("calleeDemo_sum", calleeDemo_sum , true);
+                </pre>
+             <span class="jc_code_result" id="calleeDemo_sum"></span>
+             与一般的递归函数比较：
+            <pre name="code" class="javascript">
+             var sum = function(n){
+                 if (1==n) return 1;
+                 else return n + sum (n-1);
+             }
+             sum(100);
+            </pre>
+            其中函数内部包含了对sum自身的引用，函数名仅仅是一个变量名，在函数内部调用sum即相当于调用一个全局变量，不能很好的体现出是调用自身，这时使用callee会是一个比较好的方法。
+         </div>
+     </div>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">3，caller</h4>
+         <div class="section_sub_content">
+             返回一个对函数的引用，该函数调用了当前函数。函数a在函数b的代码体中被调用，那么将返回b<br/>
+             functionName.caller<br/>
+             functionName 对象是所执行函数的名称。<br/>
+             说明  <br/>
+             对于函数来说，caller 属性只有在函数执行时才有定义。如果函数是由顶层（不得任何代码块包含）调用的，那么 caller 包含的就是 null 。<br/>
+             如果在字符串上下文中使用 caller 属性，那么结果和functionName.toString 一样，也就是说，显示的是函数的反编译文本。 <br/>
+             下面的例子说明了 caller 属性的用法：<br/>
+             <pre name="code" class="javascript">
+                 // caller demo {
+                function callerDemo() {
+                    if (callerDemo.caller) {
+                        var a= callerDemo.caller.toString();
+                        alert(a);
+                    } else {
+                        alert("this is a top function");
+                    }
+                    //如果在这里执行callerDemo.caller会怎样？
+                    /*
+                    if (callerDemo.caller) {
+                        callerDemo.caller.apply();
+                    }
+                    */
+                }
+                function handleCaller() {
+                    callerDemo();
+                }
+            </pre>
+            <span class="jc_code_result" id="callerDemo_toString"></span>
+         </div>
+     </div>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">4，apply and call</h4>
+         <div class="section_sub_content">
+             apply和call它们的作用都是将函数绑定到另外一个对象上去运行，两者仅在定义参数方式有所区别：<br/>
+             apply(thisTarget,argArray); <br/>
+             call(thisTarget[,arg1,arg2…] ]);<br/>
+             <span class="b red">一个函数的对象上下文从初始的上下文改变为由 thisArg指定的新对象，即所有函数内部的this指针都会被赋值为thisTarget，这可实现将函数作为另外一个对象的方法运行的目的</span><br/>
+             在this章节中会有具体应用。<br/>
+             <span class="b red">在调用这两个方法的时候，如果thisTarget和argArray都没有提供那么window对象将被传入。</span><br/>
+         </div>
+     </div>
+ </div>
+ </body>
+</html>

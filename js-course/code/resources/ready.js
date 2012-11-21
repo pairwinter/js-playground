@@ -13,5 +13,18 @@ $(function(){
     $("h4.section_sub_title").click(function(){
         $(this).parent().toggleClass("open");
         $(this).next().toggle();
-    })
+    });
+    $("span.control>a").click(function(){
+        var isOpen = $(this).hasClass("openControl")
+        $("h4.section_sub_title").each(function(){
+            var jThis = $(this);
+            if(isOpen){
+                jThis.parent().addClass("open");
+                jThis.next().show();
+            }else{
+                jThis.parent().removeClass("open");
+                jThis.next().hide();
+            }
+        });
+    });
 });

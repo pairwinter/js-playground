@@ -14,77 +14,80 @@
   <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
   <script type="text/javascript" src="../../../resources/utils.js"></script>
   <script type="text/javascript" src="../../../resources/ready.js"></script>
-  <script type="text/javascript" src="this.js"></script>
+  <script type="text/javascript" src="datatype.js"></script>
  </head>
  <body>
- <a href="../../../index.html">Index</a>
+    <div class="control_container">
+        <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+        <h2 class="title">javascript 数据类型</h2>
+    </div>
      <div class="jc_section">
          <h3 class="jc_section_title">1，简单数据类型</h3>
          <div class="jc_section_sub1">
-             <h4 class="section_sub_title">Undefined</h4>
-             <div class="section_sub_content">
-                 undefined: 代表一切未知的事物，什么也不是，连"空"都不是，这种东西代码无法处理！
-                 <p>
-                     什么叫无法处理？
-                     只要有undefined参与的运算最终的结果都不能使用，
-                    <pre name="code" class="javascript">
-                        var a;
-                        alert("undefined+1="+(a+1));//NaN，undefined无法解析，于是在数值运算中undefined就被解析为NaN。
-                        alert("undefined*1="+(a*1));//NaN，undefined无法解析，于是在数值运算中undefined就被解析为NaN。
-                        alert("undefined+'str'="+(a+'str'));//undefinedstr，字符串也只能是把undefined打印出来了。
-                    </pre>
-                 在真值判断中undefined也被解释为false，这个什么也不是的东西，是怎么也不能解释为true的！
+             <h4 class="section_sub_title">undefined</h4>
+             <div class="section_sub_content p_line_height">
+                 undefined: 代表一切未知的事物，什么也不是，连"空"都不是，这种东西代码无法处理！<br/>
+                 什么叫无法处理？<br/>
+                 只要有undefined参与的运算最终的结果都不能使用，<br/>
+                <pre name="code" class="javascript">
+                    var a;
+                    alert("undefined+1="+(a+1));//NaN，undefined无法解析，于是在数值运算中undefined就被解析为NaN。
+                    alert("undefined*1="+(a*1));//NaN，undefined无法解析，于是在数值运算中undefined就被解析为NaN。
+                    alert("undefined+'str'="+(a+'str'));//undefinedstr，字符串也只能是把undefined打印出来了。
+                </pre>
+                 在真值判断中undefined也被解释为false，这个什么也不是的东西，是怎么也不能解释为true的！<br/>
                     <pre name="code" class="javascript">
                         var a;if(a){...}else{//走这个}
                     </pre>
-                 但它却是全局对象window的一个属性[alert('undefined' in window);//true];
-                 注意：它不是javascript的关键字，这也就意味着你可以为一个对象定义一个属性名字为"undefined"[obj.undefined=1]，但是一般不建议这么做。
-                 typeof(undefined) 返回也是 undefined。
-                 可以将undefined赋值给任何变量或属性，但并不意味了清除了该变量。
-                 如果你从一个undefined的变量中读取属性的话，那就等着浏览器报错吧。所以在程序中读取不确定的变量的属性的时候一定要先判断这个变量是否可用。
+                 但它却是全局对象window的一个属性[alert('undefined' in window);//true]; <br/>
+                 注意：它不是javascript的关键字，这也就意味着你可以为一个对象定义一个属性名字为"undefined"[obj.undefined=1]，但是一般不建议这么做。<br/>
+                 typeof(undefined) 返回也是 undefined。 <br/>
+                 可以将undefined赋值给任何变量或属性，但并不意味了清除了该变量。 <br/>
+                 如果你从一个undefined的变量中读取属性的话，那就等着浏览器报错吧。所以在程序中读取不确定的变量的属性的时候一定要先判断这个变量是否可用。<br/>
                     <pre name="code" class="javascript">
                     if(a){
                         //....
                     }
                     </pre>
-                 </p>
              </div>
          </div>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">null</h4>
-             <div class="section_sub_content">
-                 null:空，不存在任何东西，但是程序可以对他进行处理！
-                 <p>
-                     什么叫可以处理？
-                     <pre name="code" class="javascript">
-                     var a=null;
-                     alert("null+1="+(a+1));//1，这表明在数值运算中null被解析为0
-                     alert("null*1="+(a*1));//0， 这表明在数值运算中null被解析为0
-                     alert("null+'str'="+(a+'str'));//nullstr，把null打印出来
-                     </pre>
-                     注意：typeof(null)返回object(为什么是object，这个真解释不了，javascript就这么定义的)，但null并非object，具有null值的变量也并非object。
-                     在真值运算中null被解释为false。[var a=null;if(a){...}else{//走这个}].
-                 </p>
+             <div class="section_sub_content p_line_height">
+                 null:空，不存在任何东西，但是程序可以对他进行处理！<br/>
+                 什么叫可以处理？<br/>
+                 <pre name="code" class="javascript">
+                 var a=null;
+                 alert("null+1="+(a+1));//1，这表明在数值运算中null被解析为0
+                 alert("null*1="+(a*1));//0， 这表明在数值运算中null被解析为0
+                 alert("null+'str'="+(a+'str'));//nullstr，把null打印出来
+                 </pre>
+                 注意：typeof(null)返回object(为什么是object，这个真解释不了，javascript就这么定义的)，但null并非object，具有null值的变量也并非object。<br/>
+                 在真值运算中null被解释为false。[var a=null;if(a){...}else{//走这个}].<br/>
              </div>
          </div>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">boolean</h4>
-             <div class="section_sub_content">
-                 boolean:再明确不过的东西，无需解释。
-                 注意：undefined,null,"",0,NaN在真值运算中都将解析成false！Infinity 却被解析成true！
+             <div class="section_sub_content p_line_height">
+                 boolean:再明确不过的东西，无需解释。<br/>
+                 注意：undefined,null,"",0,NaN在真值运算中都将解析成false！Infinity 却被解析成true！<br/>
              </div>
          </div>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">number</h4>
-             <div class="section_sub_content">
-                 number: 数字，包含内置对象，NaN和Infinity
-                 注意：typeof(NaN)和typeof(Infinity)都返回number 。
-                 NaN参与任何数值计算的结构都是NaN，而且 NaN != NaN 。Infinity / Infinity = NaN 。
+             <div class="section_sub_content p_line_height">
+                 number: 数字，包含内置对象，NaN和Infinity <br/>
+                 注意：typeof(NaN)和typeof(Infinity)都返回number 。 <br/>
+                 NaN参与任何数值计算的结构都是NaN，而且 NaN != NaN 。Infinity / Infinity = NaN 。<br/>
              </div>
          </div>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">string</h4>
-             <div class="section_sub_content">
+             <div class="section_sub_content p_line_height">
                  string: 字符串。任何东西和字符串做+运算都将得到字符串。
              </div>
          </div>
@@ -93,9 +96,9 @@
          <h3 class="jc_section_title">2，复杂数据类型</h3>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">object</h4>
-             <div class="section_sub_content">
-                 复杂数据类型
-                 object：在JavaScript中不管多么复杂的数据和代码，都可以组织成object形式的对象。
+             <div class="section_sub_content p_line_height">
+                 复杂数据类型<br/>
+                 object：在JavaScript中不管多么复杂的数据和代码，都可以组织成object形式的对象。<br/>
              </div>
          </div>
      </div>
@@ -103,9 +106,9 @@
          <h3 class="jc_section_title">3，特殊的function类型</h3>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">function</h4>
-             <div class="section_sub_content">
-                 function
-                 如果一个变量能够被执行，那么可以说这是一个function类型的对象。
+             <div class="section_sub_content p_line_height">
+                 function<br/>
+                 如果一个变量能够被执行，那么可以说这是一个function类型的对象。<br/>
              </div>
          </div>
      </div>

@@ -70,4 +70,25 @@ $(function(){
     var student = newInstance(StudentClass,[5,"student","great 3"]);
     jc.utils.log("code5",student.getGreat());
 
+
+    var Class = {
+        create: function() {
+            return function() {
+                this.initialize.apply(this, arguments);
+            }
+        }
+    };
+    var Person = Class.create();
+    //也就是Person=function(){this.initialize.apply(this, arguments);};
+    Person.prototype = {
+        initialize:function(id,name){
+            this.id=id;
+            this.name=name;
+        },
+        getName:function(){
+            return this.name;
+        }
+    }
+    var tom = new Person(1,"tom");
+    jc.utils.log("tom_name",tom.getName());
 });

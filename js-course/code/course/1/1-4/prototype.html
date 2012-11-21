@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> javascript的原型(prototype)</title>
+  <meta charset="utf-8">
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+     <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+     <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+     <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+     <script type="text/javascript" src="../../../resources/utils.js"></script>
+     <script type="text/javascript" src="../../../resources/ready.js"></script>
+  <script type="text/javascript" src="prototype.js"></script>
+ </head>
+ <body>
+     <div class="control_container">
+        <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+         <h2 class="title">javascript的原型(prototype)</h2>
+     </div>
+     <div class="jc_section">
+         <h3 class="jc_section_title">javascript的原型（prototype）</h3>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">原型:prototype</h4>
+             <div class="section_sub_content">
+                 对于什么是javascript的原型，确切的说是对象的原型！有这么个例子： <br/>
+                 一个细胞里面有DNA，DNA里面是基因。这个细胞会慢慢的生长，分裂，分裂出子细胞，这些子细胞当然具有DNA，我们假设这些DNA只会出现迭代性的基因突变，即保持父细胞原有DNA基因的情况下只能增加新的基因。<br/>
+                 那么就会总结出下面的结论：
+                 <span class="b">子细胞都会拥有父细胞的特性，但父细胞不一定拥有子细胞的特性。</span><br/>
+                 在javascript中这个DNA可以勉强理解为对象的原型，但还不是很确切。如果子细胞中的DNA只包含突变基因（即新产生的基因），子细胞如果想拥有父细胞的DNA基因必须通过一个中间介质来传递。<br/>
+                 此时的DNA就是javascript中对象的<span class="b red">原型--prototype</span>。
+                 <span class="b">prototype是对象中的一个属性，在它里面存储的信息可以被子对象通过一个中间介质（原型链__proto__）来读取</span>。<br/>
+                 <img src="prototype.png" alt="prototype.png"/><br/>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">原型链:__proto__</h4>
+             <div class="section_sub_content">
+                 原型链：
+                 如上面的图所示，prototype中的东西是可以被子对象访问到的，prototype只是一个载体。<br/>
+                 如果子对象访问父对象的属性和方法，必须通过一个属性__proto__来访问，这个东西在IE中是不可读写的,但是在Firefox或者Chrome中是可以读写的。<br/>
+                 <span class="b red">A.prototype<<===B.__proto__,B.prototype<<===C.__proto__,C.prototype<<===.........................</span> <br/>
+                 解释下两个名词，显式原型和隐式原型:<br/>
+                 显式原型：每一个对象的prototype属性就是显式原型 a.prototype<br/>
+                 隐式原型：对象通过原型链访问的原型是隐式原型。a.__proto__<br/>
+                 对象属性的访问流程，链式查询
+                 当访问某一个对象的属性的时候，如object.name<br/>
+                 1，首先会在object的属性中去找，如果找不到则去object.prototype中去找。<br/>
+                 2，再找不到的话，就通过object.__proto__到object_parent.prototype中去找。<br/>
+                 3，再找不到的话，就通过object_parent.__proto__到object_parent_parent.prototype中去找，知道根Object.prototype.(Object是javascript的根对象)。<br/>
+
+                 <span class="b red">这里特别特别注意的一点是：prototype中的内容永远是用来被子对象访问的，准确一点是被子对象的__proto__来访问的。</span><br/>
+                 下面举一个例子：<br/>
+                 <pre name="code" class="javascript">
+                     var A = function(){};
+                     A.prototype={id:1};
+                     A.id ;//这是读取不到的！使用A.prototype.id才能得到。
+                     var a = new A();
+                     a.id;//得到 1;
+                 </pre>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">哪些对象拥有原型属性和__proto__</h4>
+             <div class="section_sub_content">
+                 <span class="b red">不是所有的对象都拥有prototype属性的，但是所有的对象都拥有__proto__属性。</span><br/>
+                 <span class="b">只有使用javascript内置对象Function来构造的对象(或者说函数)才拥有prototype属性。</span><br/>
+                 以下是定义函数对象的几种方式，本质都是一样的：<br/>
+                 function func1(…){…}//常用<br/>
+                 var func2=function(…){…};//常用 <br/>
+                 var func3=function func4(…){…};//不常用<br/>
+                 var func5=new Function();//不常用<br/>
+             </div>
+         </div>
+     </div>
+ </body>
+</html>

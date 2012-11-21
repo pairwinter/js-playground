@@ -4,6 +4,27 @@ body{
 .b{
     font-weight: bold;
 }
+.control_container{
+    background-color: skyBlue;
+    border-radius: 5px;
+    margin: 20px;
+    padding: 10px;
+}
+.title{
+    text-align: center;
+    margin: 0;
+    margin-top: -18px;
+}
+.control{
+  float: right;
+}
+.control a{
+    margin-right: 30px;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+}
 .red{
     color: red;
 }
@@ -14,8 +35,7 @@ body{
 
 }
 .jc_table{
-	margin-left: auto;
-	margin-right: auto;
+	width: 100%
 }
 .jc_tr{
 	
@@ -35,9 +55,12 @@ body{
 .jc_td_result{
 	border: 1px solid burlyWood;
 	border-radius: 5px;
-	font: 82% arial,sans-serif;
 	width:200px;
 	text-align:center;
+    font-size: 20px;
+    color: darkRed;
+    padding: 5px;
+    background-color: silver;
 }
 .jc_template{
     display: none;
@@ -72,10 +95,24 @@ body{
 }
 .section_sub_content{
     display: none;
+    line-height: 28px;
 }
 .jc_section_sub1.open{
     background-color: #f5f5f5;
 }
 .p_line_height{
     line-height: 28px;
+}
+.jc_code_result{
+    font-size: 20px;
+    color: darkRed;
+    display: block;
+    padding: 5px;
+    background-color: silver;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+.jc_code_result p{
+    padding: 0;
+    margin: 0;
 }

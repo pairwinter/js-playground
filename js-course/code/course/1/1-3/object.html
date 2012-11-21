@@ -17,13 +17,20 @@
   <script type="text/javascript" src="this.js"></script>
  </head>
  <body>
- <a href="../../../index.html">Index</a>
+     <div class="control_container">
+         <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+         <h2 class="title">javascript 对象分类</h2>
+     </div>
      <div class="jc_section">
          <h3 class="jc_section_title">javascript组成（ECMAScript，DOM，BOM）</h3>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">核心（ECMAScript）:标准</h4>
-             <div class="section_sub_content">
-                 <p>
+             <div class="section_sub_content p_line_height">
+                 <div>
                      ECMAScript是一个标准或者规范它定义了一种语言的下面内容：
                      <ul>
                          <li>语法</li>
@@ -35,42 +42,38 @@
                          <li>对象</li>
                      </ul>
                  javascript是由各浏览器厂商实现的符合ECMAScript这些内容的语言。JScript是另一种实现了这些东西的语言。
-                 </p>
+                 </div>
              </div>
          </div>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">文档对象模型（DOM）:描述了处理网页内容的方法和接口</h4>
              <div class="section_sub_content">
-                 <p class="p_line_height">
-                     文档对象模型（DOM）：描述了处理网页内容的方法和接口 (参考内容：<a href="http://developer.51cto.com/art/201009/224979.htm" target="_blank">http://developer.51cto.com/art/201009/224979.htm</a>)<br/>
-                     DOM本身也是一种标准或者规范，它定义了一种以面向对象方式描述的文档模型，并以节点层级来具体展现。<br/>
-                     使用这种方式以及DOM定义的一些接口，能够使开发者对文档的内容和结构具有相当好的控制能力。<br/>
-                     DOM 在被 Web 浏览器开始实现之前就已经是一种标准了。<br/>
-                     早期网景公司和微软公司支持不同形态的DHTML（动态HTML：不通过网页刷新即可更新文档结构，其实就是使用各自的DOM接口来操作HTML），<br/>
-                     为了能够做到浏览器兼容性，W3C制订了一个DOM规范（现在已经发展到DOM Level 3），<br/>
-                     <span class="b red">其本质是建立网页与Script或程序语言沟通的桥梁，并保持浏览器兼容性。</span><br/>
-                     <span class="b red">DOM level 3也是各浏览器厂商各自实现的，所以会有兼容性问题。</span><br/>
-                 </p>
+                 文档对象模型（DOM）：描述了处理网页内容的方法和接口 (参考内容：<a href="http://developer.51cto.com/art/201009/224979.htm" target="_blank">http://developer.51cto.com/art/201009/224979.htm</a>)<br/>
+                 DOM本身也是一种标准或者规范，它定义了一种以面向对象方式描述的文档模型，并以节点层级来具体展现。<br/>
+                 使用这种方式以及DOM定义的一些接口，能够使开发者对文档的内容和结构具有相当好的控制能力。<br/>
+                 DOM 在被 Web 浏览器开始实现之前就已经是一种标准了。<br/>
+                 早期网景公司和微软公司支持不同形态的DHTML（动态HTML：不通过网页刷新即可更新文档结构，其实就是使用各自的DOM接口来操作HTML），<br/>
+                 为了能够做到浏览器兼容性，W3C制订了一个DOM规范（现在已经发展到DOM Level 3），<br/>
+                 <span class="b red">其本质是建立网页与Script或程序语言沟通的桥梁，并保持浏览器兼容性。</span><br/>
+                 <span class="b red">DOM level 3也是各浏览器厂商各自实现的，所以会有兼容性问题。</span><br/>
              </div>
          </div>
          <div class="jc_section_sub1">
              <h4 class="section_sub_title">浏览器对象模型（BOM）:描述了与浏览器进行交互的方法和接口</h4>
              <div class="section_sub_content">
-                 <p>
-                     从名字上可以看出，它是用来操作浏览器的一个模型，利用javascript通过BOM定义的接口和方法来与浏览器交互。<br/>
-                     需要注意的是BOM不是一个标准，不同浏览器厂商有不同的BOM接口及实现（不兼容是必然的！）。 <br/>
-                     为数不多的共同点是各浏览器厂商有一个共同的窗口对象和导航对象，但是这些对象的属性和方法，浏览器厂商也可以任意扩展。<br/>
-                     BOM 主要处理浏览器窗口和框架，不过通常浏览器特定的 JavaScript 扩展都被看做 BOM 的一部分。这些扩展包括：<br/>
-                     <ul>
-                         <li>弹出新的浏览器窗口</li>
-                         <li>移动、关闭浏览器窗口以及调整窗口大小</li>
-                         <li>提供 Web 浏览器详细信息的定位对象</li>
-                         <li>提供用户屏幕分辨率详细信息的屏幕对象</li>
-                         <li>对 cookie 的支持</li>
-                         <li>IE 扩展了 BOM，加入了 ActiveXObject 类，可以通过 JavaScript 实例化 ActiveX 对象</li>
-                     </ul>
-                    <img src="bom.jpeg" alt="bom.jpeg">
-                 </p>
+                 从名字上可以看出，它是用来操作浏览器的一个模型，利用javascript通过BOM定义的接口和方法来与浏览器交互。<br/>
+                 需要注意的是BOM不是一个标准，不同浏览器厂商有不同的BOM接口及实现（不兼容是必然的！）。 <br/>
+                 为数不多的共同点是各浏览器厂商有一个共同的窗口对象和导航对象，但是这些对象的属性和方法，浏览器厂商也可以任意扩展。<br/>
+                 BOM 主要处理浏览器窗口和框架，不过通常浏览器特定的 JavaScript 扩展都被看做 BOM 的一部分。这些扩展包括：<br/>
+                 <ul>
+                     <li>弹出新的浏览器窗口</li>
+                     <li>移动、关闭浏览器窗口以及调整窗口大小</li>
+                     <li>提供 Web 浏览器详细信息的定位对象</li>
+                     <li>提供用户屏幕分辨率详细信息的屏幕对象</li>
+                     <li>对 cookie 的支持</li>
+                     <li>IE 扩展了 BOM，加入了 ActiveXObject 类，可以通过 JavaScript 实例化 ActiveX 对象</li>
+                 </ul>
+                <img src="bom.jpeg" alt="bom.jpeg">
              </div>
          </div>
      </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
  <head>
-  <title> javascript this </title>
+  <title> javascript 变量、作用域、命名空间、this </title>
   <meta charset="utf-8">
   <meta name="Generator" content="EditPlus">
   <meta name="Author" content="">
@@ -17,59 +17,123 @@
   <script type="text/javascript" src="this.js"></script>
  </head>
  <body>
- <a href="../../../index.html">Index</a>
-  <table class="jc_table">
-	  <tr class="jc_tr">
-		<td class="jc_td_code">
-			<pre name="code" class="javascript">
-				var obj1 = {
-					id:1,
-					name:"eb1",
-					getName:function(){
-						return this.name;
-					}
-				}
-				var resultName = obj1.getName()
-				jc.utils.log("code1",resultName);
-			</pre>
-		</td>
-		<td class="jc_td_result" id="code1"></td>
-	  </tr>
-	  <tr class="jc_tr">
-		<td class="jc_td_code">
-			<pre name="code" class="javascript">
-				var obj2 = {
-					id:2,
-					name:"eb2",
-					getName:function(){
-						return this.name;
-					}
-				}
-				var resultName = obj2.getName()
-				jc.utils.log("code2",resultName);
-			</pre>
-		</td>
-		<td class="jc_td_result" id="code2"></td>
-	  </tr>
-	  <tr class="jc_tr">
-		<td class="jc_td_code">
-			<pre name="code" class="javascript">
-				var obj3 = {
-					id:3,
-					name:"eb3"
-				}
-				resultName = obj1.getName.call(obj3);
-				jc.utils.log("code3",resultName);
-				resultName = obj2.getName.call(obj3);
-				jc.utils.log("code3",resultName,true);
-				resultName = obj1.getName.call(obj2);
-				jc.utils.log("code3",resultName,true);
-				resultName = obj2.getName.call(obj1);
-				jc.utils.log("code3",resultName,true);
-			</pre>
-		</td>
-		<td class="jc_td_result" id="code3"></td>
-	  </tr>
-  </table>
+ <div class="control_container">
+     <a href="../../../index.html">Index</a>
+            <span class="control">
+                <a href="javascript:" class="openControl">+</a>
+                <a href="javascript:" class="closeControl">-</a>
+            </span>
+     <h2 class="title">javascript 变量、作用域、命名空间、this</h2>
+ </div>
+ <div class="jc_section">
+     <h3 class="jc_section_title">javascript 变量、作用域、命名空间、this</h3>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">1，变量、作用域</h4>
+         <div class="section_sub_content">
+             <p class="p_line_height">
+                 变量与作用域是同时出现的，根据作用域的不同，变量分为两种：<br/>
+                 I.   全局变量： 定义在全局对象中的变量（定义在方法体外地所有变量都是全局变量， 还有<span class="b red">即使在方法体内使用的变量， 但是未用var关键字声明的也都是全局变量</span>。）<br/>
+                 全局对象Window(注意这里的W是大写的，而不是window)  <br/>
+                 Window 对象实现了核心 JavaScript 所定义的所有全局属性和方法。 <br/>
+                 Window 对象的 window属性和self属性引用的都是它自己。<br/>
+                 我们经常使用的是小写的window,其实本质是Window！  <br/>
+                 ll.  局部变量： 定义在方法体内的、 使用var关键字声明的变量。 （即使跟全局变量名一样， 他也会覆盖全局变量。）<br/>
+                 <span class="b red">注：全局变量就是在当前页面（document）起作用， 一个页面当中的iframe（这是另一个document）也不管用。</span>
+             </p>
+         </div>
+     </div>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">2，命名空间</h4>
+         <div class="section_sub_content">
+             <p>
+                 为了防止不同js文件中的变量或者方法名由于重名而导致脚本异常，而且为了规范代码结构，要使用一种规则来避免，那就是为变量或者方法添加的一个空间中。<br/>
+                 具体到代码中，就是将变量或者方法放到一个对象中，当然了这个对象应该保证在全局对象中的唯一性。 <br/>
+                 命名空间是一种规则，我们使用对象的形式来定义一个命名空间：<br/>
+                 <pre name="code" class="javascript">
+                    var EB_Common = {};
+                    var EB_View = {};
+                 </pre>
+                 这样就可以看做是两个命名空间，其实就是对象，在EB_Common和EB_View唯一性的前提下，就可以在对象中定义我们需要的变量和函数。<br/>
+             </p>
+         </div>
+     </div>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">3，this</h4>
+         <div class="section_sub_content">
+             关于this的理解是javascript中比较难以控制的一部分，因为它非常的灵活！<br/>
+             与C++、C#或Java等语言的this不同。一般编程语言的this就是对象自己，而 JavaScript的this却并不一定，它可以根据他所属的上下文y以及函数的调用方式进行变换。<br/>
+             <pre name="code" class="javascript">
+             var obj1 = {
+                 id:1,
+                 name:"eb1",
+                 getName:function(){
+                    return this.name;
+                 }
+             }
+             var resultName = obj1.getName();//result eb1;
+             jc.utils.log("resultName1",resultName);
+             var obj2= {name:"eb2"};
+             resultName = obj1.getName.call(obj2);//result  eb2;
+             jc.utils.log("resultName2",resultName);
+             </pre>
+             call方式在执行getName方法时会把this指定为obj2,也就说this的指向已经变了，不是obj1 而是 obj2！
+            <span class="jc_code_result" id="resultName1"></span>
+            <span class="jc_code_result" id="resultName2"></span>
+             <table class="jc_table">
+                 <tr class="jc_tr">
+                     <td class="jc_td_code">
+                        <pre name="code" class="javascript">
+                            var obj1 = {
+                                id:1,
+                                name:"eb1",
+                                getName:function(){
+                                    return this.name;
+                                }
+                            }
+                            var resultName = obj1.getName()
+                            jc.utils.log("code1",resultName);
+                        </pre>
+                         </td>
+                         <td class="jc_td_result" id="code1"></td>
+                     </tr>
+                     <tr class="jc_tr">
+                         <td class="jc_td_code">
+                        <pre name="code" class="javascript">
+                            var obj2 = {
+                                id:2,
+                                name:"eb2",
+                                getName:function(){
+                                    return this.name;
+                                }
+                            }
+                            var resultName = obj2.getName()
+                            jc.utils.log("code2",resultName);
+                        </pre>
+                         </td>
+                         <td class="jc_td_result" id="code2"></td>
+                     </tr>
+                     <tr class="jc_tr">
+                         <td class="jc_td_code">
+                        <pre name="code" class="javascript">
+                            var obj3 = {
+                                id:3,
+                                name:"eb3"
+                            }
+                            resultName = obj1.getName.call(obj3);
+                            jc.utils.log("code3",resultName);
+                            resultName = obj2.getName.call(obj3);
+                            jc.utils.log("code3",resultName,true);
+                            resultName = obj1.getName.call(obj2);
+                            jc.utils.log("code3",resultName,true);
+                            resultName = obj2.getName.call(obj1);
+                            jc.utils.log("code3",resultName,true);
+                        </pre>
+                     </td>
+                     <td class="jc_td_result" id="code3"></td>
+                 </tr>
+             </table>
+         </div>
+     </div>
+ </div>
  </body>
 </html>

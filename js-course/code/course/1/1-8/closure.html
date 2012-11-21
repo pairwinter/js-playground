@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> javascript 闭包 </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+     <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+     <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+     <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+     <script type="text/javascript" src="../../../resources/utils.js"></script>
+     <script type="text/javascript" src="../../../resources/ready.js"></script>
+  <script type="text/javascript" src="closure.js"></script>
+ </head>
+ <body>
+ <div class="control_container">
+     <a href="../../../index.html">Index</a>
+    <span class="control">
+        <a href="javascript:" class="openControl">+</a>
+        <a href="javascript:" class="closeControl">-</a>
+    </span>
+     <h2 class="title">javascript 闭包</h2>
+ </div>
+ <div class="jc_section">
+     <h3 class="jc_section_title">闭包</h3>
+     <div class="jc_section_sub1">
+         <h4 class="section_sub_title">闭包</h4>
+         <div class="section_sub_content">
+             通过下面的代码来理解闭包的含义：
+             <pre name="code" class="javascript">
+                 function Apple(){//定义一个函数
+                    var name = "苹果";
+                    var num = 5;
+                    jc.utils.log("num_result",num);
+                    var apple = function(){
+                        return name;
+                    };
+                    return apple;//由于getName这个函数被返回了，所以它并没有结束其生存期。
+                }
+                var apple = Apple();//Apple这个函数执行完了，对num执行释放，但是对name不释放。
+                var appleName = apple();
+                jc.utils.log("name_result",appleName);
+             </pre>
+             <span class="jc_code_result" id="num_result"></span>
+             <span class="jc_code_result" id="name_result"></span>
+             分析上面的代码： <br/>
+             function Apple()//定义的一个函数<br/>
+             上述num和name是Apple的局部变量，局部变量的值只在函数内部能够访问。 <br/>
+             this.getName = function(){}是Apple函数内的一个函数；<br/>
+             var apple = new Apple();//执行完这句之后，num的内存会被回收，但是name的没存却没有，<br/>
+             因为apple对象的getName方法中引用的name这个变量，所以javascript的垃圾回收器将不会回收name的内存！<br/>
+             下面是关于闭包的一个定义，对照上面的代码可以很好的理解：<br/>
+             所谓的“闭包”，就是在构造函数体内（这里指定的上述Apple）定义另外的函数（getName）作为目标对象(apple)的方法函数，<br/>
+             而这个对象的方法函数反过来引用外层外层函数体(function Apple)中的临时变量(var name)。<br/>
+             这使得只要目标对象(apple)在生存期内始终能保持其方法，就能间接保持原构造函数体当时用到的临时变量值。<br/>
+             尽管最开始的构造函数调用已经结束，临时变量的名称也都消失了，但在目标对象的方法内却始终能引用到该变量的值，而且该值只能通这种方法来访问。<br/>
+             即使再次调用相同的构造函数，但只会生成新对象和方法，新的临时变量只是对应新的值，和上次那次调用的是各自独立的! <br/>
+             闭包在javascript中是非常常见的，很多时候不经意间你已经使用了多次这样的功能。<br/>
+             看看下面其他的几个例子：<br/>
+             <table class="jc_table">
+                 <tr class="jc_tr">
+                     <td class="jc_td_code">
+                        <pre name="code" class="javascript">
+                            var m = "hello";
+                            var jc = jc_course;
+                            function showM(){
+                                this.getM=function(){
+                                    return m;
+                                }
+                            }
+                            m="hello2";
+                            var s= new showM(); //showM执行完。
+                            jc.utils.log("code1",s.getM());
+                        </pre>
+                        这个m不是函数showM内的作用域，所以第二次设置会覆盖第一次的值
+                     </td>
+                     <td class="jc_td_result" id="code1"></td>
+                 </tr>
+                 <tr class="jc_td">
+                     <td class="jc_td_code">
+                        <pre name="code" class="javascript">
+                            var iBaseNum = 10;
+                            function addNum(iNum1, iNum2) {
+                              function doAdd() {
+                                return iNum1 + iNum2 + iBaseNum;
+                              }
+                              return doAdd;
+                            }
+                            var doAdd = addNum(1,2);//上述的addNum已经执行完，但是iNum1，iNum2的内存并没有释放。
+                            jc.utils.log("code2",doAdd());
+                        </pre>
+                         传入的参数相当于是一个内部私有变量，同样内存不能够释放，无论参数是简单数据类型还是复杂数据类型。（注意传值还是传引用！）
+                     </td>
+                     <td class="jc_td_result" id="code2"></td>
+                 </tr>
+             </table>
+         </div>
+     </div>
+ </div>
+ </body>
+</html>
