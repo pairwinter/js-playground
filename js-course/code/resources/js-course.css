@@ -1,5 +1,38 @@
 body{
 	font: 82% arial,sans-serif;
+    /*background:*/
+    /*-webkit-radial-gradient(circle, transparent 20%, slategray 20%, slategray 80%, transparent 80%, transparent),*/
+    /*-webkit-radial-gradient(circle, transparent 20%, slategray 20%, slategray 80%, transparent 80%, transparent) 50px 50px,*/
+    /*-webkit-linear-gradient(#A8B1BB 8px, transparent 8px) 0 -4px,*/
+    /*-webkit-linear-gradient(0deg, #A8B1BB 8px, transparent 8px) -4px 0;*/
+    /*background-color: slategray;*/
+    /*background-size:100px 100px, 100px 100px, 50px 50px, 50px 50px;*/
+    background-color: paleTurquoise;
+    background-image: -webkit-linear-gradient(white 2px, transparent 2px), -webkit-linear-gradient(0deg, white 2px, transparent 2px), -webkit-linear-gradient(rgba(255, 255, 255, .3) 1px, transparent 1px), -webkit-linear-gradient(0deg, rgba(255, 255, 255, .3) 1px, transparent 1px);
+    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+
+}
+.u-1,.u-2{
+    list-style-type: none;
+}
+.l-1,.l-2{
+    list-style-type: none;
+    margin-top: 10px;
+}
+.l-1{
+    background-color: skyBlue;
+    border-radius: 10px;
+    padding: 5px;
+}
+.l-2{
+    background-color: whiteSmoke;
+    border-radius: 5px;
+    margin-right: 5px;
+    padding: 5px;
+}
+.l-2 a{
+    text-decoration: none;
 }
 .b{
     font-weight: bold;
