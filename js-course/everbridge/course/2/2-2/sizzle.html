@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> jquery Sizzle选择器</title>
+  <meta charset="utf-8">
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+     <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+     <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+     <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+     <script type="text/javascript" src="../../../resources/utils.js"></script>
+     <script type="text/javascript" src="../../../resources/ready.js"></script>
+  <script type="text/javascript" src="sizzle.js"></script>
+ </head>
+ <body>
+ <div class="control_container">
+     <a href="../../../index.html">Index</a>
+            <span class="control">
+                <a href="javascript:" class="openControl">+</a>
+                <a href="javascript:" class="closeControl">-</a>
+            </span>
+     <h2 class="title">Sizzle选择器</h2>
+ </div>
+     <div class="jc_section">
+         <h3 class="jc_section_title">Sizzle选择器</h3>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">1、关于Sizzle</h4>
+             <div class="section_sub_content">
+                 Sizzle是jQuery作者John Resig写的DOM选择器引擎，速度号称业界第一。<br/>
+                 而且有一个重要的特点就是Sizzle是完全独立于jQuery的，如果你不想用jQuery,可以只用Sizzle。压缩后才3K多点。<br/>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">2、Sizzle使用原则</h4>
+             <div class="section_sub_content">
+                 选择器引擎的运用对于页面性能起了至关重要的作用。使用合适的选择器表达式可以轻易的提高性能、增强语义并简化逻辑。<br/>
+                 我们现在使用的选择器大多是下面几个（<span class="b red">根据使用的频率排列</span>）：<br/>
+                 1，id选择器<br/>
+                 2，类选择器<br/>
+                 3，标签选择器 <br/>
+                 4，伪类选择器和属性选择器 <br/>
+                 上述是按照使用的频率来排序的，<span class="b red">按照效率来排序</span>的话：<br/>
+                 1，id选择器 （内部使用的是dom接口定义的函数：getElementById()）<br/>
+                 2，标签选择器( 内部使用的是dom接口定义的函数: getElementsByTag() ) <br/>
+                 3，类选择器 (这个性能其实不好！如果浏览器支持getElementByClassName（）方法还好说，如果不支持那就很慢，因为在jquery内部它需要使用正则表达式解析html，然后还要递归处理！)<br/>
+                 4，伪类选择器和属性选择器，这个是最慢的了，因为浏览器没有对这些操作提供原生支持，及没有类似的dom接口来查找对应的元素 。<br/>
+                 改善选择器的使用：<br/>
+                 <span class="b">1，尽量使用id选择器</span> <br/>
+                 <span class="b">2，尽量使用tag.class 代替.class </span><br/>
+                 <span class="b">3，尽量使用parent>child,而非parent child，</span>“>”是child选择器，只从子节点匹配，不递归，而 " " 是后代选择器，递归所有后代节点。 <br/>
+                 <span class="b">4，缓存jquery对象，对于结果发生变化的节点，尽量缓存jquery对象</span><br/>
+                 <pre name="code" class="javascript">
+                 //case 1
+                 function test1(){
+                     var startDate = new Date();
+                     for (i = 0; i < 1000; i++) {
+                         var myList = $('.myList1');
+                         myList.append('<p>This is list item ' + i+"</p>");
+                     }
+                     var endDate = new Date();
+                     jc.utils.log("test1_time",endDate.getTime()-startDate.getTime());
+                 }
+                 test1();
+                 </pre>
+                 <span class="myList1 myList"></span>
+                 <span class="jc_code_result" id="test1_time"></span>
+                 <pre name="code" class="javascript">
+                 //case 2
+                 function test2(){
+                     var startDate = new Date();
+                     var myList = $('.myList2');
+                     for (i = 0; i < 1000; i++) {
+                        myList.append('<p>This is list item ' + i+"</p>");
+                     }
+                     var endDate = new Date();
+                     jc.utils.log("test2_time",endDate.getTime()-startDate.getTime());
+                 }
+                 test2();
+                 </pre>
+                 <span class="myList2 myList"></span>
+                 <span class="jc_code_result" id="test2_time"></span>
+                 <pre name="code" class="javascript">
+                  //case 3
+                 function test2(){
+                     var startDate = new Date();
+                     var myList = $('.myList3');
+                     var list=[];
+                     for (i = 0; i < 1000; i++) {
+                        list.push('<p>This is list item ' + i+"</p>");
+                     }
+                     var endDate = new Date();
+                     jc.utils.log("test3_time",endDate.getTime()-startDate.getTime());
+                 }
+                 test3();
+                 </pre>
+                 <span class="myList3 myList"></span>
+                 <span class="jc_code_result" id="test3_time"></span>
+                 <span class="b">5，选择特定的表单元素使用[name=x]，</span>它内部使用过的是dom接口定义函数：getElementsByName<br/>
+                 <span class="b">6，选择同一type的input元素使用[:type] </span><br/>
+                 <span class="b">7，合理的使用反向选择器</span>，这是针对某些情况下我们或许要写出很复杂的表达式，或需要添加额外的类，或需要选出结果后再筛选一遍。<br/>
+                 这都不如使用反响选择器，无论是在性能上还是在保持逻辑的简单上。 jQuery 1.3里，反向选择器得到了增强，之前只可以接受简单的反向表达式。<br/>
+             </div>
+         </div>
+     </div>
+ </body>
+</html>

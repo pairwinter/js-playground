@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> jquery 架构</title>
+  <meta charset="utf-8">
+  <meta name="Generator" content="EditPlus">
+  <meta name="Author" content="">
+  <meta name="Keywords" content="">
+  <meta name="Description" content="">
+  <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+  <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+  <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+  <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+  <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+  <script type="text/javascript" src="../../../resources/utils.js"></script>
+  <script type="text/javascript" src="../../../resources/ready.js"></script>
+  <script type="text/javascript" src="framework.js"></script>
+ </head>
+ <body>
+    <div class="control_container">
+        <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+        <h2 class="title">jquery 架构</h2>
+    </div>
+     <div class="jc_section">
+         <h3 class="jc_section_title">jquery 架构</h3>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">一、设计思想</h4>
+             <div class="section_sub_content">
+                 Jquery，一个非常流行的javascript框架，我们都知道用，当然也是简单的用，很少触及它里面的结构，这里简单介绍下jquery的实现架构，或者说是jquery的设计思想。 <br/>
+                 jQuery的开篇声明里有一段非常重要的话:jQuery是为了改变javascript的编码方式而设计的。这句话很容易理解，它就是让我们编写javascript更简单。<br/>
+                 在javascript基础那里，我们知道了DOM，BOM这些东西，它们在各个浏览器中或多或少的都存在一些兼容性问题，另外在使用DOM操作HTML的时候，使用的都是DOM提供的接口，这些接口有时不方便使用。 <br/>
+                 jQuery通过一种方式来来操作元素： <br/>
+                 它把DOM元素进行封装，生成一个jquery对象，而jquery对象拥有一些方法来对这个DOM元素进行操作，从而实现不同的结果。比如读取DOM元素的属性，更新DOM元素等等。<br/>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">二、组成结构</h4>
+             <div class="section_sub_content">
+                 Jquery包含了丰富的接口，操作DOM元素只是其中的一部分，还有其他的辅助接口，他们都很好用，jquery1.6 , jquery1.7中的主体结构如下：
+                 <pre name="code" class="javascript">
+                     (function( window, undefined ) {
+                         // 构造jQuery对象
+                         var jQuery = function( selector, context ) {
+                            return new jQuery.fn.init( selector, context, rootjQuery );
+                         }
+                         // 工具函数 Utilities
+                         // 异步队列 Deferred（这是jquery1.5中加入的模块，用来处理异步请求或者操作时间比较长的操作，以后可能会完全代替ajax操作结果的处理）
+                         // 浏览器测试 Support
+                         // 数据缓存 Data
+                         // 队列 queue
+                         // 属性操作 Attribute
+                         // 事件处理 Event
+                         // 选择器 Sizzle
+                         // DOM遍历
+                         // DOM操作
+                         // CSS操作
+                         // 异步请求 Ajax
+                         // 动画 FX
+                         // 坐标和大小
+                         window.jQuery = window.$ = jQuery;
+                     })(window);
+                 </pre>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">三、jquery 接口添加及实现方式</h4>
+             <div class="section_sub_content">
+                 先看jQuery的定义，它是一个函数，暂时不要关心函数里面的东西。
+                 <pre name="code" class="javascript">
+                     var jQuery = function( selector, context ) {
+                        //...........................
+                     }
+                 </pre>
+                 这是很简单的一个函数，然后就扩展它的接口。
+                 <pre name="code" class="javascript">
+                     jQuery.fn = jQuery.prototype//定义一个属性fn，指向jQuery的prototype（原型）
+                 </pre>
+                 这个fn是jquery用来对外开放的，通过它可以扩展jQuery的接口，编写jquery插件就可以通过这个fn来完成。<br/>
+                 给fn填充方法就是给jQuery的prototype扩展方法，这样jQuery的对象才能够拥有这些属性（j.__proto__ == jQuery.prototype）。<br/>
+                 jQuery.prototype有一个方法init，是用来构造生成jquery对象的。<br/>
+                 分析下接下来的代码：
+                 <pre name="code" class="javascript">
+                     jQuery.fn.init.prototype = jQuery.fn
+                 </pre>
+                 它把fn中的init方法的原型指定给了jquery.fn。 <br/>
+                 这样的话使用init来生成的对象就继承拥有了jQuery.fn(即jQuery.prototype)中的一切。<br/>
+                 <pre name="code" class="javascript">
+                    var j = new jQuery.fn.init(document);
+                    var is = jQuery.prototype.isPrototypeOf(j);
+                    jc.utils.log("j_result", "jQuery.prototype是否是j的原型:"+is);
+                 </pre>
+                 <span class="jc_code_result" id="j_result"></span>
+                 接下来：
+                 <pre name="code" class="javascript">
+                    jQuery.extend = jQuery.fn.extend=function(){};
+                 </pre>
+                 extend这个方法是用来将合并两个或者多个对象到第一个对象中。<br/>
+                 如果只传一个对象参数，那么这个对象内容将被合并到该方法的上下文中。 <br/>
+                 <pre name="code" class="javascript">
+                 jQuery.extend(obj,obj1,obj2);
+                 jQuery.fn.extend(obj,obj1,obj2);
+                 </pre>
+                 如果你想为jQuery本身扩展功能可以使用前者，如果你想为jQuery的对象实例扩充功能则使用后者（写插件大部分就使用这个）。<br/>
+                 jQuery.extend在jquery的源码中使用较多，因为它在为自身添加接口。<br/>
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">四、jquery 生成对象</h4>
+             <div class="section_sub_content">
+                 对象构建函数：
+                 <pre name="code" class="javascript">
+                 var jQuery = function( selector, context ) {
+                    return new jQuery.fn.init( selector, context, rootjQuery );
+                 }
+                 </pre>
+                 这段代码是不是似曾相识啊， 但是好像有不太像！<br/>
+                 这个就是jQuery类，我们可以这样来生成一个jquery对象：<br/>
+                 jQuery("#id",document);
+                 也可以这样（不建议使用）： <br/>
+                 new jQuery("#id",document);
+                 这两种方式结果是一样的，但是内部处理流程是不一样的。<br/>
+                 第一个是调用一个函数，直接返回一个对象。 <br/>
+                 第二个是通过new操作符，把jQuery当做构造函数，构造一个对象，但是构造函数内存在return，即构造函数返回了一个对象，那么这个对象将覆盖掉new 出来的对象。<br/>
+                 <pre name="code" class="javascript">
+                     function A(){
+                        this.id=0;
+                        this.name="A";
+                        this.getId=function(){
+                            alert(this.id);
+                        }
+                        return {id:1,name:"B"};
+                     }
+                     var a = new A();
+                     jc.utils.log("a_result", JSON.stringify(a));
+                 </pre>
+                 <span class="jc_code_result" id="a_result"></span>
+                 好了，再往里看，jQuery实际是返回了：
+                 <pre name="code" class="javascript">
+                    new jQuery.fn.init( selector, context, rootjQuery );
+                 </pre>
+                 这么一个对象。也就是说最终通过init这个构造函数，构造出来的对象。在构造的过程中（即init中实现的代码）将传入的值进行解析，消化，最终返回一个Jquery对象。
+             </div>
+         </div>
+         <div class="jc_section_sub1">
+             <h4 class="section_sub_title">小结</h4>
+             <div class="section_sub_content">
+                 <img src="jquery.png" alt="jquery.png"/><br/>
+                 jQuery.prototype == jQuery.fn==jQuery.fn.init.prototype; <br/>
+                 通过jQuery.fn.init这个函数构造出来的一个jQuery对象 $j:  <br/>
+                 $j.__proto__== jQuery.fn.init.prototype == jQuery.fn == jQuery.prototype;  <br/>
+                 这样就清晰多了。 <br/>
+             </div>
+         </div>
+     </div>
+ </body>
+</html>

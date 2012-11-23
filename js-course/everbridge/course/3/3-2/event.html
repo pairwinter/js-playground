@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title> Backbone事件绑定 </title>
+    <meta charset="utf-8">
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/json2.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/jsrender.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/underscore.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/backbone.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/backbone-localstorage.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../../resources/ready.js"></script>
+    <script type="text/javascript" src="event.js"></script>
+</head>
+<body>
+<div class="control_container">
+    <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+    <h2 class="title">Backbone 实例</h2>
+</div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">Events</h3>
+        <div class="jc_section_sub1">
+            <h4>使一个简单对象拥有绑定事件、触发事件的能力！</h4>
+            <pre name="code" class="javascript">
+                var obj = {};
+                _.extend(obj,Backbone.Events);
+                obj.bind("show",function(val){
+                    u.log("code_events",val,true);
+                });
+                obj.trigger("show","obj的show事件第1次触发！");
+                obj.bind("all", function(eventName) {
+                    u.log("code_events_all","被触发的事件名称是："+eventName);
+                });
+                obj.trigger("show","obj的show事件第2次触发！同时obj的all事件也被触发！");
+            </pre>
+            <span id="code_events"></span>
+            <span id="code_events_all"></span>
+        </div>
+        <div class="jc_section_sub1">
+            <h4>为一个对象的事件绑定多个处理函数！</h4>
+            <pre name="code" class="javascript">
+                var start = function(){
+                    u.log("code_events_obj_change_start","obj 触发 change 事件，执行 start");
+                }
+                var end = function(val){
+                    u.log("code_events_obj_change_end","obj 触发 change 事件，执行 end");
+                }
+                obj.bind("change",start);
+                obj.bind("change",end);
+                obj.trigger("change:start");
+                obj.unbind("change");
+                obj.trigger("change");
+            </pre>
+            <span id="code_events_obj_change_start"></span>
+            <span id="code_events_obj_change_end"></span>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">comparator</h3>
+        <div class="jc_section_sub1">
+            <pre name="code" class="javascript">
+                page.comparator = function(){
+                    var Chapter  = Backbone.Model;
+                    var chapters = new Backbone.Collection;
+                    chapters.comparator = function(chapter) {
+                        return chapter.get("page");
+                    };
+                    chapters.add(new Chapter({page: 9, title: "The End"}));
+                    chapters.add(new Chapter({page: 5, title: "The www.csser.com"}));
+                    chapters.add(new Chapter({page: 1, title: "The Beginning"}));
+                    u.log("code_comparator",chapters.pluck("title"));
+                }
+            </pre>
+            <span id="code_comparator"></span>
+        </div>
+    </div>
+</body>
+</html>
