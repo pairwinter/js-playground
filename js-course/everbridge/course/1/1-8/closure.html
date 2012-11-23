@@ -34,24 +34,29 @@
              <pre name="code" class="javascript">
                  function Apple(){//定义一个函数
                     var name = "苹果";
-                    var num = 5;
+                    var num = 1000;
+                    var id = 1; //steven同学建议应该有个属性能够变化，这样能够更加体现出这个变量没有被内存回收。
                     jc.utils.log("num_result",num);
                     var getName = function(){
-                        return name;
+                        return name+(id++);
                     };
                     return getName;//由于getName这个函数被返回了，所以它并没有结束其生存期。
                 }
                 var getName = Apple();//Apple这个函数执行完了，对num执行释放，但是对name不释放。
                 var appleName = getName();
-                jc.utils.log("name_result",appleName);
+                jc.utils.log("name_result",appleName,true); //连续调用五次，发现id这个变量在内存中不断的增加，说明它没有被被回收，当然name也没有被回收。
+                jc.utils.log("name_result",getName(),true);
+                jc.utils.log("name_result",getName(),true);
+                jc.utils.log("name_result",getName(),true);
+                jc.utils.log("name_result",getName(),true);
              </pre>
              <span class="jc_code_result" id="num_result"></span>
              <span class="jc_code_result" id="name_result"></span>
              分析上面的代码： <br/>
              function Apple()//定义的一个函数<br/>
-             上述num和name是Apple的局部变量，局部变量的值只在函数内部能够访问。 <br/>
+             上述num,name,id是Apple的局部变量，局部变量的值只在函数内部能够访问。 <br/>
              this.getName = function(){}是Apple函数内的一个函数；<br/>
-             var apple = new Apple();//执行完这句之后，num的内存会被回收，但是name的没存却没有，<br/>
+             var apple = new Apple();//执行完这句之后，num的内存会被回收，但是name和id的没存却没有，<br/>
              因为apple对象的getName方法中引用的name这个变量，所以javascript的垃圾回收器将不会回收name的内存！<br/>
              下面是关于闭包的一个定义，对照上面的代码可以很好的理解：<br/>
              所谓的“闭包”，就是在构造函数体内（这里指定的上述Apple）定义另外的函数（getName）作为目标对象(apple)的方法函数，<br/>
