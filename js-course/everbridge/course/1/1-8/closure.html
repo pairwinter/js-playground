@@ -36,13 +36,13 @@
                     var name = "苹果";
                     var num = 5;
                     jc.utils.log("num_result",num);
-                    var apple = function(){
+                    var getName = function(){
                         return name;
                     };
-                    return apple;//由于getName这个函数被返回了，所以它并没有结束其生存期。
+                    return getName;//由于getName这个函数被返回了，所以它并没有结束其生存期。
                 }
-                var apple = Apple();//Apple这个函数执行完了，对num执行释放，但是对name不释放。
-                var appleName = apple();
+                var getName = Apple();//Apple这个函数执行完了，对num执行释放，但是对name不释放。
+                var appleName = getName();
                 jc.utils.log("name_result",appleName);
              </pre>
              <span class="jc_code_result" id="num_result"></span>
