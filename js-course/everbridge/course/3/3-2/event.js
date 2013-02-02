@@ -26,7 +26,7 @@
         }
         obj.bind("change",start);
         obj.bind("change",end);
-        obj.trigger("change",start);
+        obj.trigger("change");
         obj.unbind("change");
         obj.trigger("change");
         /************************************************************************************/
