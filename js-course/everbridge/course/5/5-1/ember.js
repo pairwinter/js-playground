@@ -1,5 +1,5 @@
 (function(jc){
-    var App = jc.EmberApp = Ember.Application.create();
+    App = jc.EmberApp = Ember.Application.create();
 
     App.Store = DS.Store.extend({
         revision:12,
@@ -25,7 +25,7 @@
             this.set('isEditing',true);
         },
         doneEditing:function(){
-
+            this.set('isEditing',false);
         }
     });
 
