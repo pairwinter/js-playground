@@ -1,16 +1,9 @@
 body{
-	font: 82% arial,sans-serif;
-    /*background:*/
-    /*-webkit-radial-gradient(circle, transparent 20%, slategray 20%, slategray 80%, transparent 80%, transparent),*/
-    /*-webkit-radial-gradient(circle, transparent 20%, slategray 20%, slategray 80%, transparent 80%, transparent) 50px 50px,*/
-    /*-webkit-linear-gradient(#A8B1BB 8px, transparent 8px) 0 -4px,*/
-    /*-webkit-linear-gradient(0deg, #A8B1BB 8px, transparent 8px) -4px 0;*/
-    /*background-color: slategray;*/
-    /*background-size:100px 100px, 100px 100px, 50px 50px, 50px 50px;*/
-    background-color: paleTurquoise;
-    background-image: -webkit-linear-gradient(white 2px, transparent 2px), -webkit-linear-gradient(0deg, white 2px, transparent 2px), -webkit-linear-gradient(rgba(255, 255, 255, .3) 1px, transparent 1px), -webkit-linear-gradient(0deg, rgba(255, 255, 255, .3) 1px, transparent 1px);
-    background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-    background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+    font: 82% arial,sans-serif;
+    /*background-color: rgb(241, 235, 240);*/
+    /*background-image: -webkit-linear-gradient(white 1px, transparent 2px), -webkit-linear-gradient(0deg, white 1px, transparent 2px), -webkit-linear-gradient(rgba(255, 255, 255, .3) 1px, transparent 1px), -webkit-linear-gradient(0deg, rgba(83, 60, 60, .3) 1px, transparent 1px);*/
+    /*background-size: 100px 100px, 100px 100px;*/
+    /*background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;*/
 
 }
 .u-1,.u-2{
@@ -133,6 +126,7 @@ body{
 .section_sub_content{
     display: none;
     line-height: 28px;
+    padding-top: 5px;
 }
 .jc_section_sub1.open{
     background-color: #f5f5f5;

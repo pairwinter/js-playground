@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title> backbone2--A rounded example  </title>
+    <meta charset="utf-8">
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+    <link rel="stylesheet" type="text/css" href="todos.css">
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/json2.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/jsrender.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/underscore.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/backbone.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/backbone-localstorage.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/backbone.marionette.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../../resources/ready.js"></script>
+    <script type="text/javascript" src="todos.js"></script>
+</head>
+<body>
+<div class="control_container">
+    <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+    <h2 class="title">Backbone Marionette实例</h2>
+</div>
+    <div class='todobody'>
+        <section id="todoapp">
+            <header id="header"></header>
+            <section id="main"></section>
+            <footer id="footer"></footer>
+        </section>
+        <footer id="info">
+            <p>Double-click to edit a todo</p>
+            <p>
+                Created by <a href="http://github.com/jsoverson">Jarrod Overson</a>
+                and <a href="http://github.com/derickbailey">Derick Bailey</a>
+                using <a href="http://marionettejs.com">Backbone.Marionette</a>
+            </p>
+            <p>Further variations on the Backbone.Marionette app are also
+                <a href="https://github.com/marionettejs/backbone.marionette/wiki/Projects-and-websites-using-marionette">available</a>.</p>
+        </footer>
+    </div>
+</body>
+
+<script type="text/html" id="template-header">
+    <h1>todos</h1>
+    <input id="new-todo" placeholder="What needs to be done?" autofocus/>
+</script>
+
+<script type="text/html" id="template-todoItemView">
+    <div class="view">
+        <input class="toggle" type="checkbox" <@= completed ? 'checked' : '' @>/>
+        <label><@= title @></label>
+        <button class="destroy"></button>
+    </div>
+    <input class="edit" value="<@= title @>">
+</script>
+
+<script type="text/html" id="template-todoListCompositeView">
+    <input id="toggle-all" type="checkbox">
+    <label for="toggle-all">Mark all as complete</label>
+    <ul id="todo-list"></ul>
+</script>
+
+<script type="text/html" id="template-footer">
+    <span id="todo-count"><strong class="count"><@= activeCount @></strong> <span class="label"><@= activeCountLabel() @></span></span>
+    <ul id="filters">
+        <li>
+            <a href="#">All</a>
+        </li>
+        <li>
+            <a href="#active">Active</a>
+        </li>
+        <li>
+            <a href="#completed">Completed</a>
+        </li>
+    </ul>
+    <button id="clear-completed">Clear completed <span class="count"><@= completedCount @></span></button>
+</script>
+</html>
