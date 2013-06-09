@@ -20,7 +20,7 @@ button {
     appearance: none;
 }
 
-body {
+.todo-body {
     font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4em;
     background: #eaeaea url('bg.png');
@@ -37,7 +37,7 @@ body {
 #todoapp {
     background: #fff;
     background: rgba(255, 255, 255, 0.9);
-    margin: 130px 0 40px 0;
+    margin: 60px 0 40px 0;
     border: 1px solid #ccc;
     position: relative;
     border-top-left-radius: 2px;
