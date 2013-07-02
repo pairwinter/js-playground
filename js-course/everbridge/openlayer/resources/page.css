@@ -141,3 +141,7 @@ body {
     -webkit-text-size-adjust: none;
 }
 
+#controlToggle li {
+    list-style: none;
+}
+

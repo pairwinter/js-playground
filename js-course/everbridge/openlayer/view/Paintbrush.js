@@ -18,14 +18,14 @@
  * Inherits from:
  *  - <OpenLayers.Handler.Point>
  */
-OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
+OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
 
     /**
      * Property: line
      * {<OpenLayers.Feature.Vector>}
      */
     line: null,
-
+    radius : 3,
     /**
      * APIProperty: maxVertices
      * {Number} The maximum number of vertices which can be drawn by this
@@ -109,6 +109,7 @@ OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
             lonlat.lon, lonlat.lat
         );
         this.point = new OpenLayers.Feature.Vector(geometry);
+        this.circle =null;
         this.line = new OpenLayers.Feature.Vector(
             new OpenLayers.Geometry.LineString([this.point.geometry])
         );
@@ -128,6 +129,7 @@ OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
         OpenLayers.Handler.Point.prototype.destroyFeature.call(
             this, force);
         this.line = null;
+        this.circle = null;
     },
 
     /**
@@ -168,11 +170,48 @@ OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
         this.line.geometry.addComponent(
             this.point.geometry, this.line.geometry.components.length
         );
+        var radius = this.radius, zoom = this.layer.map.getZoom() || 1;
+        radius = this.radius/zoom;
+        if(!this.circle){
+            var circle = OpenLayers.Geometry.Polygon.createRegularPolygon(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat),radius,40,0);
+            this.circle = new OpenLayers.Feature.Vector(circle);
+        }else{
+            var provisionalCircle = OpenLayers.Geometry.Polygon.createRegularPolygon(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat),radius,40,0);
+            var features = [this.circle,new OpenLayers.Feature.Vector(provisionalCircle)];
+            this.circle = this._merge(features);
+        }
         this.layer.addFeatures([this.point]);
         this.callback("point", [this.point.geometry, this.getGeometry()]);
         this.callback("modify", [this.point.geometry, this.getSketch()]);
         this.drawFeature();
         delete this.redoStack;
+    },
+
+    _merge: function(polygonFeatures) {
+        var jstsFromWkt = this.jstsFromWkt = this.jstsFromWkt || new jsts.io.WKTReader();
+        var wktFromOl = this.wktFromOl = this.wktFromOl || new OpenLayers.Format.WKT();
+        var olFromJsts = this.olFromJsts = this.olFromJsts || new jsts.io.OpenLayersParser();
+        var union = false;
+        var attributes = {};
+        for(var i = 0; i < polygonFeatures.length; i++) {
+            if(!union) {
+                union = jstsFromWkt.read(wktFromOl.write(polygonFeatures[i]));
+                attributes = polygonFeatures[i].attributes;
+            } else {
+                var polygon = jstsFromWkt.read(wktFromOl.write(polygonFeatures[i]));
+                union = union.union(polygon);
+                for(var key in polygonFeatures[i].attributes) {
+                    if (!attributes[key]) { // test if element has attribute - take from first geometry
+                        attributes[key] = polygonFeatures[i].attributes[key];
+                    }
+                }
+            }
+        }
+        var feature = new OpenLayers.Feature.Vector(olFromJsts.write(union));
+        feature.state = OpenLayers.State.INSERT;
+        feature.attributes = attributes;
+        this.layer.removeFeatures(polygonFeatures);
+        return feature;
     },
 
     /**
@@ -347,6 +386,7 @@ OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
     drawFeature: function() {
         this.layer.drawFeature(this.line, this.style);
         this.layer.drawFeature(this.point, this.style);
+        this.circle && this.layer.drawFeature(this.circle, this.style);
     },
 
     /**
@@ -357,7 +397,8 @@ OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
      * {<OpenLayers.Feature.Vector>}
      */
     getSketch: function() {
-        return this.line;
+//        return this.line;
+        return this.circle;
     },
 
     /**
@@ -369,9 +410,9 @@ OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
      * {<OpenLayers.Geometry.LineString>}
      */
     getGeometry: function() {
-        var geometry = this.line && this.line.geometry;
+        var geometry = this.circle && this.circle.geometry;
         if(geometry && this.multi) {
-            geometry = new OpenLayers.Geometry.MultiLineString([geometry]);
+            geometry = new OpenLayers.Geometry.MultiPolygon([geometry]);
         }
         return geometry;
     },
@@ -539,5 +580,5 @@ OpenLayers.Handler.Path = OpenLayers.Class(OpenLayers.Handler.Point, {
         return false;
     },
 
-    CLASS_NAME: "OpenLayers.Handler.Path"
+    CLASS_NAME: "OpenLayers.Handler.Paintbrush"
 });
