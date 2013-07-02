@@ -113,6 +113,8 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         this.line = new OpenLayers.Feature.Vector(
             new OpenLayers.Geometry.LineString([this.point.geometry])
         );
+        this.upPoints=[];
+        this.downPoints = [];
         this.callback("create", [this.point.geometry, this.getSketch()]);
         this.point.geometry.clearBounds();
         this.layer.addFeatures([this.line, this.point], {silent: true});
@@ -170,6 +172,54 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         this.line.geometry.addComponent(
             this.point.geometry, this.line.geometry.components.length
         );
+        this._usePath(lonlat);
+//        this._useCircle(lonlat);
+        this.layer.addFeatures([this.point]);
+        this.callback("point", [this.point.geometry, this.getGeometry()]);
+        this.callback("modify", [this.point.geometry, this.getSketch()]);
+        this.drawFeature();
+        delete this.redoStack;
+    },
+
+    _usePath:function(lonlat){
+        if(this.circle){
+            this.layer.removeFeatures([this.circle]);
+        }
+        var radius = this.radius, zoom = this.layer.map.getZoom() || 1;
+        radius = this.radius/zoom;
+        var hasUpPoint=false,upPoint = this._insertDeflectionLength(-90,radius).clone();
+        var hasDownPoint=false,downPoint = this._insertDeflectionLength(90,radius).clone();
+        var points = [];
+        this.upPoints.push(upPoint);
+        for(var i= 0,l=this.upPoints.length;i<l;i++){
+            var point = this.upPoints[i];
+            points.push(point);
+        }
+        this.downPoints.push(downPoint);
+        for(var i= this.downPoints.length;i;i--){
+            var point = this.downPoints[i-1];
+            if(point.equals(downPoint)){
+                hasDownPoint = true;
+            }
+            points.push(point);
+        }
+        if(this.upPoints.length){
+            points.push(this.upPoints[0]);
+        }
+        console.log(this.upPoints);
+        console.log(this.downPoints);
+        this.layer.addFeatures([new OpenLayers.Feature.Vector(upPoint),new OpenLayers.Feature.Vector(downPoint)]);
+        console.log("this.layer.addFeatures([new OpenLayers.Feature.Vector(upPoint),new OpenLayers.Feature.Vector(downPoint)]);");
+        console.log(this.upPoints);
+        console.log(this.downPoints);
+        console.log(points);
+        if(points.length>3){
+            var linear_ring = new OpenLayers.Geometry.LinearRing(points);
+            this.circle = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon([linear_ring]));
+        }
+    },
+
+    _useCircle:function(lonlat){
         var radius = this.radius, zoom = this.layer.map.getZoom() || 1;
         radius = this.radius/zoom;
         if(!this.circle){
@@ -180,11 +230,6 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
             var features = [this.circle,new OpenLayers.Feature.Vector(provisionalCircle)];
             this.circle = this._merge(features);
         }
-        this.layer.addFeatures([this.point]);
-        this.callback("point", [this.point.geometry, this.getGeometry()]);
-        this.callback("modify", [this.point.geometry, this.getSketch()]);
-        this.drawFeature();
-        delete this.redoStack;
     },
 
     _merge: function(polygonFeatures) {
@@ -231,6 +276,13 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         this.drawFeature();
         delete this.redoStack;
     },
+    _insertXY: function(x, y) {
+        if(!this.points){
+            this.points=[];
+        }
+        var point = new OpenLayers.Geometry.Point(x, y);
+      return point;
+    },
 
     /**
      * Method: insertDeltaXY
@@ -247,6 +299,14 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
             this.insertXY(p0.x + dx, p0.y + dy);
         }
     },
+    _insertDeltaXY: function(dx, dy) {
+        var previousIndex = this.getCurrentPointIndex() - 1;
+        var p0 = this.line.geometry.components[previousIndex];
+        if (p0 && !isNaN(p0.x) && !isNaN(p0.y)) {
+            return this._insertXY(p0.x + dx, p0.y + dy);
+        }
+    },
+
 
     /**
      * Method: insertDirectionLength
@@ -261,6 +321,13 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         var dx = length * Math.cos(direction);
         var dy = length * Math.sin(direction);
         this.insertDeltaXY(dx, dy);
+    },
+
+    _insertDirectionLength: function(direction, length) {
+        direction *= Math.PI / 180;
+        var dx = length * Math.cos(direction);
+        var dy = length * Math.sin(direction);
+        return this._insertDeltaXY(dx, dy);
     },
 
     /**
@@ -280,6 +347,17 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
             var p0 = this.line.geometry.components[previousIndex-1];
             var theta = Math.atan2(p1.y - p0.y, p1.x - p0.x);
             this.insertDirectionLength(
+                (theta * 180 / Math.PI) + deflection, length
+            );
+        }
+    },
+    _insertDeflectionLength: function(deflection, length) {
+        var previousIndex = this.getCurrentPointIndex() - 1;
+        if (previousIndex > 0) {
+            var p1 = this.line.geometry.components[previousIndex];
+            var p0 = this.line.geometry.components[previousIndex-1];
+            var theta = Math.atan2(p1.y - p0.y, p1.x - p0.x);
+            return this._insertDirectionLength(
                 (theta * 180 / Math.PI) + deflection, length
             );
         }
