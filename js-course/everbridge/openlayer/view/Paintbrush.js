@@ -25,7 +25,7 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
      * {<OpenLayers.Feature.Vector>}
      */
     line: null,
-    radius : 3,
+    radius : 2,
     /**
      * APIProperty: maxVertices
      * {Number} The maximum number of vertices which can be drawn by this
@@ -172,64 +172,36 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         this.line.geometry.addComponent(
             this.point.geometry, this.line.geometry.components.length
         );
-        this._usePath(lonlat);
-//        this._useCircle(lonlat);
+        this._usePathAndCircle(lonlat);
         this.layer.addFeatures([this.point]);
         this.callback("point", [this.point.geometry, this.getGeometry()]);
         this.callback("modify", [this.point.geometry, this.getSketch()]);
         this.drawFeature();
         delete this.redoStack;
     },
-
-    _usePath:function(lonlat){
+    _usePathAndCircle:function(lonlat){
         if(this.circle){
             this.layer.removeFeatures([this.circle]);
         }
         var radius = this.radius, zoom = this.layer.map.getZoom() || 1;
         radius = this.radius/zoom;
-        var hasUpPoint=false,upPoint = this._insertDeflectionLength(-90,radius).clone();
-        var hasDownPoint=false,downPoint = this._insertDeflectionLength(90,radius).clone();
-        var points = [];
-        this.upPoints.push(upPoint);
-        for(var i= 0,l=this.upPoints.length;i<l;i++){
-            var point = this.upPoints[i];
-            points.push(point);
-        }
-        this.downPoints.push(downPoint);
-        for(var i= this.downPoints.length;i;i--){
-            var point = this.downPoints[i-1];
-            if(point.equals(downPoint)){
-                hasDownPoint = true;
-            }
-            points.push(point);
-        }
-        if(this.upPoints.length){
-            points.push(this.upPoints[0]);
-        }
-        console.log(this.upPoints);
-        console.log(this.downPoints);
-        this.layer.addFeatures([new OpenLayers.Feature.Vector(upPoint),new OpenLayers.Feature.Vector(downPoint)]);
-        console.log("this.layer.addFeatures([new OpenLayers.Feature.Vector(upPoint),new OpenLayers.Feature.Vector(downPoint)]);");
-        console.log(this.upPoints);
-        console.log(this.downPoints);
-        console.log(points);
-        if(points.length>3){
-            var linear_ring = new OpenLayers.Geometry.LinearRing(points);
-            this.circle = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon([linear_ring]));
+        var wings = this.countCurrentPointAndPreviousPointWings(radius);
+        var circleFeature = this._createCircleFeature(lonlat);
+        if(!wings){
+            this.circle = circleFeature;
+        }else{
+            var points = [wings.currentPointWings.up,wings.previousPointWings.up,wings.previousPointWings.down,wings.currentPointWings.down,wings.currentPointWings.up];
+            var pointsFeature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Polygon([ new OpenLayers.Geometry.LinearRing(points)]));
+            this.circle = this._merge([pointsFeature,circleFeature,this.circle]);
         }
     },
-
-    _useCircle:function(lonlat){
+    _createCircleFeature:function(lonlat){
         var radius = this.radius, zoom = this.layer.map.getZoom() || 1;
         radius = this.radius/zoom;
-        if(!this.circle){
-            var circle = OpenLayers.Geometry.Polygon.createRegularPolygon(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat),radius,40,0);
-            this.circle = new OpenLayers.Feature.Vector(circle);
-        }else{
-            var provisionalCircle = OpenLayers.Geometry.Polygon.createRegularPolygon(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat),radius,40,0);
-            var features = [this.circle,new OpenLayers.Feature.Vector(provisionalCircle)];
-            this.circle = this._merge(features);
-        }
+        var circleFeature;
+        var circle= OpenLayers.Geometry.Polygon.createRegularPolygon(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat),radius,40,0);
+        circleFeature = new OpenLayers.Feature.Vector(circle);
+        return circleFeature;
     },
 
     _merge: function(polygonFeatures) {
@@ -269,14 +241,6 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
      * y - {Number} The y-coordinate of the point.
      */
     insertXY: function(x, y) {
-        this.line.geometry.addComponent(
-            new OpenLayers.Geometry.Point(x, y),
-            this.getCurrentPointIndex()
-        );
-        this.drawFeature();
-        delete this.redoStack;
-    },
-    _insertXY: function(x, y) {
         if(!this.points){
             this.points=[];
         }
@@ -292,18 +256,11 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
      * dx - {Number} The x-coordinate offset of the point.
      * dy - {Number} The y-coordinate offset of the point.
      */
-    insertDeltaXY: function(dx, dy) {
-        var previousIndex = this.getCurrentPointIndex() - 1;
+    insertDeltaXY: function(dx, dy, pi) {
+        var previousIndex = pi || this.getCurrentPointIndex() - 1;
         var p0 = this.line.geometry.components[previousIndex];
         if (p0 && !isNaN(p0.x) && !isNaN(p0.y)) {
-            this.insertXY(p0.x + dx, p0.y + dy);
-        }
-    },
-    _insertDeltaXY: function(dx, dy) {
-        var previousIndex = this.getCurrentPointIndex() - 1;
-        var p0 = this.line.geometry.components[previousIndex];
-        if (p0 && !isNaN(p0.x) && !isNaN(p0.y)) {
-            return this._insertXY(p0.x + dx, p0.y + dy);
+            return this.insertXY(p0.x + dx, p0.y + dy);
         }
     },
 
@@ -316,18 +273,11 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
      * direction - {Number} Degrees clockwise from the positive x-axis.
      * length - {Number} Distance from the previously drawn point.
      */
-    insertDirectionLength: function(direction, length) {
+    insertDirectionLength: function(direction, length, pi) {
         direction *= Math.PI / 180;
         var dx = length * Math.cos(direction);
         var dy = length * Math.sin(direction);
-        this.insertDeltaXY(dx, dy);
-    },
-
-    _insertDirectionLength: function(direction, length) {
-        direction *= Math.PI / 180;
-        var dx = length * Math.cos(direction);
-        var dy = length * Math.sin(direction);
-        return this._insertDeltaXY(dx, dy);
+        return this.insertDeltaXY(dx, dy, pi);
     },
 
     /**
@@ -351,18 +301,25 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
             );
         }
     },
-    _insertDeflectionLength: function(deflection, length) {
-        var previousIndex = this.getCurrentPointIndex() - 1;
+    countCurrentPointAndPreviousPointWings : function(length){
+        var currentIndex =  this.getCurrentPointIndex()
+        var previousIndex = currentIndex - 1;
         if (previousIndex > 0) {
-            var p1 = this.line.geometry.components[previousIndex];
-            var p0 = this.line.geometry.components[previousIndex-1];
-            var theta = Math.atan2(p1.y - p0.y, p1.x - p0.x);
-            return this._insertDirectionLength(
-                (theta * 180 / Math.PI) + deflection, length
-            );
+            var wings = {currentPointWings:null,previousPointWings :null};
+            var currentPoint = this.line.geometry.components[currentIndex];
+            var previousPoint = this.line.geometry.components[previousIndex-1];
+            var theta = Math.atan2(currentPoint.y - previousPoint.y, currentPoint.x - previousPoint.x);
+            var direction = (theta * 180 / Math.PI);
+            //count the wingPoings of current point
+            wings.currentPointWings = {p:currentPoint},wings.previousPointWings = {p:previousPoint};
+            wings.currentPointWings.up = this.insertDirectionLength( direction+90, length,currentIndex);
+            wings.currentPointWings.down = this.insertDirectionLength( direction-90, length,currentIndex);
+            wings.previousPointWings.up = this.insertDirectionLength( direction+90, length,previousIndex);
+            wings.previousPointWings.down = this.insertDirectionLength( direction-90, length,previousIndex);
+            return  wings;
         }
+        return null;
     },
-
     /**
      * Method: getCurrentPointIndex
      *
