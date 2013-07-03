@@ -185,8 +185,9 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         }
         var radius = this.radius, zoom = this.layer.map.getZoom() || 1;
         radius = this.radius/zoom;
+        radius = 10*this.layer.map.resolution;
         var wings = this.countCurrentPointAndPreviousPointWings(radius);
-        var circleFeature = this._createCircleFeature(lonlat);
+        var circleFeature = this._createCircleFeature(lonlat,radius);
         if(!wings){
             this.circle = circleFeature;
         }else{
@@ -195,9 +196,7 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
             this.circle = this._merge([pointsFeature,circleFeature,this.circle]);
         }
     },
-    _createCircleFeature:function(lonlat){
-        var radius = this.radius, zoom = this.layer.map.getZoom() || 1;
-        radius = this.radius/zoom;
+    _createCircleFeature:function(lonlat,radius){
         var circleFeature;
         var circle= OpenLayers.Geometry.Polygon.createRegularPolygon(new OpenLayers.Geometry.Point(lonlat.lon,lonlat.lat),radius,40,0);
         circleFeature = new OpenLayers.Feature.Vector(circle);
@@ -419,7 +418,7 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
      * Render geometries on the temporary layer.
      */
     drawFeature: function() {
-        this.layer.drawFeature(this.line, this.style);
+//        this.layer.drawFeature(this.line, this.style);
         this.layer.drawFeature(this.point, this.style);
         this.circle && this.layer.drawFeature(this.circle, this.style);
     },

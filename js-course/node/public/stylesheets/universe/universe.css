@@ -330,7 +330,9 @@ a,input{
 .toolbar.polytools .icon {float: left; height: 25px;}
 .toolbar.polytools .icon.freeform {background: url('../common/img/icon_p_freeform.png') no-repeat 0px 5px;}
 .toolbar.polytools .icon.polygon {background: url('../common/img/icon_toolbar_polygon.png') no-repeat 0px 2px;}
-.toolbar.polytools .icon.circle {background: url('../common/img/icon_p_circle.png') no-repeat 0px 5px;
+.toolbar.polytools .icon.circle {background: url('../common/img/icon_p_circle.png') no-repeat 0px 5px;}
+.toolbar.polytools .icon.paintbrush {background: url('../common/img/icon_toolbar_polygon.png') no-repeat 0px 2px;}
+.toolbar.polytools .split{
     border-bottom: 1px solid #dddddd;
     display: inline-block;
     padding-bottom: 5px;
