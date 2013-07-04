@@ -26,6 +26,7 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
      */
     line: null,
     radius : 2,
+    wipe:false,
     /**
      * APIProperty: maxVertices
      * {Number} The maximum number of vertices which can be drawn by this
@@ -227,6 +228,18 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         feature.state = OpenLayers.State.INSERT;
         feature.attributes = attributes;
         this.layer.removeFeatures(polygonFeatures);
+        return feature;
+    },
+    _disjoint:function(beDisjointedFeature,usedFeature){
+        var jstsFromWkt = this.jstsFromWkt = this.jstsFromWkt || new jsts.io.WKTReader();
+        var wktFromOl = this.wktFromOl = this.wktFromOl || new OpenLayers.Format.WKT();
+        var olFromJsts = this.olFromJsts = this.olFromJsts || new jsts.io.OpenLayersParser();
+        var beDisjointedPolygon = jstsFromWkt.read(wktFromOl.write(beDisjointedFeature));
+        var usedPolygon = jstsFromWkt.read(wktFromOl.write(usedFeature));
+        var result = beDisjointedPolygon.disjoint(usedPolygon);
+        var feature = new OpenLayers.Feature.Vector(olFromJsts.write(result));
+        feature.state = OpenLayers.State.Update;
+        this.layer.removeFeatures([beDisjointedFeature,usedFeature]);
         return feature;
     },
 

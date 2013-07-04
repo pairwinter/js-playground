@@ -572,6 +572,9 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
             if((this.mode & OpenLayers.Control.ModifyFeature.DRAG)) {
                 this.collectDragHandle();
             }
+            if((this.mode & OpenLayers.Control.ModifyFeature.WIPE)) {
+                this.collectWipeHandle();
+            }
             if((this.mode & (OpenLayers.Control.ModifyFeature.ROTATE |
                              OpenLayers.Control.ModifyFeature.RESIZE))) {
                 this.collectRadiusHandle();
@@ -705,7 +708,51 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
         this.dragHandle.renderIntent = this.vertexRenderIntent;
         this.layer.addFeatures([this.dragHandle], {silent: true});
     },
-
+    /**
+     * Method: collectDragHandle
+     * Collect the drag handle for the selected geometry.
+     */
+    collectWipeHandle: function() {
+        var feature = this.feature;
+        var geometry = this.feature.geometry;
+        var center = geometry.getBounds().getCenterLonLat();
+        var originGeometry = new OpenLayers.Geometry.Point(
+            center.lon, center.lat
+        );
+        var bounds = geometry.getBounds();
+        var radiusGeometry = new OpenLayers.Geometry.Point(
+            bounds.right, bounds.bottom
+        );
+        var origin = new OpenLayers.Feature.Vector(originGeometry);
+        var radius = 10*this.layer.map.resolution;
+        var layer = this.layer;
+        originGeometry.move = function(x, y) {
+            OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
+            var circleFeature;
+            var circle= OpenLayers.Geometry.Polygon.createRegularPolygon(originGeometry,radius,40,0);
+            circleFeature = new OpenLayers.Feature.Vector(circle);
+//            geometry.intersects(circleFeature.geometry);
+//            geometry = _disjoint(feature,circleFeature);
+            var newFeature = _disjoint(feature,circleFeature);
+            layer.addFeatures([newFeature]);
+        };
+        function _disjoint(beDisjointedFeature,usedFeature){
+            var jstsFromWkt = new jsts.io.WKTReader();
+            var wktFromOl = new OpenLayers.Format.WKT();
+            var olFromJsts = new jsts.io.OpenLayersParser();
+            var beDisjointedPolygon = jstsFromWkt.read(wktFromOl.write(beDisjointedFeature));
+            var usedPolygon = jstsFromWkt.read(wktFromOl.write(usedFeature));
+//            var result = beDisjointedPolygon.intersection(usedPolygon);
+            var result = usedPolygon.intersection(beDisjointedPolygon);
+            var feature2 = new OpenLayers.Feature.Vector(olFromJsts.write(result));
+            feature2.state = OpenLayers.State.Update;
+            return feature2;
+        }
+        origin._sketch = true;
+        this.dragHandle = origin;
+        this.dragHandle.renderIntent = this.vertexRenderIntent;
+        this.layer.addFeatures([this.dragHandle], {silent: true});
+    },
     /**
      * Method: collectRadiusHandle
      * Collect the radius handle for the selected geometry.
@@ -833,3 +880,4 @@ OpenLayers.Control.ModifyFeature.ROTATE = 4;
  * {Integer} Constant used to make the control work in drag mode
  */
 OpenLayers.Control.ModifyFeature.DRAG = 8;
+OpenLayers.Control.ModifyFeature.WIPE = 16;

@@ -12,7 +12,6 @@
     <script src="../resources/jsts/jsts.js"></script>
     <script src="../resources/OpenLayers-2.13/lib/OpenLayers.js"></script>
     <script src="Paintbrush.js"></script>
-
     <script type="text/javascript">
         var map, drawControls;
         OpenLayers.Feature.Vector.style['default']['strokeWidth'] = '1';
@@ -44,15 +43,8 @@
             map.addLayers([wmsLayer, vectors]);
             map.addControl(new OpenLayers.Control.LayerSwitcher());
             drawControls = {
-                point: new OpenLayers.Control.DrawFeature(
-                        vectors, OpenLayers.Handler.Point
-                ),
-                line: new OpenLayers.Control.DrawFeature(
-                        vectors, OpenLayers.Handler.Paintbrush,{handlerOptions: {freehand: true}}
-                ),
-                polygon: new OpenLayers.Control.DrawFeature(
-                        vectors, OpenLayers.Handler.Polygon
-                ),
+                point: new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.Point),
+                polygon: new OpenLayers.Control.ModifyFeature(vectors,{mode:OpenLayers.Control.ModifyFeature.WIPE}),
                 select: new OpenLayers.Control.SelectFeature(
                         vectors,
                         {
@@ -72,7 +64,7 @@
                         }
                 )
             };
-
+            drawControls.line= new OpenLayers.Control.DrawFeature(vectors, OpenLayers.Handler.Paintbrush,{handlerOptions: {freehand: true}});
             for (var key in drawControls) {
                 map.addControl(drawControls[key]);
             }
