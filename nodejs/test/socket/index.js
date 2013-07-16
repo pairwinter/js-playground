@@ -1,14 +1,13 @@
 var express = require("express");
 var util = require("util");
-var app = express.createServer();
+var app = express();
 app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(app.router);
 	app.use(express.methodOverride());
 	app.use(express.static(__dirname + '/'));
 	app.set('views', __dirname + '/views');
-	app.set('view engine', 'html');
-	app.register(".html", require("jqtpl").express);
+	app.engine("html", require("jqtpl").__express);
 	app.set('view options', {
 		layout : false
 	});
