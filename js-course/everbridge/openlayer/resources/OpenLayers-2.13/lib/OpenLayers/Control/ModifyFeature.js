@@ -715,38 +715,58 @@ OpenLayers.Control.ModifyFeature = OpenLayers.Class(OpenLayers.Control, {
     collectWipeHandle: function() {
         var feature = this.feature;
         var geometry = this.feature.geometry;
-        var center = geometry.getBounds().getCenterLonLat();
-        var originGeometry = new OpenLayers.Geometry.Point(
-            center.lon, center.lat
-        );
         var bounds = geometry.getBounds();
         var radiusGeometry = new OpenLayers.Geometry.Point(
             bounds.right, bounds.bottom
         );
-        var origin = new OpenLayers.Feature.Vector(originGeometry);
+        var origin = new OpenLayers.Feature.Vector(radiusGeometry);
         var radius = 10*this.layer.map.resolution;
         var layer = this.layer;
-        originGeometry.move = function(x, y) {
+        var pointsCount = 0;
+        var line = new OpenLayers.Feature.Vector(
+            new OpenLayers.Geometry.LineString([radiusGeometry.clone()])
+        );
+        radiusGeometry.move = function(x, y) {
+            console.log(pointsCount++);
             OpenLayers.Geometry.Point.prototype.move.call(this, x, y);
-            var circleFeature;
-            var circle= OpenLayers.Geometry.Polygon.createRegularPolygon(originGeometry,radius,40,0);
-            circleFeature = new OpenLayers.Feature.Vector(circle);
-//            geometry.intersects(circleFeature.geometry);
-//            geometry = _disjoint(feature,circleFeature);
-            var newFeature = _disjoint(feature,circleFeature);
-            layer.addFeatures([newFeature]);
+            var circleFeature = _mipeLine(radiusGeometry.clone());
+            var newFeature = _countNewFeature(feature,circleFeature);
+            if(!newFeature) return;
+            var oldComponents = feature.geometry.clone().components;
+            feature.geometry.removeComponents(feature.geometry.components);
+            var newComponents = newFeature.geometry.clone().components;
+            feature.geometry.addComponents(newComponents);
+            if(feature.geometry.getBounds()==null){
+                feature.geometry.removeComponents(newComponents);
+                feature.geometry.addComponents(oldComponents);
+                console.log(feature);
+            }
         };
-        function _disjoint(beDisjointedFeature,usedFeature){
-            var jstsFromWkt = new jsts.io.WKTReader();
-            var wktFromOl = new OpenLayers.Format.WKT();
-            var olFromJsts = new jsts.io.OpenLayersParser();
-            var beDisjointedPolygon = jstsFromWkt.read(wktFromOl.write(beDisjointedFeature));
-            var usedPolygon = jstsFromWkt.read(wktFromOl.write(usedFeature));
-//            var result = beDisjointedPolygon.intersection(usedPolygon);
-            var result = usedPolygon.intersection(beDisjointedPolygon);
-            var feature2 = new OpenLayers.Feature.Vector(olFromJsts.write(result));
-            feature2.state = OpenLayers.State.Update;
-            return feature2;
+        function _countNewFeature(beDisjointedFeature,usedFeature){
+            var jsts_parser = new jsts.io.OpenLayersParser();
+            var jsts_geomA = jsts_parser.read(beDisjointedFeature.geometry);
+            var jsts_geomB = jsts_parser.read(usedFeature.geometry);
+            var jsts_result_geom = null;
+            if(jsts_geomA.intersects(jsts_geomB)){
+                jsts_result_geom = jsts_geomA.intersection(jsts_geomB);
+                jsts_result_geom = jsts_geomA.symDifference(jsts_result_geom);
+                jsts_result_geom   = jsts_parser.write(jsts_result_geom);
+                var resultFeature = new OpenLayers.Feature.Vector(jsts_result_geom);
+                return resultFeature;
+            }else{
+                return false;
+            }
+        }
+        function _mipeLine(radiusGeometry){
+            line.geometry.addComponent(
+                radiusGeometry, line.geometry.components.length
+            );
+            var radius = 20*layer.map.resolution;
+            var olFromJsts = this.olFromJsts = this.olFromJsts || new jsts.io.OpenLayersParser();
+            var jsts_geomA = olFromJsts.read(line.geometry.clone());
+            var jsts_result_geom = jsts_geomA.buffer(radius);
+            jsts_result_geom   = olFromJsts.write(jsts_result_geom);
+            return new OpenLayers.Feature.Vector(jsts_result_geom);
         }
         origin._sketch = true;
         this.dragHandle = origin;

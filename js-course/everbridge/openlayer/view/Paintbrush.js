@@ -173,13 +173,27 @@ OpenLayers.Handler.Paintbrush = OpenLayers.Class(OpenLayers.Handler.Point, {
         this.line.geometry.addComponent(
             this.point.geometry, this.line.geometry.components.length
         );
-        this._usePathAndCircle(lonlat);
+//        this._usePathAndCircle(lonlat);
+        this._buffer(this.line.geometry,10);
         this.layer.addFeatures([this.point]);
         this.callback("point", [this.point.geometry, this.getGeometry()]);
         this.callback("modify", [this.point.geometry, this.getSketch()]);
         this.drawFeature();
         delete this.redoStack;
     },
+
+    _buffer:function(jsts_geomA,radius){
+        if(this.circle){
+            this.layer.removeFeatures([this.circle]);
+        }
+        radius = radius*this.layer.map.resolution;
+        var olFromJsts = this.olFromJsts = this.olFromJsts || new jsts.io.OpenLayersParser();
+        jsts_geomA = olFromJsts.read(jsts_geomA.clone());
+        var jsts_result_geom = jsts_geomA.buffer(radius);
+        jsts_result_geom   = olFromJsts.write(jsts_result_geom);
+        this.circle = new OpenLayers.Feature.Vector(jsts_result_geom);
+    },
+
     _usePathAndCircle:function(lonlat){
         if(this.circle){
             this.layer.removeFeatures([this.circle]);
