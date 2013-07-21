@@ -6,5 +6,7 @@
       "express": "3.x"
     , "jqtpl": "> 0.0.1"
     , "socket.io":">0"
+    , "redis": "*"
+    , "underscore": "*"
   }
 }
