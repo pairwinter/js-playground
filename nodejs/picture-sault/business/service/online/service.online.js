@@ -1,6 +1,6 @@
 var util = require('util');
 var _ = require('underscore');
-var db_online = require('../../database/online/db.online');
+var onlineCache = require('../../cache/online/cache.online').onlineCache;
 exports.appendToBodyOnlineInfo = function(body,online){
     body += online.length + " users online:"
     var users = [];
@@ -11,9 +11,9 @@ exports.appendToBodyOnlineInfo = function(body,online){
     return body;
 }
 exports.updateOnlineInfo = function(key,success){
-    db_online.updateOnlineInfo(key,success);
+    onlineCache.updateOnlineInfo(key,success);
 }
 //count uses number within one minute
 exports.getOnlineCount = function(success,error){
-    db_online.getOnlineCount(success,error);
+    onlineCache.getOnlineCount(success,error);
 }

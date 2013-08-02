@@ -3,39 +3,44 @@ var pg = require('pg');
 //or native libpq bindings
 //var pg = require('pg').native
 
-var conString = "postgres://postgres:"+dbConfig.port+"@"+dbConfig.host+"/postgres";
+var conString = "postgres://postgres:"+dbConfig.password+"@"+dbConfig.host+":"+dbConfig.port+"/postgres";
 
-function queryWithClientConnect(sql,args,success,error){
-    var client = new pg.Client(conString);
-    client.connect(function(err) {
-        if(err) {
-            return console.error('could not connect to postgres', err);
-        }
-        client.query('SELECT NOW() AS "theTime"', function(err, result) {
+var db = {
+    queryWithClientConnect:function(sql,args,success,error){
+        var client = new pg.Client(conString);
+        client.connect(function(err) {
             if(err) {
-                return console.error('error running query', err);
+                error && error(err);
+                return console.error('could not connect to postgres', err);
             }
-            console.log(result.rows[0].theTime);
-            //output: Tue Jan 15 2013 19:12:47 GMT-600 (CST)
-            client.end();
+            client.query(sql,args, function(err, result) {
+                if(err) {
+                    error && error(err);
+                    return console.error('error running query', err);
+                }
+                success && success(result);
+                client.end();
+            });
         });
-    });
-}
-function queryWithPollConnect(sql,args,success,error){
-    pg.connect(conString, function(err, client, done) {
-        if(err) {
-            return console.error('error fetching client from pool', err);
-        }
-        client.query(sql, args, function(err, result) {
-            done();//call `done()` to release the client back to the pool
+    },
+    queryWithPollConnect:function(sql,args,success,error){
+        pg.connect(conString, function(err, client, done) {
             if(err) {
-                error();
-                return console.error('error running query', err);
+                return console.error('error fetching client from pool', err);
             }
-            success(result);
+            client.query(sql, args, function(err, result) {
+                done();//call `done()` to release the client back to the pool
+                if(err) {
+                    error();
+                    return console.error('error running query', err);
+                }
+                success(result);
+            });
         });
-    });
+    }
 }
+
+exports.db = db;
 
 
 
