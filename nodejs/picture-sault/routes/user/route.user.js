@@ -12,8 +12,13 @@ var routes = {
                 email :  "pairwinter@gmail.com",
                 lastLoginTime :  null,
                 intro  : null
-            }
-            userService.addUser(user,function(){res.json({ user: 'tobi' })},function(err){res.json({ error: true })})
+            };
+            userService.addUser(user,function(result){
+                var data={layout:"layout.jade",title:"test"};
+                res.render("user/user_list.jade",data,function(err,html){
+                    res.send(html);
+                });
+            },function(err){res.json({ error: true })})
         }
     }
 }
