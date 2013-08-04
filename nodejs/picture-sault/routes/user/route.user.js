@@ -1,6 +1,15 @@
 var userService = require('../../business/service/user/service.user').userService;
 
 var routes = {
+    "fetchRegisterResource":{
+        path:"/user/fetchRegisterResource",
+        method:"get",
+        callback:function(req,res){
+            res.render("user/user_register.jade",function(err,html){
+                res.send(html);
+            });
+        }
+    },
     "addUser":{
         path:"/user/addUser",
         method:"get",
