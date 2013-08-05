@@ -1,29 +1,28 @@
 (function(jc){
-    jc.Angular = {};
-    jc.Angular.TodoController = function($scope){
-        $scope.todos = [
-            {text:'typeinto text 1',done:false},
-            {text:'typeinto text 2',done:true}
-        ];
-        $scope.addTodo = function(){
-            $scope.todos.push({text:$scope.todoText,done:false});
-            $scope.todoText = '';
-        };
-        $scope.remaining = function(){
-            var count = 0;
-            angular.forEach($scope.todos,function(todo){
-                count += todo.done?0:1;
-            });
-            return count;
-        };
-        $scope.archive = function(){
-            var oldTodos = $scope.todos;
-            $scope.todos=[];
-            angular.forEach(oldTodos,function(todo){
-                if(!todo.done){
-                    $scope.todos.push(todo);
-                }
-            });
-        }
-    }
+
+//    angular.bootstrap(document, ['simple','simple2']);
+    jc.Angular = {
+        simple:(function(){
+            var c = function(moduleName,controllerName){
+                this.simples.push(moduleName);
+                this.module = angular.module(moduleName,[]);
+                this.module.controller(controllerName,function($scope){
+
+                });
+            }
+            c.prototype.simples=[];
+            return c;
+        })()
+    };
+
+//    simple1.module.controller("simple2Ctrl",function($scope){
+//
+//    });
+    angular.element(document).ready(function() {
+        var simple = new jc.Angular.simple("simple","simpleCtrl");
+        var simple2 = new jc.Angular.simple("simple2","simple2Ctrl");
+        angular.bootstrap(document.getElementById('simple'), ['simple']);
+        angular.bootstrap(document.getElementById('simple2'), ['simple2']);
+
+    });
 })(js_course);
