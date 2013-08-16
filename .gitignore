@@ -18,3 +18,5 @@ test-output/
 *.lnk
 bin-debug/
 *.wav
+node_modules/
+config.json

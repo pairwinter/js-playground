@@ -1,0 +1,12 @@
+{
+    "cache":{
+        "host":"192.168.1.215"
+       ,"port":6379
+    }
+    ,"db":{
+        "host":"192.168.1.215"
+       ,"port":5432
+       ,"rule":"postgres"
+       ,"password":"123qwe"
+    }
+}

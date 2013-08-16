@@ -18,7 +18,7 @@
     <script type="text/javascript" src="../../../resources/javascripts/plugin/angular/angular-min.js"></script>
     <script type="text/javascript" src="../../../resources/utils.js"></script>
     <script type="text/javascript" src="../../../resources/ready.js"></script>
-    <script type="text/javascript" src="angular.js"></script>
+
     <style type="text/css">
         .done-true {
             text-decoration: line-through;
@@ -40,7 +40,7 @@
         <div class="jc_section_sub1">
             <h4 class="section_sub_title">Simple Example</h4>
             <div class="section_sub_content" style="display: block">
-                <div ng-app='simple'>
+                <div id="simple" ng-controller="simpleCtrl">
                     <div>
                         <input type="text" ng-model='personName' placeholder="Enter your name"/>
                     </div>
@@ -53,16 +53,17 @@
         <div class="jc_section_sub1">
             <h4 class="section_sub_title">Simple Example</h4>
             <div class="section_sub_content" style="display: block">
-                <div ng-app='todos'>
+                <div id='simple2' ng-controller="simple2Ctrl">
                     <div>
-                        <input type="text" ng-model='personName' placeholder="Enter your name"/>
+                        <input type="text" ng-model='personName2' placeholder="Enter your name"/>
                     </div>
                     <div>
-                        <h2>Hello {{personName}} !</h2>
+                        <h2>Hello {{personName2}} !</h2>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+<script type="text/javascript" src="angular.js"></script>
 </body>
 </html>

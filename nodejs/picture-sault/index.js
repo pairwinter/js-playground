@@ -4,6 +4,12 @@ var app = express();
 
 var onlineService = require('./business/service/online/service.online');
 
+
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.set('view options', {layout: true});
+app.engine('jade', require('jade').__express);
+app.use('/static', express.static(__dirname + '/public'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(recordOnlineInfo);
@@ -49,5 +55,5 @@ function errorHandlerToRender(err,req,res,next){
     res.render('error',{error:err});
 }
 
-app.listen(80);
-console.log('Listening on port 8000');
+app.listen(8081);
+console.log('Listening on port 8081');

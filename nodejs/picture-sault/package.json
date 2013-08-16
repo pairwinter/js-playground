@@ -4,9 +4,10 @@
   , "private": true
   , "dependencies": {
       "express": "3.x"
-    , "jqtpl": "> 0.0.1"
-    , "socket.io":">0"
+    , "jade": "*"
+    , "socket.io":"*"
     , "redis": "*"
     , "underscore": "*"
+    , "pg" : "*"
   }
 }

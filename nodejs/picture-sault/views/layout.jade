@@ -1,0 +1,68 @@
+doctype 5
+html(lang="en",ng-app)
+    head
+        title= title
+        link(rel='stylesheet', href='/static/stylesheets/bootstrap/css/bootstrap.css')
+        link(rel='stylesheet', href='/static/stylesheets/bootstrap/css/bootstrap-responsive.css')
+        link(rel='stylesheet', href='/static/stylesheets/views/picture.css')
+    body
+        .navbar.navbar-inverse.navbar-fixed-top
+            .navbar-inner
+                .container
+                    button.btn.btn-navbar(data-toggle="collapse",data-target=".nav-collapse",type="button")
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.brand Project name
+                    .nav-collapse.collapse
+                        ul.nav
+                            li.active
+                                a(href="#home") Home
+                            li
+                                a(href="#about") About
+                            li
+                                a(href="#contact") Contact
+                            li.dropdown
+                                a.dropdown-toggle(data-toggle="dropdown",href="#") Dropdown
+                                    b.caret
+                                ul.dropdown-menu
+                                    li
+                                        a(href="#") Action
+                                    li
+                                        a(href="#") Another action
+                                    li
+                                        a(href="#") Something else here
+                                    li.divider
+                                    li.nav-header Nav header
+                                    li
+                                        a(href="#") Separated link
+                                    li
+                                        a(href="#") One more separated link
+                        form#userLoginForm.navbar-form.pull-right(ng-submit="login()")
+                            input.span2(type="text",placeholder="Email",ng-model="email",required)
+                            &nbsp;
+                            input.span2(type="password",placeholder="Password",ng-model="password",required)
+                            &nbsp;
+                            button.btn(type="submit") Sign in
+                            &nbsp;
+                            button#register.btn.btn-primary(type="button",ng-click="register()") Register
+                        form#userLoginForm2.navbar-form.pull-right(ng-submit="login()")
+                            input.span2(type="text",placeholder="Email",ng-model="email",required)
+                            &nbsp;
+                            input.span2(type="password",placeholder="Password",ng-model="password",required)
+                            &nbsp;
+                            button.btn(type="submit") Sign in
+                            &nbsp;
+                            button#register.btn.btn-primary(type="button",ng-click="register()") Register
+        .container
+            block content
+            hr
+            footer
+                p &copy; Company 2013
+        script(src="/static/javascript/jquery-1.9.1.min.js")
+        script(src="/static/javascript/plugin/angular/angular-min.js")
+        script(src="/static/stylesheets/bootstrap/js/bootstrap.min.js")
+        script(src="/static/stylesheets/bootstrap/js/bootstrap.min.js")
+        script(src="/static/javascript/PicuterSault.js");
+        script(src="/static/javascript/modules/user/module.userlogin.js")
+        script(src="/static/javascript/views/index/view.index.js")
