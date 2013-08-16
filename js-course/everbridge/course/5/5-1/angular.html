@@ -81,7 +81,7 @@
 <div class="jc_section">
     <h3 class="jc_section_title">Angunlar 结构</h3>
     <div class="jc_section_sub1">
-        <h4 class="section_sub_title">客户端模版</h4>
+        <h4 class="section_sub_title">客户端模版（Client-Side Templates）</h4>
         <div class="section_sub_content">
             多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
             大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
@@ -89,8 +89,8 @@
             <pre name="code" class="xml">
                 &lt;html ng-app&gt;
                     &lt;head&gt;
-                        <script src="angular.js"></script>
-                        <script src="controller.js"></script>
+                        &lt;script src="angular.js"&gt;&lt;/script&gt;
+                        &lt;script src="controller.js"&gt;&lt;/script&gt;
                     &lt;/head&gt;
                     &lt;body&gt;
                         <div ng-controller="HelloController">
@@ -104,21 +104,36 @@
                     $scope.greeting= {text:"Hello "}
                 }
             </pre>
-            <div class="">
-                <input ng-model="greeting.text" type="text"/>
+            <div id="helloApp">
                 <div ng-controller="HelloController">
+                    <input ng-model="greeting.text" type="text"/>
                     <p>{{greeting.text}}, World</p>
                 </div>
-                <script type="text/javascript">
-                    function HelloController($scope){
-                        $scope.greeting= {text:"Hello "}
-                    }
-                </script>
             </div>
+            <script type="text/javascript">
+                (function(){
+                    function HelloController($scope){
+                        $scope.greeting = {text:"Hello "}
+                    }
+                    var module = angular.module("helloApp",[]),dom = document.getElementById("helloApp");
+                    module.controller("HelloController",HelloController);
+                    angular.bootstrap(dom, ["helloApp"]);
+                })();
+            </script>
+            <p>
+                与现在使用广泛的大多数方法相比, 这里有一些有趣的事情需要注意:
+                <ul>
+                    <li>HTML并没有类或者ID以确定在哪里添加事件监听器.</li>
+                    <li>当HelloController设置greeting.text为Hello时, 我们并没有注册任何事件监听器或者编写任何回调函数.</li>
+                    <li>HelloController只是一个很普通的JavaScript类, 它并没有继承任何Angular提供的东西.</li>
+                    <li>HelloController接收所需的$scope对象, 而无需创建它.</li>
+                    <li>我们并没有调用HelloController自身的构造器, 或者在调用它时来计算它.</li>
+                </ul>
+            </p>
         </div>
     </div>
     <div class="jc_section_sub1">
-        <h4 class="section_sub_title">模型/视图/控制器(MVC)</h4>
+        <h4 class="section_sub_title">模型/视图/控制器（Model View Controller）(MVC)</h4>
         <div class="section_sub_content">
             MVC背后的核心思想是你可以在你的代码管理中清晰的分离数据(模型), 应用程序逻辑(控制器)以及给用户呈现数据(视图).<br>
             视图从模型中获取数据并显示给用户. 当用户通过点击或者输入与应用程序交互时, 控制器通过改变模型中的数据来响应. 最后, 该模型会通知视图它已经发生改变. 以便它可以更新它显示的信息.<br>
@@ -126,7 +141,7 @@
         </div>
     </div>
     <div class="jc_section_sub1">
-        <h4 class="section_sub_title">数据绑定</h4>
+        <h4 class="section_sub_title">数据绑定（Data Binding）</h4>
         <div class="section_sub_content">
             常见的AJAX单页应用程序, 像Rails, PHP或者JSP平台都是在通过在发送给用户显示之前将数据合并到HTML字符串中来帮助我们创建用户界面(UI).<br>
             像jQuery这样的库也是将模型扩展到客户端并让我们使用类似的风格, 但是它只有单独更新部分DOM的能力, 而不能更新整个页面. 这里, 我们将数据合并到字符串形式的HTML模板中, 然后通过在一个占位元素中设置innerHTML将返回的结果插入到我们所希望的DOM元素中.<br>
@@ -135,33 +150,148 @@
         </div>
     </div>
     <div class="jc_section_sub1">
-        <h4 class="section_sub_title">依赖注入</h4>
+        <h4 class="section_sub_title">依赖注入（Dependency Injection）</h4>
         <div class="section_sub_content">
-
+            <pre name="code" class="js">
+                function HelloController($scope){
+                    $scope.greeting= {text:"Hello "}
+                }
+            </pre>
+            依赖注入是对控制器Controller来说的，我们把需要的东西注入到Controller中就是把我们使用的服务通过Controller的参数传递到Controller中。
+            要保证你注入的参数名与服务名相同，这样Anguer在解析Controller的时候才能把正确的服务放置到Controller中。<br>
+            在HelloController中有很多东西都可以重复, 这里我们并没有编写. 例如, $scope对象将自动绑定数据并传递给我们; <br>
+            我们不需要通过调用任何函数来创建它. 我们只是通过将它放置在HelloController的构造器中来访问它.<br>
+            正如我们将在后面的章节中会看到, $scope并不是我们唯一可以访问的事物.<br>
+            如果我们希望将数据绑定到用户浏览器的URL地址中, 我们可以通过将用于管理它的对象$location放在我们的构造器中来访问它, 就像这样:<br>
+            <pre name="code" class="js">
+                function HelloController($scope, $location){
+                    $scope.greeting = {text: 'Hello'};
+                    //use $location for something good here...
+                }
+            </pre>
+            我们通过Angular的依赖注入系统达到这个神奇的效果. 依赖注入让我们得以延续这种开发的风格, 而不需要创建依赖, 我们的类只需要知道它需要什么.
         </div>
     </div>
     <div class="jc_section_sub1">
-        <h4 class="section_sub_title">客户端模版</h4>
+        <h4 class="section_sub_title">指令（Directives）</h4>
         <div class="section_sub_content">
-            多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
-            大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
-            然后服务器将变成给模板提供静态资源和给这些模板提供所需的正确数据的角色.
-        </div>
-    </div>
-    <div class="jc_section_sub1">
-        <h4 class="section_sub_title">客户端模版</h4>
-        <div class="section_sub_content">
-            多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
-            大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
-            然后服务器将变成给模板提供静态资源和给这些模板提供所需的正确数据的角色.
-        </div>
-    </div>
-    <div class="jc_section_sub1">
-        <h4 class="section_sub_title">客户端模版</h4>
-        <div class="section_sub_content">
-            多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
-            大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
-            然后服务器将变成给模板提供静态资源和给这些模板提供所需的正确数据的角色.
+            Angular最好的部分之一就是你可以如同编写HTML一样编写你的模板. 之所以可以这样做, 是由于这个框架的核心部分我们已经包含了一个的DOM解析引擎, 它允许你扩展HTML的语法.<br>
+            我们已经在我们的模板中看到了一些不属于HTML规范的属性. 例如包含在双花括号中的数据绑定, 用于指定哪个控制器对应哪部分视图的ng-controller, 以及给输入框绑定一个模型的ng-model. 这些我们都成为HTML扩展指令. <br>
+            Angular带有许多指定, 以帮助你定义应用程序的视图. 很快我们就会看到更多的指令. 这些指令可以定义来我们通常用作视图的模板中. 它们可以用于声明设置你的应用程序如何工作或者创建可复用的组件.<br>
+            你并不仅限于使用Angular自带的指令. 你也可以编写你自己的HTML模板扩展, 做你想做的事情.
+            <div id="cart" ng-controller="CartController">
+                <h1>Your Order</h1>
+                <div ng-repeat="item in items">
+                    <span style="display: inline-block;width: 100px;">{{item.name}}</span>
+                    <input ng-model="item.num" />
+                    <span>{{item.price | currency}}</span>
+                    <span>{{item.price * item.num | currency}}</span>
+                    <button ng-click="remove($index)">Remove</button>
+                </div>
+            </div>
+            <script type="text/javascript">
+                (function(){
+                    function CartController($scope){
+                        $scope.items=[
+                            {name:"苹果",num:2,price:2.5},
+                            {name:"梨",num:6,price:4.5},
+                            {name:"香蕉",num:1,price:5},
+                            {name:"葡萄",num:2,price:2}
+                        ];
+                        $scope.remove = function(index){
+                            $scope.items.splice(index,1);
+                        }
+                    }
+                    var module = angular.module("cart",[]),dom = document.getElementById("cart");
+                    module.controller("CartController",CartController);
+                    angular.bootstrap(dom, ["cart"]);
+                })();
+            </script>
+            <pre name="code" class="xml">
+                  <div ng-controller="CartController">
+                      <h1>Your Order</h1>
+                      <div ng-repeat="item in items">
+                          <span  style="display: inline-block;width: 100px;">{{item.name}}</span>
+                          <input ng-model="item.num" />
+                          <span>{{item.price | currency}}</span>
+                          <span>{{item.price * item.num | currency}}</span>
+                          <button ng-click="remove($index)">Remove</button>
+                      </div>
+                  </div>
+            </pre>
+            <pre name="code" class="js">
+                function CartController($scope){
+                    $scope.items=[
+                       {name:"苹果",num:2,price:2.5},
+                       {name:"梨",num:6,price:4.5},
+                       {name:"香蕉",num:1,price:5},
+                       {name:"葡萄",num:2,price:2}
+                    ];
+                    $scope.remove = function(index){
+                        $scope.items.splice(index,1);
+                    }
+                }
+            </pre>
+            让我们从顶部开始:
+            <pre name="code" class="xml">
+                &lt;html ng-app&gt;
+            </pre>
+            ng-app属性告诉Angular应该管理页面的哪一部分. 由于我们把它放在&lt;html&gt;元素中, 这将告诉Angular我们希望它管理整个页面. <br>
+            这往往也是你所希望的, 但是如果你是结合现有的Angular应用程序来使用其他方式管理页面, 你可能希望把它放在应用程序中的某个&lt;div&gt;中.
+            <pre name="code" class="xml">
+                &lt;body ng-controller="CartController"&gt;
+            </pre>
+            在Angular中, 你用于管理页面区域的JavaScript类被称为控制器.<br>
+            通过在body标签中包含一个控制器, 我们声明这个CartController将管理&lt;body&gt和&lt;/body&gt之间的所有事物.
+            <pre name="code" class="xml">
+                &lt;div ng-repeat="item in items"&gt;
+            </pre>
+            ng-repeat的意思就是对于被称为$items的数组的每一个元素都复制一次&lt;div&gt;中的DOM. <br>
+            在每一个复制的div副本中, 我们都会给当前元素设置一个名为item的属性, 因此我们可以在模板中使用它.<br>
+            正如你所看到的, 这将导致这三个&lt;div&gt;的每一个都包含产品的标题, 数量, 单价, 总价以及一个用于移除整个项的按钮.
+            <pre name="code" class="js">
+                &lt;span&gt;{{item.name}}&lt;/span&gt;
+            </pre>
+            正如我们在"Hello, World"例子中所示, 数据绑定通过{{ }}让我们将变量的值插入到页面部分并保持同步.<br>
+            完整的表达式{{item.title}}会迭代检索当前item, 然后将由item的标题属性组成内容插入到DOM中.
+            <pre name="code" class="xml">
+                &lt;input ng-model="item.num"&gt;
+            </pre>
+            文本输入字段和item.num的值之间的ng-model定义并创建数据绑定. <br>
+            &lt;span&gt;中的{{ }}用于设置一个单向的联系, 意思就是"在这里插入一个值". 这是我们希望的效果, 但是当用户改变单价时应用程序也需要知道, 这样它就能够改变总价.<br>
+            我们通过使用ng-model来同步模型中的变化. ng-model声明将item.quantity的值插入到文本域中, 每当用户输入一个新的值时它也能够自动更新item.quantity的值.
+            <pre name="code" class="xml">
+                <span>{{item.price | currency}}</span>
+                <span>{{item.price * item.quantity || currency}}</span>
+            </pre>
+            我们希望单价和总价被格式化为美元形式. Angular自带了一个称为<span class="red">过滤器</span>的特性让我们可以转换文本,<br>
+            这里绑定了一个称为currency的过滤器用于给我们处理这里的美元格式.在下一章我们将会看到更多的过滤器.
+            <pre name="code" class="xml">
+                &lt;button ng-click="remove($index)"&gt;Remove&lt;/button&gt;
+            </pre>
+            这允许用户通过点击产品旁边的Remove按钮来从他们的购物车中移除项目. <br>
+            我们设置它点击这个按钮时调用remove()函数. 我们还给它传递了一个$index, 它包含了ng-repeat索引值, 因此我们可以知道哪一项将会被移除.
+            <pre name="code" class="js">
+                function CartController($scope)
+            </pre>
+            这个CartContoller用于管理购物车的逻辑. 这会告诉Angular, 控制器需要在这里给他设置一个称为$scope的东西. 这个$scope用于让我们在用户界面中将数据绑定到元素中.
+            <pre name="code" class="js">
+                $scope.items = [
+                    {title: 'Paint pots', quantity: 8, price: 3.95},
+                    {title: 'Polka dots', quantity: 17, price: 12.95},
+                    {title: 'Pebbles', quantity: 5, price: 6.95}
+                ];
+            </pre>
+            通过定义$scope.items, 我们创建了一个虚拟的数据哈希表来描述用户购物车中的物品集. 我们希望它可以用于UI中的数据绑定, 因此将他添加到$scope中. <br>
+            当然, 一个真实版本的购物车不可能只在内存中工作, 它需要访问服务器中正确存储的数据. 我们将在后面的章节中讨论这些.<br>
+            <pre name="code" class="js">
+                $scope.remove = function(index){
+                    $scope.items.splice(index, 1);
+                }
+            </pre>
+            我们还希望remove()函数能够用于用户界面中的数据绑定, 因此我们同样将它添加到$scope中.<br>
+            对于这个工作在内存中的版本的购物车, remove()函数可以即时从数组中删除项目. 由于&lt;div&gt;列表是通过ng-repeat创建的数据绑定, 所以当项目消失时列表将自动收缩. <br>
+            记住, 每当用户在UI上点击一个Remove按钮时, 这个remove()函数就会被调用. <br>
         </div>
     </div>
 </div>
