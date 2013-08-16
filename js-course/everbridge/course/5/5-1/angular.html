@@ -1,0 +1,169 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title> Angular </title>
+    <meta charset="utf-8">
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/style.css">
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/angular/angular-min.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../../resources/ready.js"></script>
+    <style type="text/css">
+        .done-true {
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+<div class="control_container">
+    <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+    <h2 class="title">Angular 简介</h2>
+</div>
+<div class="jc_section">
+    <h3 class="jc_section_title">Angunlar 起源与理念</h3>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">Angunlar 起源</h4>
+        <div class="section_sub_content">
+            Angular.js是2009年由Google工程师Misko Hevery业余时间开发的一个框架，当他把这个框架运用到Google Feedback项目后，前台代码从17000行减少到
+            1500行！从此Angular.js称为Google的一个项目，并发展至今。
+            <ul>
+                <li>Angular不同于其他的MVC框架，他不以字符串的HTML为模版，而是以DOM为模版。</li>
+                <li>
+                    AngularJS使用了不同的方法，它尝试去补足HTML本身在构建应用方面的缺陷。AngularJS通过使用我们称为标识符(directives)的结构，让浏览器能够识别新的语法。例如：
+                    <ul>
+                        <li>使用双大括号{{}}语法进行数据绑定；</li>
+                        <li>使用DOM控制结构来实现迭代或者隐藏DOM片段；</li>
+                        <li>支持表单和表单的验证；</li>
+                        <li>能将逻辑代码关联到相关的DOM元素上； </li>
+                        <li>能将HTML分组成可重用的组件。 </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">Angunlar 理念</h4>
+        <div class="section_sub_content">
+            Angular信奉的是，当组建视图(UI)同时又要写软件逻辑时，声明式的代码会比命令式的代码好得多，尽管命令式的代码非常适合用来表述业务逻辑。 <br>
+            <ul>
+                <li>将DOM操作和应用逻辑解耦是一种非常好的思路，它能大大改善代码的可调性；</li>
+                <li>将测试和开发同等看待是一种非常非常好的思路，测试的难度在很大程度上取决于代码的结构；</li>
+                <li>将客户端和服务器端解耦是一种特别好的做法，它能使两边并行开发，并且使两边代码都能实现重用；</li>
+            </ul>
+            如果框架能够在整个开发流程里都引导着开发者：从设计UI，到编写业务逻辑，再到测试，那对开发者将是极大的帮助；<br>
+            “化繁为简，化简为零”总是好的。<br>
+            AngularJS能将你从以下的噩梦中解脱出来：
+            <ul>
+                <li><b>使用回调：</b>回调的使用会打乱你的代码的可读性，让你的代码变得支离破碎，很难看清本来的业务逻辑。移除一些常见的代码，例如回调，是件好事。大幅度地减少你因为JavaScript这门语言的设计而不得不写的代码，能让你把自己应用的逻辑看得更清楚。</li>
+                <li><b>手动编写操作DOM元素的代码：</b>操作DOM是AJAX应用很基础的一部分，但它也总是很“笨重”并且容易出错。用声明的方式描述的UI界面可随着应用状态的改变而变化，能让你从编写低级的DOM操作代码中解脱出来。绝大部分用AngularJS写的应用里，开发者都不用再自己去写操作DOM的代码，不过如果你想的话还是可以去写。 </li>
+                <li><b>对UI界面读写数据：</b>AJAX应用的很大一部是CRUD操作。一个经典的流程是把服务端的数据组建成内部对象，再把对象编成HTML表单，用户修改表单后再验证表单，如果有错再显示错误，然后将数据重新组建成内部对象，再返回给服务器。这个流程里有太多太多要重复写的代码，使得代码看起来总是在描述应用的全部执行流程，而不是具体的业务逻辑和业务细节。    </li>
+                <li><b>开始前得写大量的基础性的代码：</b>通常你需要写很多的基础性的代码才能实现一个“Hello World”的应用。用AngularJS的话，它会提供一些服务让你很容易地正式开始写你的应用，而这些服务都是以一种Guice-like dependency-injection式的依赖注入自动加入到你的应用中去的,这让你能很快的进入你应用的具体开发。特别的是，你还能全盘掌握自动化测试的初始化过程。 </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="jc_section">
+    <h3 class="jc_section_title">Angunlar 结构</h3>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">客户端模版</h4>
+        <div class="section_sub_content">
+            多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
+            大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
+            然后服务器将变成给模板提供静态资源和给这些模板提供所需的正确数据的角色.
+            <pre name="code" class="xml">
+                &lt;html ng-app&gt;
+                    &lt;head&gt;
+                        <script src="angular.js"></script>
+                        <script src="controller.js"></script>
+                    &lt;/head&gt;
+                    &lt;body&gt;
+                        <div ng-controller="HelloController">
+                            <p>{{greeting.text}}, World</p>
+                        </div>
+                    &lt;/body&gt;
+                &lt;/html&gt;
+            </pre>
+            <pre name="code" class="js">
+                function HelloController($scope){
+                    $scope.greeting= {text:"Hello "}
+                }
+            </pre>
+            <div class="">
+                <input ng-model="greeting.text" type="text"/>
+                <div ng-controller="HelloController">
+                    <p>{{greeting.text}}, World</p>
+                </div>
+                <script type="text/javascript">
+                    function HelloController($scope){
+                        $scope.greeting= {text:"Hello "}
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">模型/视图/控制器(MVC)</h4>
+        <div class="section_sub_content">
+            MVC背后的核心思想是你可以在你的代码管理中清晰的分离数据(模型), 应用程序逻辑(控制器)以及给用户呈现数据(视图).<br>
+            视图从模型中获取数据并显示给用户. 当用户通过点击或者输入与应用程序交互时, 控制器通过改变模型中的数据来响应. 最后, 该模型会通知视图它已经发生改变. 以便它可以更新它显示的信息.<br>
+            在Angular应用程序中, 视图就是文档对象模型(DOM), 控制器是JavaScript类, 模型数据存储在对象的属性中.
+        </div>
+    </div>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">数据绑定</h4>
+        <div class="section_sub_content">
+            常见的AJAX单页应用程序, 像Rails, PHP或者JSP平台都是在通过在发送给用户显示之前将数据合并到HTML字符串中来帮助我们创建用户界面(UI).<br>
+            像jQuery这样的库也是将模型扩展到客户端并让我们使用类似的风格, 但是它只有单独更新部分DOM的能力, 而不能更新整个页面. 这里, 我们将数据合并到字符串形式的HTML模板中, 然后通过在一个占位元素中设置innerHTML将返回的结果插入到我们所希望的DOM元素中.<br>
+            这一切都工作得很好, 但是当你希望插入新的数据到用户界面(UI)中时, 或者基于用户的输入改变数据, 你需要做一些相当不平凡的工作以确保你的数据状态的准确性, 无论是在用户界面中(UI)还是JavaScript属性中.<br>
+            但是如果我们可以不用编写代码就能处理好这一些的工作会怎样? 如果我们可以只需声明用户界面的哪些部分对应JavaScript的哪些属性并让它们自动同步又会怎样? 这种编程风格被称为数据绑定. 由于它是MVC的一项伟大的工程, 便于你编写视图和模型时减少代码, 我们把它引入到了Angular中. 大部分将数据从一处迁移到另一处的工作都会自动完成.
+        </div>
+    </div>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">依赖注入</h4>
+        <div class="section_sub_content">
+
+        </div>
+    </div>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">客户端模版</h4>
+        <div class="section_sub_content">
+            多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
+            大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
+            然后服务器将变成给模板提供静态资源和给这些模板提供所需的正确数据的角色.
+        </div>
+    </div>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">客户端模版</h4>
+        <div class="section_sub_content">
+            多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
+            大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
+            然后服务器将变成给模板提供静态资源和给这些模板提供所需的正确数据的角色.
+        </div>
+    </div>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">客户端模版</h4>
+        <div class="section_sub_content">
+            多页面的Web应用程序都是通过组装和连接服务器上数据来创建HTML, 然后将完成的页面发送到浏览器中.
+            大多数的单页应用程序 - 也称为AJAX应用程序 - 这一点做的很好, 在某种程度上. Angular以不同的方式组装模板和数据并推送到浏览器中运行.
+            然后服务器将变成给模板提供静态资源和给这些模板提供所需的正确数据的角色.
+        </div>
+    </div>
+</div>
+</body>
+</html>
