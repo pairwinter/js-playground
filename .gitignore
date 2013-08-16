@@ -19,3 +19,4 @@ test-output/
 bin-debug/
 *.wav
 node_modules/
+config.json

@@ -3,6 +3,40 @@ block content
     div.hero-unit
         p 这里是图片导航窗口
     div.row
+        ul.colum
+            li
+                div.inner_wrapper
+                    a.detail_link(href="#",target="_blank")
+                        img.img_loaded(src="")
+                    div.imgobj_info_container
+                        div.just_for_bg
+                        div.padding_wrapper
+                            a(target="_blank") 喵星人
+                            span.from_site
+                                span.tag-title 标签 :
+                                a.tag-link 喵星人
+                    div.imgset_num
+                        div.just_for_bg
+                            span
+                                span.num 0
+                                张
+                    div.personal_container
+                        a.download(href="javascript:void(0);")
+                            span.download-content 下载
+                                span.download-num (19563)
+                        a.addfav(href="javascript:void(0);",title="收藏")
+                            span.addfav-content 收藏
+                                span.addfav-num (1636)
+                    div.comment-box.clearfix.no-data">
+                        dl
+                            dt 以下为用户发表的观点
+                            dd.clearfix
+                                ul
+                        div.com-form
+                            input.com-input(type="text",maxlength="14",value="发表你的观点")
+                            a.com-submit(hidefocus="hidefocus") 发表
+                            a.com-more(target="_blank") 更多
+                        div.com-loading Loading...
         div.span2
             img.sault(src="/static/stylesheets/views/image/3.jpg",width="200px")
             img.sault(src="/static/stylesheets/views/image/2.jpg",width="200px")
