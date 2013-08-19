@@ -15,6 +15,8 @@
     <script type="text/javascript" src="../../../resources/javascripts/jquery-1.9.1.js"></script>
     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/angular/angular-min.js"></script>
     <script type="text/javascript" src="../../../resources/utils.js"></script>
     <script type="text/javascript" src="../../../resources/ready.js"></script>
     <style type="text/css">
@@ -31,48 +33,438 @@
             <a href="javascript:" class="openControl">+</a>
             <a href="javascript:" class="closeControl">-</a>
         </span>
-    <h2 class="title">Angular 结构</h2>
+    <h2 class="title">Angular 应用程序解析</h2>
 </div>
     <div class="jc_section">
-        <h3 class="jc_section_title">Angular 结构</h3>
+        <h3 class="jc_section_title">启用Angular</h3>
         <div class="jc_section_sub1">
-            <h4 class="section_sub_title"></h4>
+            <h4 class="section_sub_title">启用Angular</h4>
             <div class="section_sub_content">
-                Angular.js是2009年由Google工程师Misko Hevery业余时间开发的一个框架，当他把这个框架运用到Google Feedback项目后，前台代码从17000行减少到
-                1500行！从此Angular.js称为Google的一个项目，并发展至今。
+                任何应用程序都必须做两件事来启用Angular:
                 <ul>
-                    <li>Angular不同于其他的MVC框架，他不以字符串的HTML为模版，而是以DOM为模版。</li>
+                    <li>1. 加载`angular.js`库 &lt;script src="http://ajax.google.com/ajax/libs/angularjs/1.0.4/angular.min.js"&gt;&lt;/script&gt;</li>
                     <li>
-                        AngularJS使用了不同的方法，它尝试去补足HTML本身在构建应用方面的缺陷。AngularJS通过使用我们称为标识符(directives)的结构，让浏览器能够识别新的语法。例如：
-                        <ul>
-                            <li>使用双大括号{{}}语法进行数据绑定；</li>
-                            <li>使用DOM控制结构来实现迭代或者隐藏DOM片段；</li>
-                            <li>支持表单和表单的验证；</li>
-                            <li>能将逻辑代码关联到相关的DOM元素上； </li>
-                            <li>能将HTML分组成可重用的组件。 </li>
-                        </ul>
+                        2. 使用`ng-app`指令来告诉Angular它应该管理哪部分DOM,意思是声明应用程序的作用域, 即Angular应用程序的作用范围<br>
+                        `ng-app`指令用于让你告诉Angular你期望它管理页面的哪部分. 如果你在创建一个完全的Angular应用程序, 那么你应该在`&lt;html&gt;`标签中包含`ng-app`部分, 就像这样:
+                        <pre name="code" class="xml">
+                            &lt;html ng-app&gt;
+                                …
+                            &lt;/html&gt;
+                        </pre>
+                        这会告知Angular要管理页面中的所有DOM元素.
+                        如果你有一个现有的应用程序, 要求使用其他的技术来管理DOM, 例如Java或者Rails,<br>
+                        你可以通过将它放置在页面的一些元素例如`&lt;div&gt;`中来告诉Angular只需要管理页面的一部分即可.
+                        <pre name="code" class="xml">
+                            &lt;html&gt;
+                                …
+                                &lt;div ng-app&gt;
+                                    …
+                                &lt;/div&gt;
+                                …
+                            &lt;/html&gt;
+                        </pre>
                     </li>
                 </ul>
             </div>
         </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">模板和数据绑定</h3>
         <div class="jc_section_sub1">
-            <h4 class="section_sub_title">Angunlar 理念</h4>
+            <h4 class="section_sub_title">模板和数据绑定</h4>
             <div class="section_sub_content">
-                Angular信奉的是，当组建视图(UI)同时又要写软件逻辑时，声明式的代码会比命令式的代码好得多，尽管命令式的代码非常适合用来表述业务逻辑。 <br>
+                在Angular应用程序中模板只是HTML文档, 就像我们从从服务端载入或者定义在`&lt;script&gt;`标签中的任何其他静态资源一样.<br>
+                在你的模板中定义用户界面, 可以使用标准的HTML加Angular指令来定义你所需要的UI组件.<br>
+                一旦进入浏览器中, Angular就会进入到你的整个应用程序中通过合并模板和数据的方式来解析这些模板. 在第一章中我们已经在购物车应用中看过了显示一个项目列表的例子.
+                <pre name="code" class="xml">
+                    <div ng-repeat="item in items">
+                        <span>{{item.title}}</span>
+                        ...
+                    </div>
+                </pre>
+                这里, 它只是外层`&lt;div&gt;`的一个副本, 里面所有的一切, 都一一对应`items`数组中的每个元素. <br>
+                那么这些数据从哪里来? 在我们的购物车例子中, 在我们的代码中我们只将它定义为一个数组.<br>
+                对于你开始创建一个UI并希望测试它是如何工作的, 这是非常合适的. 然而大多数的应用程序, 将使用一些服务器上的持久性数据.<br>
+                在浏览器中你的应用程序连接你的服务器, 用户在页面上请求他们所需要的一切, 然后Angular将它[请求的数据]与你的模板合并.<br>
+                基本的运作流程看起来像这样:
                 <ul>
-                    <li>将DOM操作和应用逻辑解耦是一种非常好的思路，它能大大改善代码的可调性；</li>
-                    <li>将测试和开发同等看待是一种非常非常好的思路，测试的难度在很大程度上取决于代码的结构；</li>
-                    <li>将客户端和服务器端解耦是一种特别好的做法，它能使两边并行开发，并且使两边代码都能实现重用；</li>
+                    <li><b>1：</b>用户请求你的应用程序的第一个页面</li>
+                    <li><b>2：</b>用户浏览器发出一个HTTP请求连接到你的服务器, 然后加载包含模板的*index.html*页面</li>
+                    <li><b>3：</b>Angular载入到页面中, 等到页面完全加载, 然后查询定义在模板范围内的`ng-app`</li>
+                    <li><b>4：</b>Angular遍历模板并查询指令和绑定. 这将导致注册事件监听器和DOM操作, 以及从服务器上获取初始数据. 这项工作的最终结果是展示应用程序并将模板作为DOM转换为视图.</li>
+                    <li><b>5：</b>连接到你的服务器加载你需要展示给用户所需的附加数据.</li>
                 </ul>
-                如果框架能够在整个开发流程里都引导着开发者：从设计UI，到编写业务逻辑，再到测试，那对开发者将是极大的帮助；<br>
-                “化繁为简，化简为零”总是好的。<br>
-                AngularJS能将你从以下的噩梦中解脱出来：
+                第1步至第3步是每个Angular应用程序的标准. 第4步和第5步对你来说是可选的.<br>
+                这些步骤可以同步或者异步发生. 出于性能的考虑, 你应用程序所需的数据在第一个视图中[首屏]显示给用户, 可以减少并避免重复的请求HTML模板.<br>
+                通过使用Angular组织你的应用程序, 你可以在你的应用程序中分离模板和数据. 这样做的结果是这些模板是可以缓存的.<br>
+                在第一次载入之后, 实质上浏览器中就只需要请求新的数据了. 正如JavaScript, 图片, CSS以及其他资源, 缓存这些模板可以给你的应用程序提供更好的性能.<br>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">显示文本</h4>
+            <div class="section_sub_content">
+                你可以使用`ng-bind`指令在你UI的任何地方显示和更新文本. 它有两种等价的形式. 一种是我们见过的双花括号形式:
+                <pre name="code" class="xml">
+                    <p>{{greeting}}</p>
+                </pre>
+                然后就是一个被称为`ng-bind`的基于属性的指令:
+                <pre name="code" class="xml">
+                    <p ng-bind="greeting"><p>
+                </pre>
+                这两者的输出是等价的. 如果模型中的变量`greeting`设置为"Hi, there", Angular将生成这样的HTML:
+                <pre name="code" class="xml">
+                    <p>Hi, there</p>
+                </pre>
+                浏览器将显示"Hi, There".<br>
+                那么为什么你会使用上面的另外一种形式? 我们创建的双括号插入值的语法读起来更加自然并且只需要更少的输入. <br>
+                虽然两种形式产生相同的输出, 但使用双花括号语法, 加载你应用程序的第一个页面`index.html`时, 在Angular替换花括号中的数据之前, 用户可能会看到一个未渲染的模板.<br>
+                随后的视图将不会经历这一点.原因是浏览器加载HTML页面, 渲染它, 直到那时Angular才可能准备解析它们. <br>
+                好消息是你仍然可以在大多数模板中使用`{{ }}`. 然而, 在你的`index.html`页面中绑定数据, 应该使用`ng-bind`. 这样, 直到数据加载完你的用户将什么也看不到.
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">表单输入</h4>
+            <div class="section_sub_content">
+                在Angular中处理表单元素是很简单的. 正如我们见过的几个例子, 你可以使用`ng-model`属性绑定到你的模型属性元素上.<br>
+                这适用于所有标准的表单元素, 例如文本输入框, 单选按你, 复选框等等.  我们可以像这样绑定一个复选框到一个属性:
+                <pre name="code" class="xml">
+                    <form ng-controller="SomeController">
+                        <input type="checkbox" ng-model="youCheckedIt">
+                    </form>
+                </pre>
+                这意味着:
                 <ul>
-                    <li><b>使用回调：</b>回调的使用会打乱你的代码的可读性，让你的代码变得支离破碎，很难看清本来的业务逻辑。移除一些常见的代码，例如回调，是件好事。大幅度地减少你因为JavaScript这门语言的设计而不得不写的代码，能让你把自己应用的逻辑看得更清楚。</li>
-                    <li><b>手动编写操作DOM元素的代码：</b>操作DOM是AJAX应用很基础的一部分，但它也总是很“笨重”并且容易出错。用声明的方式描述的UI界面可随着应用状态的改变而变化，能让你从编写低级的DOM操作代码中解脱出来。绝大部分用AngularJS写的应用里，开发者都不用再自己去写操作DOM的代码，不过如果你想的话还是可以去写。 </li>
-                    <li><b>对UI界面读写数据：</b>AJAX应用的很大一部是CRUD操作。一个经典的流程是把服务端的数据组建成内部对象，再把对象编成HTML表单，用户修改表单后再验证表单，如果有错再显示错误，然后将数据重新组建成内部对象，再返回给服务器。这个流程里有太多太多要重复写的代码，使得代码看起来总是在描述应用的全部执行流程，而不是具体的业务逻辑和业务细节。    </li>
-                    <li><b>开始前得写大量的基础性的代码：</b>通常你需要写很多的基础性的代码才能实现一个“Hello World”的应用。用AngularJS的话，它会提供一些服务让你很容易地正式开始写你的应用，而这些服务都是以一种Guice-like dependency-injection式的依赖注入自动加入到你的应用中去的,这让你能很快的进入你应用的具体开发。特别的是，你还能全盘掌握自动化测试的初始化过程。 </li>
+                    <li>当用户选择复选框, `SomeController`的`$scope`中一个名为`youCheckedIt`的属性将变成true. 取消选择时使`youCheckedIt`变成false. </li>
+                    <li>2. 如果你在`SomeController`中设置`$scope.youCheckedIt`为true, 这个复选框在UI中会被自动选择. 设置它为false则取消选择. </li>
+                 </ul>
+                现在我想说的是我们真正想要的是, 当用户做了一些什么事情时作出响应.<br> 
+                对于文本输入框元素, 你使用`ng-change`属性来指定一个控制器方法, 那么无论什么时候用户改变输入框的值时, 这个控制器方法都应该被调用. <br>
+                让我们做一个简单的计算器来帮助用户自己理解他们需要多少钱才能得到某些东西:
+                <pre name="code" class="xml">
+                    <form ng-controller="StartUpController">
+                        Starting: <input ng-change="computeNeeded()" ng-model="funding.startingEstimate">
+                        Recommendation: {{funding.needed}}
+                    </form>
+                </pre>
+                对于我们这个简单的例子, 让我们只设置输出用户预算十倍的值. 我们还将设置一个默认为0的值来开始:
+                <pre name="code" class="js">
+                    function StartUpController($scope){
+                        $scope.funding = { startingEstimate: 0 ,needed:0 };
+                        $scope.computeNeeded = function(){
+                            $scope.funding.needed = $scope.funding.startingEstimate * 10;
+                        };
+                    }
+                </pre>
+                <form id="form1" ng-controller="StartUpController">
+                    Starting: <input ng-change="computeNeeded()" ng-model="funding.startingEstimate">
+                    Recommendation: {{funding.needed}}
+                </form>
+                <script type="text/javascript">
+                    (function(){
+                        var StartUpController = function($scope){
+                            $scope.funding = { startingEstimate: 0 ,needed:0 };
+                            $scope.computeNeeded = function(){
+                                $scope.funding.needed = $scope.funding.startingEstimate * 10;
+                            };
+                        }
+                        var id = "form1";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("StartUpController",StartUpController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                然而, 前面的代码中有一个潜在的策略问题. 问题是当用于在文本输入框中输入时我们只是重新计算了所需的金额.<br>
+                如果这个输入框只在用户在这个特定的输入框中输入时更新, 这工作得很好. 但是如果其他的输入框也在模型中绑定了这个属性会怎样呢? 如果它从服务器获取数据来更新又会怎样? <br>
+                无论这个字段如何更新, 我们要使用一个名为<b class="red">`$watch()`</b>的`$scope`函数[$scope对象的方法]. 我们将在本章的后面详细讨论`watch`方法.<br>
+                基本的用法是, 可以调用`$watch()`并给他传递一个监控表达式和一个用于响应表达式变化的回调函数.<br>
+                在这种情况下, 我们希望监控`funding.startEstimate`以及每当它改变时调用`computeNeeded()`. 然后我们使用这个方法重写了`StartUpController`.<br>
+                <pre name="code" class="js">
+                    function StartUpController($scope){
+                        $scope.funding = { startEstimate: 0 ,needed:0 };
+                        $scope.computeNeeded = function(){
+                            $scope.funding.needed = $scope.funding.startEstimate * 10;
+                        };
+                        $scope.$watch('funding.startEstimate', $scope.computeNeeded);
+                    }
+                </pre>
+                注意引号中的监控表达式. 是的, 它是一个字符串. 这个字符串是评估某些东西价格的Angular表达式.<br>
+                表达式可以进行简单的运算和访问`$scope`对象的属性. 在本章的后面我们会涵盖更多关于表达式的信息. <br>
+                你也可以监控一个函数返回值, 但是它并不会监控`funding.startingEstimate`, 因为它赋值为0, 并且0[初始值]不再会改变. <br>
+                然后, 由于每当我们的`funding.statingEstimates`改变时`funding.needed`都会自动更新, 我们可以像这样编写一个更简单的模板.
+                <pre name="code" class="xml">
+                    <form ng-controller="StartUpController">
+                        Starting: <input ng-model="funding.startEstimate">
+                        Recommendation: {{funding.needed}}
+                    </form>
+                </pre>
+                <form id="form2" ng-controller="StartUpController">
+                    Starting: <input ng-model="funding.startEstimate">
+                    Recommendation: {{funding.needed}}
+                </form>
+                <script type="text/javascript">
+                    (function(){
+                        var StartUpController = function($scope){
+                            $scope.funding = { startEstimate: 0 ,needed:0 };
+                            $scope.computeNeeded = function(){
+                                $scope.funding.needed = $scope.funding.startEstimate * 10;
+                            };
+                            $scope.$watch('funding.startEstimate', $scope.computeNeeded);
+                        }
+                        var id = "form2";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("StartUpController",StartUpController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                在某些情况下, 你并不希望每一个改变都发生响应, 相反, 你希望等到用户来告诉你它准备好了. 例如可能完成购买或者发送一个聊天记录. <br>
+                如果你的表单中有一组输入框, 那么你可以在这个表单上使用`ng-submit`指令给它指定一个提交表单时的回调函数.<br>
+                我们可以让用户通过点击一个按钮请求帮助他们启动应用的方式来扩展上面的例子:
+                <pre name="code" class="xml">
+                    <form ng-submit="requestFunding()" ng-controller="StartUpController">
+                        Starting: <input ng-model="funding.startEstimate">
+                        Recommendation: {{funding.needed}}
+                        <button type="submit">Fun my startup</button>
+                    </form>
+                </pre>
+                <pre name="code" class="js">
+                    function StartUpController($scope){
+                        $scope.funding = { startEstimate: 0 ,needed:0 };
+                        $scope.computeNeeded = function(){
+                            $scope.funding.needed = $scope.funding.startEstimate * 10;
+                        };
+                        $scope.$watch('funding.startEstimate', $scope.computeNeeded);
+                        $scope.requestFunding = function(){
+                            window.alert($scope.funding.needed);
+                        };
+                    }
+                </pre>
+                <form id="form3" ng-submit="requestFunding()" ng-controller="StartUpController">
+                    Starting: <input ng-model="funding.startEstimate">
+                    Recommendation: {{funding.needed}}
+                    <button type="submit">Fun my startup</button>
+                </form>
+                <script type="text/javascript">
+                    (function(){
+                        var StartUpController = function($scope){
+                            $scope.funding = { startEstimate: 0 ,needed:0 };
+                            $scope.computeNeeded = function(){
+                                $scope.funding.needed = $scope.funding.startEstimate * 10;
+                            };
+                            $scope.$watch('funding.startEstimate', $scope.computeNeeded);
+                            $scope.requestFunding = function(){
+                                window.alert($scope.funding.needed);
+                            };
+                        }
+                        var id = "form3";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("StartUpController",StartUpController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                当尝试提交这个表单时, `ng-submit`指令也会自动阻止浏览器处理其默认的`POST`行为.<br>
+                在需要处理其他事件的情况下, 就像当你想要提供交互而不是提交表单一样, Angular提供了类似于浏览器原生事件属性的事件处理指令.<br>
+                对于`onclick`, 你应该使用`ng-click`. 对于`ondblclick`你应该使用`ng-dblclick`等等. <br>
+                我们可以尝试最后一次扩展我们的计算器启动应用, 使用一个重置按钮用于将输入框的值重置为0.
+                <pre name="code" class="xml">
+                    <form ng-submit="requestFunding()" ng-controller="StartUpController">
+                        Starting: <input ng-model="funding.startEstimate">
+                        Recommendation: {{funding.needed}}
+                        <button type="submit">Fund my startup!</button>
+                        <button type="button" ng-click="reset()">Reset</button>
+                    </form>
+                </pre>
+                <pre name="code" class="js">
+                    function StartUpController($scope){
+                        $scope.funding = { startEstimate: 0 ,needed:0 };
+                        $scope.computeNeeded = function(){
+                            $scope.funding.needed = $scope.funding.startEstimate * 10;
+                        };
+                        $scope.$watch('funding.startEstimate', $scope.computeNeeded);
+                        $scope.requestFunding = function(){
+                            window.alert($scope.funding.needed);
+                        };
+                        $scope.reset = function(){
+                            $scope.funding.startEstimate = 0;
+                        }
+                    }
+                </pre>
+                <form id="form4" ng-submit="requestFunding()" ng-controller="StartUpController">
+                    Starting: <input ng-model="funding.startEstimate"> {{funding.startEstimate}}
+                    Recommendation: {{funding.needed}}
+                    <button type="submit">Fund my startup!</button>
+                    <button type="button" ng-click="reset()">Reset</button>
+                </form>
+                <script type="text/javascript">
+                    (function(){
+                        var StartUpController = function($scope){
+                            $scope.funding = { startEstimate: 0 ,needed:0 };
+                            $scope.computeNeeded = function(){
+                                $scope.funding.needed = $scope.funding.startEstimate * 10;
+                            };
+                            $scope.$watch('funding.startEstimate', $scope.computeNeeded);
+                            $scope.requestFunding = function(){
+                                window.alert($scope.funding.needed);
+                            };
+                            $scope.reset = function(){
+                                $scope.funding.startEstimate = 0;
+                            }
+                        }
+                        var id = "form4";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("StartUpController",StartUpController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">不唐突JavaScript的一些话</h3>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">模板和数据绑定</h4>
+            <div class="section_sub_content">
+                在你JavaScript开发生涯的某些时刻, 有人可能会告诉你, 你应该编写"不唐突的JavaScript", 在你的HTML中使用`click`, `mousedown`以及其他类似的内联事件处理程序是不好的. 那么他是正确.<br>
+                不唐突的JavaScript思想已经有很多解释, 但是其编码风格的原理大致如下:
+                <ul>
+                    <li>1. 不是每个人的浏览器都支持JavaScript. 让每个人都能够看到你所有的内容和使用你的应用程序, 而不需要在浏览器中执行代码.</li>
+                    <li>2. 有些人使用的浏览器工作方式不同. 视障人员使用的屏幕阅读器和一些手机用户并不能使用网站的JavaScript.</li>
+                    <li>3. JavaScript在不同的平台工作机制不一样. IE浏览器通常是罪魁祸首. 你需要根据浏览器的不同而使用不同的事件处理代码.</li>
+                    <li>4. 这些事件处理程序引用全局命名空间中的函数. 当你尝试整合其他库中的同名函数时, 它会让你头疼.</li>
+                    <li>5. 这些事件处理程序合并了结构和行为. 这使你的代码更加难以维护, 扩展和理解. </li>
                 </ul>
+                总体来看, 当你按照这种风格编写JavaScript代码, 一切都很好. 然而有一件事并不是好的, 那就是代码的复杂度和可读性.<br>
+                并不是给元素声明事件处理程序不起作用, 你通常给这些元素分配了ID, 获得这些元素的引用, 并给它设置了事件处理的回调函数.<br>
+                你可以发明一个结构只用于清晰的创造它们之间的关联, 但大多数应用程序结束于设置在各处的事件处理函数.<br>
+                在Angular中, 我们决定重新审视这个问题. <br>
+                在这些概念诞生以来世界就已经改变了.<br>
+                第1点, 这类有趣的群体已经不再有了. 如果你运行的浏览器不支持JavaScript, 那么你应该去使用20世纪90年代创建的网站. <br>
+                至于第2点, 现代的屏幕阅读器已经跟上来了. 随着RAIA语义标签的正确使用,  你可以创造易访问的富UI应用. 现在手机上运行JavaScript与也能台式机能相提并论了.  <br>
+                因此现在的问题是: 重新恢复内联技术来解决我们第3点和第4点的可读性和简洁性的问题吗? <br>
+                正如前面所提到的, 对于大多数的内联事件处理程序, Angular都有一个等价形式的`ng-eventhandler="expression"`来替代`click`, `mousedown`, `change`等事件处理程序.<br>
+                当用户点击一个元素时, 如果你希望得到一个响应, 你只需要简单的使用`ng-click`这样的指令: <br>
+                <pre name="code" class="xml">
+                    <div ng-click="doSomething()">…</div>
+                </pre>
+                你的大脑里可能会说"不, 这样并不好"? 好消息是你可以放松下来. 这些指令不同于它们事件处理程序的前身(标准事件处理程序的原始形式):  <br>
+                + 在每个浏览器中的行为一致. Angular会给你处理好差异.<br>
+                + 不会在全局命名空间操作. 你所指定的表达式仅仅能够访问元素控制器作用域内的函数和数据. <br>
+                最后一点听起来可能有点神秘, 因此让我们来看一个例子. 在一个典型的应用程序中, 你会创建一个导航栏和一个随着你从导航栏选择不同菜单而变化的内容区. 我们可以这样编写它的框架: <br>
+                <pre name="code" class="xml">
+                    <div class="navbar" ng-controller="NavController">
+                        …
+                        <li class="menu-item" ng-click="doSomething()">Something</li>
+                        …
+                    </div>
+                    <div class="contentArea" ng-controller="ContentAreaController">
+                        …
+                        <div ng-click="doSomething()">…</div>
+                        …
+                    </div>
+                </pre>
+                这里当用户点击navbar中的`&lt;li&gt;`和conent区中的`&lt;div&gt;`时都会调用一个称为`doSomething()`的函数.<br>
+                作为开发人员, 你设置该函数调用你的控制器中的代码引用. 它们可能是相同或者不同的函数:<br>
+                <pre name="code" class="js">
+                    function NavController($scope){
+                        $scope.doSomething = doA;
+                    }
+                    function ContentAreaController($scope){
+                        $scope.doSomething = doB;
+                    }
+                </pre>
+                这里, `doA()`和`doB()`函数可能时相同或者不同的, 取决于你给它们的定义. <br>
+                现在我们还剩下第5点, 合并结构和行为. 这是一个有争议的话题, 因为你不能指出任何负面的结果, 但它与我们大脑里所想的合并表现职责和应用程序逻辑的行为非常类似. 当人们谈及关于标记结构和行为分离的时候, 这当然会有负面的影响.<br>
+                如果我们的系统面临这种耦合问题时, 这里有一个简单的测试可以帮助我们找出来: 我们可以给我们的应用程序逻辑创建一个单元测试, 而不需要DOM的存在.<br>
+                在Angular中, 是的, 我们可以在控制器中只编写包含业务逻辑的代码而不必引用DOM. 在我们之前编写的JavaScript中, 这个问题在事件处理程序中是不存在的. <br>
+                注意, 在这里以及在这本书的其他地方, 目前我们所编写的控制器中, 都没有引用DOM和任何DOM事件处理程序. 你可以很轻松创建出这些不带DOM的控制器.<br>
+                所有的元素定位和事件处理程序都发生在Angular中.<br>
+                对于这个问题在编写单元测试时. 如果你需要DOM, 你在测试中创建它, 只会增加测试程序的复杂度. 当你的页面发生变化时, 你需要在你的测试中改变DOM, 这样只会带来更多的维护工作.<br>
+                最后, 访问DOM是很慢的, 测试缓慢意味着反馈不会及时以及最终解析都是缓慢的. Angular的控制器测试并没有这些问题.<br>
+                因此你可以很轻松的声明事件处理程序的简单性和可读性, 毫无罪恶感的违反最佳实践.
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">列表, 表格和其他重复的元素</h4>
+            <div class="section_sub_content">
+                最有用可能就是Angular指令, `ng-repeat`对于集合中的每一项都创建一次一组元素的一份副本. 你应该在你想创建列表问题的任何地方使用它.<br>
+                比如说我们给老师编写一个学生花名册的应用程序. 我们可能从服务器获得学生的数据, 但是在这个例子中, 我们只在JavaScript将它定义为一个模型: <br>
+                <pre name="code" class="js">
+                    var students = [
+                        {name: 'Mary Contrary', id:'1'},
+                        {name: 'Jack Sprat', id: '2'},
+                        {name: 'Jill Hill', id: '3'}
+                    ];
+                    function StudentListController($scope){
+                        $scope.students = students;
+                    }
+                </pre>
+                我们可以像下面这样来显示学生列表:
+                <pre name="code" class="xml">
+                <ul ng-controller="">
+                    <li ng-repeat="student in students">
+                        <a href="/student/view/{{student.id}}">{{student.name}}</a>
+                    </li>
+                </ul>
+                </pre>
+                `ng-repeat`将会制作标签内所有HTML的副本, 包括标签内的东西. 这样, 我们将看到: <br>
+                + Mary Contrary  <br>
+                + Jack Sprat <br>
+                + Jill Hill  <br>
+                分别链接到*/student/view/1, /student/view/2, /student/view/3*.<br>
+                正如我们之前所见, 改变学生数组将会自动改变渲染列表. 如果我们做一些例如插入一个新的学生到列表的事情:
+                <pre name="code" class="js">
+                    var students = [
+                        {name: 'Mary Contrary', id:'1'},
+                        {name: 'Jack Sprat', id: '2'},
+                        {name: 'Jill Hill', id: '3'}
+                    ];
+                    function StudentListController($scope){
+                        $scope.students = students;
+                        $scope.insertTom = function(){
+                        $scope.students.splice(1, 0, {name: 'Tom Thumb', id: '4'});
+                    };
+                }
+                </pre>
+                然后在模板中添加一个按钮来调用:
+                <pre name="code" class="xml">
+                    <ul ng-controller="">
+                        <li ng-repeat="student in students">
+                            <a href="/student/view/{{student.id}}">{{student.name}}</a>
+                        </li>
+                    </ul>
+                    <button ng-click="insertTom()">Insert</button>
+                </pre>
+                现在我们可以看到:
+                + Mary Contrary <br>
+                + Tom Thumb   <br>
+                + Jack Sprat  <br>
+                + Jill Hill  <br>
+
+                `ng-repeat`指令还通过`$index`给你提供了当前元素的索引, 如果是集合中第一个元素, 中间的某个元素, 或者是最后一个元素使用`$first`, `$middle`和`$last`会给你提供一个布尔值.<br>
+                你可以想象使用`$index`来标记表格中的行. 给定一个这样的模板:
+                <pre name="code" class="xml">
+                    <table ng-controller="AlbumController">
+                        <tr ng-repeat="track in album">
+                            <td>{{$index + 1}}</td>
+                            <td>{{track.name}}</td>
+                            <td>{{track.duration}}</td>
+                        </tr>
+                    </table>
+                </pre>
+                这是控制器:
+                <pre name="code" class="js">
+                    var album = [
+                        {name: 'Southwest Serenade', duration: '2:34'},
+                        {name: 'Northern Light Waltz', duration: '3:21'},
+                        {name: 'Eastern Tango', duration: '17:45'}
+                    ];
+                    function AlbumController($scope){
+                        $scope.album = album;
+                    };
+                </pre>
+                我们得到如下结果: <br>
+                1. Southwest Serenade     2:34   <br>
+                2. Northern Light Waltz   3:21   <br>
+                3. Eastern Tango         17:45
             </div>
         </div>
     </div>

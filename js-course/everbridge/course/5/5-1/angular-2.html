@@ -1,0 +1,62 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/html" ng-app>
+<head>
+    <title> Angular </title>
+    <meta charset="utf-8">
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/style.css">
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/angular/angular-min.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../../resources/ready.js"></script>
+    <style type="text/css">
+        .done-true {
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
+    <script type="text/javascript">
+        window.repeatController = function($scope){
+            $scope.items = [
+                {name:"左边"},
+                {name:"右边"},
+                {name:"下边"}
+            ]
+        }
+    </script>
+</head>
+<body>
+<div class="control_container">
+    <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+    <h2 class="title">Angular 简介</h2>
+</div>
+<div class="jc_section">
+    <h3 class="jc_section_title">Angunlar 起源与理念</h3>
+    <div class="jc_section_sub1">
+        <h4 class="section_sub_title">Angunlar 起源</h4>
+        <div class="section_sub_content" style="display:block" id="section_sub_content" ng-controller='repeatController'></div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function(){
+
+        var ul = $("<ul ><li ng-repeat='item in items'>{{item.name}}</li></ul>");
+        $("#section_sub_content").append(ul[0]);
+    });
+</script>
+</html>
