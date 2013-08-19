@@ -188,9 +188,9 @@
                 <h1>Your Order</h1>
                 <div ng-repeat="item in items">
                     <span style="display: inline-block;width: 100px;">{{item.name}}</span>
-                    <input ng-model="item.num" />
+                    <input ng-model="item.quantity" />
                     <span>{{item.price | currency}}</span>
-                    <span>{{item.price * item.num | currency}}</span>
+                    <span>{{item.price * item.quantity | currency}}</span>
                     <button ng-click="remove($index)">Remove</button>
                 </div>
             </div>
@@ -198,10 +198,10 @@
                 (function(){
                     function CartController($scope){
                         $scope.items=[
-                            {name:"苹果",num:2,price:2.5},
-                            {name:"梨",num:6,price:4.5},
-                            {name:"香蕉",num:1,price:5},
-                            {name:"葡萄",num:2,price:2}
+                            {name:"苹果",quantity:2,price:2.5},
+                            {name:"梨",quantity:6,price:4.5},
+                            {name:"香蕉",quantity:1,price:5},
+                            {name:"葡萄",quantity:2,price:2}
                         ];
                         $scope.remove = function(index){
                             $scope.items.splice(index,1);
@@ -217,9 +217,9 @@
                       <h1>Your Order</h1>
                       <div ng-repeat="item in items">
                           <span  style="display: inline-block;width: 100px;">{{item.name}}</span>
-                          <input ng-model="item.num" />
+                          <input ng-model="item.quantity" />
                           <span>{{item.price | currency}}</span>
-                          <span>{{item.price * item.num | currency}}</span>
+                          <span>{{item.price * item.quantity | currency}}</span>
                           <button ng-click="remove($index)">Remove</button>
                       </div>
                   </div>
@@ -227,10 +227,10 @@
             <pre name="code" class="js">
                 function CartController($scope){
                     $scope.items=[
-                       {name:"苹果",num:2,price:2.5},
-                       {name:"梨",num:6,price:4.5},
-                       {name:"香蕉",num:1,price:5},
-                       {name:"葡萄",num:2,price:2}
+                       {name:"苹果",quantity:2,price:2.5},
+                       {name:"梨",quantity:6,price:4.5},
+                       {name:"香蕉",quantity:1,price:5},
+                       {name:"葡萄",quantity:2,price:2}
                     ];
                     $scope.remove = function(index){
                         $scope.items.splice(index,1);
@@ -260,9 +260,9 @@
             正如我们在"Hello, World"例子中所示, 数据绑定通过{{ }}让我们将变量的值插入到页面部分并保持同步.<br>
             完整的表达式{{item.title}}会迭代检索当前item, 然后将由item的标题属性组成内容插入到DOM中.
             <pre name="code" class="xml">
-                &lt;input ng-model="item.num"&gt;
+                &lt;input ng-model="item.quantity"&gt;
             </pre>
-            文本输入字段和item.num的值之间的ng-model定义并创建数据绑定. <br>
+            文本输入字段和item.quantity的值之间的ng-model定义并创建数据绑定. <br>
             &lt;span&gt;中的{{ }}用于设置一个单向的联系, 意思就是"在这里插入一个值". 这是我们希望的效果, 但是当用户改变单价时应用程序也需要知道, 这样它就能够改变总价.<br>
             我们通过使用ng-model来同步模型中的变化. ng-model声明将item.quantity的值插入到文本域中, 每当用户输入一个新的值时它也能够自动更新item.quantity的值.
             <pre name="code" class="xml">

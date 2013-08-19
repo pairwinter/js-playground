@@ -16,6 +16,7 @@
     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
     <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushCss.js"></script>
     <script type="text/javascript" src="../../../resources/javascripts/plugin/angular/angular-min.js"></script>
     <script type="text/javascript" src="../../../resources/utils.js"></script>
     <script type="text/javascript" src="../../../resources/ready.js"></script>
@@ -317,11 +318,8 @@
                 </script>
             </div>
         </div>
-    </div>
-    <div class="jc_section">
-        <h3 class="jc_section_title">不唐突JavaScript的一些话</h3>
         <div class="jc_section_sub1">
-            <h4 class="section_sub_title">模板和数据绑定</h4>
+            <h4 class="section_sub_title">不唐突JavaScript的一些话</h4>
             <div class="section_sub_content">
                 在你JavaScript开发生涯的某些时刻, 有人可能会告诉你, 你应该编写"不唐突的JavaScript", 在你的HTML中使用`click`, `mousedown`以及其他类似的内联事件处理程序是不好的. 那么他是正确.<br>
                 不唐突的JavaScript思想已经有很多解释, 但是其编码风格的原理大致如下:
@@ -339,7 +337,7 @@
                 在这些概念诞生以来世界就已经改变了.<br>
                 第1点, 这类有趣的群体已经不再有了. 如果你运行的浏览器不支持JavaScript, 那么你应该去使用20世纪90年代创建的网站. <br>
                 至于第2点, 现代的屏幕阅读器已经跟上来了. 随着RAIA语义标签的正确使用,  你可以创造易访问的富UI应用. 现在手机上运行JavaScript与也能台式机能相提并论了.  <br>
-                因此现在的问题是: 重新恢复内联技术来解决我们第3点和第4点的可读性和简洁性的问题吗? <br>
+                因此现在的问题是: 在保证简介性和可读性的同时我们能否解决#3和#4所存在的问题？ <br>
                 正如前面所提到的, 对于大多数的内联事件处理程序, Angular都有一个等价形式的`ng-eventhandler="expression"`来替代`click`, `mousedown`, `change`等事件处理程序.<br>
                 当用户点击一个元素时, 如果你希望得到一个响应, 你只需要简单的使用`ng-click`这样的指令: <br>
                 <pre name="code" class="xml">
@@ -399,34 +397,62 @@
                 </pre>
                 我们可以像下面这样来显示学生列表:
                 <pre name="code" class="xml">
-                <ul ng-controller="">
+                    <ul ng-controller="listStudentController">
+                        <li ng-repeat="student in students">
+                            <a href="/student/view/{{student.id}}">{{student.name}}</a>
+                        </li>
+                    </ul>
+                </pre>
+                <pre name="code" class="js">
+                    var listStudentController = function($scope){
+                        var students = [
+                            {name: 'Mary Contrary', id:'1'},
+                            {name: 'Jack Sprat', id: '2'},
+                            {name: 'Jill Hill', id: '3'}
+                        ];
+                        $scope.students = students;
+                    }
+                </pre>
+                `ng-repeat`将会制作标签内所有HTML的副本, 包括标签内的东西. 这样, 我们将看到: <br>
+                <ul id="listStudentController" ng-controller="listStudentController">
                     <li ng-repeat="student in students">
                         <a href="/student/view/{{student.id}}">{{student.name}}</a>
                     </li>
                 </ul>
-                </pre>
-                `ng-repeat`将会制作标签内所有HTML的副本, 包括标签内的东西. 这样, 我们将看到: <br>
-                + Mary Contrary  <br>
-                + Jack Sprat <br>
-                + Jill Hill  <br>
+                <script type="text/javascript">
+                    (function(){
+                        var listStudentController = function($scope){
+                            var students = [
+                                {name: 'Mary Contrary', id:'1'},
+                                {name: 'Jack Sprat', id: '2'},
+                                {name: 'Jill Hill', id: '3'}
+                            ];
+                            $scope.students = students;
+                        }
+                        var id = "listStudentController";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("listStudentController",listStudentController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
                 分别链接到*/student/view/1, /student/view/2, /student/view/3*.<br>
                 正如我们之前所见, 改变学生数组将会自动改变渲染列表. 如果我们做一些例如插入一个新的学生到列表的事情:
                 <pre name="code" class="js">
-                    var students = [
-                        {name: 'Mary Contrary', id:'1'},
-                        {name: 'Jack Sprat', id: '2'},
-                        {name: 'Jill Hill', id: '3'}
-                    ];
-                    function StudentListController($scope){
+                    var listStudentController = function($scope){
+                        var students = [
+                            {name: 'Mary Contrary', id:'1'},
+                            {name: 'Jack Sprat', id: '2'},
+                            {name: 'Jill Hill', id: '3'}
+                        ];
                         $scope.students = students;
                         $scope.insertTom = function(){
-                        $scope.students.splice(1, 0, {name: 'Tom Thumb', id: '4'});
-                    };
-                }
+                            $scope.students.splice(1,0,{name:'Tom Thumb', id : '4'});
+                        }
+                    }
                 </pre>
                 然后在模板中添加一个按钮来调用:
                 <pre name="code" class="xml">
-                    <ul ng-controller="">
+                    <ul ng-controller="listStudentController">
                         <li ng-repeat="student in students">
                             <a href="/student/view/{{student.id}}">{{student.name}}</a>
                         </li>
@@ -434,11 +460,31 @@
                     <button ng-click="insertTom()">Insert</button>
                 </pre>
                 现在我们可以看到:
-                + Mary Contrary <br>
-                + Tom Thumb   <br>
-                + Jack Sprat  <br>
-                + Jill Hill  <br>
-
+                <ul id="listStudentController2" ng-controller="listStudentController">
+                    <li ng-repeat="student in students">
+                        <a href="/student/view/{{student.id}}">{{student.name}}</a>
+                    </li>
+                    <button ng-click="insertTom()">Insert</button>
+                </ul>
+                <script type="text/javascript">
+                    (function(){
+                        var listStudentController = function($scope){
+                            var students = [
+                                {name: 'Mary Contrary', id:'1'},
+                                {name: 'Jack Sprat', id: '2'},
+                                {name: 'Jill Hill', id: '3'}
+                            ];
+                            $scope.students = students;
+                            $scope.insertTom = function(){
+                                $scope.students.splice(1,0,{name:'Tom Thumb', id : '4'});
+                            }
+                        }
+                        var id = "listStudentController2";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("listStudentController",listStudentController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
                 `ng-repeat`指令还通过`$index`给你提供了当前元素的索引, 如果是集合中第一个元素, 中间的某个元素, 或者是最后一个元素使用`$first`, `$middle`和`$last`会给你提供一个布尔值.<br>
                 你可以想象使用`$index`来标记表格中的行. 给定一个这样的模板:
                 <pre name="code" class="xml">
@@ -462,9 +508,708 @@
                     };
                 </pre>
                 我们得到如下结果: <br>
-                1. Southwest Serenade     2:34   <br>
-                2. Northern Light Waltz   3:21   <br>
-                3. Eastern Tango         17:45
+                <table style="width: 30%" id="AlbumControllerDom" ng-controller="AlbumController">
+                    <tr ng-repeat="track in album">
+                        <td>{{$index + 1}}</td>
+                        <td>{{track.name}}</td>
+                        <td>{{track.duration}}</td>
+                    </tr>
+                </table>
+                <script type="text/javascript">
+                    (function(){
+                        var album = [
+                            {name: 'Southwest Serenade', duration: '2:34'},
+                            {name: 'Northern Light Waltz', duration: '3:21'},
+                            {name: 'Eastern Tango', duration: '17:45'}
+                        ];
+                        function AlbumController($scope){
+                            $scope.album = album;
+                        };
+                        var id = "AlbumControllerDom";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("AlbumController",AlbumController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">隐藏与显示</h4>
+            <div class="section_sub_content">
+                对于菜单, 上下文相关的工具以及其他许多情况, 显示和隐藏元素是一个关键的特性. 正如在Angular中, 我们基于模型的变化触发UI的改变, 以及通过指令将改变反映到UI中.<br>
+                这里, ng-show和ng-hide用于处理这些工作. 它们基于传递给它们的表达式提供显示和隐藏的功能. 即, 当你传递的表达式为true时ng-show将显示元素, 当为false时则隐藏元素.<br>
+                当表达式为true时ng-hide隐藏元素, 为false时显示元素. 这取决于你使用哪个更能表达的你意图. <br>
+                这些指令通过适当的设置元素的样式为display: block来显示元素, 设置样式为display: none来隐藏元素. 让我们看以个正在构建的Death Ray控制板的虚拟的例子:<br>
+                <pre name="code" class="xml">
+                    <div ng-controller="DeathrayMenuController">
+                        <p><button ng-click="toggleMenu()">Toggle Menu</button></p>
+                        <ul ng-show="menuState.show">
+                            <li ng-click="stun()">Stun</li>
+                            <li ng-click="disintegrate()">Disintegrate</li>
+                            <li ng-click="erase()">Erase from history</li>
+                        </ul>
+                    </div>
+                </pre>
+                <pre name="code" class="js">
+                    function DeathrayMenuController($scope){
+                        $scope.menuState.show = false;
+
+                        $scope.toggleMenu = function(){
+                        $scope.menuState.show = !$scope.menuState.show;
+                        };
+                        // death ray functions left as exercise to reader
+                    };
+                </pre>
+                <div id="DeathrayMenuController" ng-controller="DeathrayMenuController">
+                    <p><button ng-click="toggleMenu()">Toggle Menu</button></p>
+                    <ul ng-show="menuState.show">
+                        <li ng-click="stun()">Stun</li>
+                        <li ng-click="disintegrate()">Disintegrate</li>
+                        <li ng-click="erase()">Erase from history</li>
+                    </ul>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function DeathrayMenuController($scope){
+                            $scope.menuState = {show:true};
+                            $scope.toggleMenu = function(){
+                                $scope.menuState.show = !$scope.menuState.show;
+                            };
+                            // death ray functions left as exercise to reader
+                        };
+                        var id = "DeathrayMenuController";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("DeathrayMenuController",DeathrayMenuController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">CSS类和样式</h4>
+            <div class="section_sub_content">
+                显而易见, 现在你可以在你的应用程序中通过使用{{ }}插值符号绑定数据的方式动态的设置类和样式. 甚至你可以在你的应用程序中组成匹配的类名.<br>
+                例如, 你想根据条件禁用一些菜单, 你可以像下面这样从视觉上显示给用户. <br>
+                有如下CSS:
+                <pre name="code" class="css">
+                    .menu-disabled-true {
+                        color: gray;
+                    }
+                </pre>
+                你可以使用下面的模板在你的DeathRay指示stun函数来禁用某些元素:
+                <pre name="code" class="xml">
+                    <div ng-controller="DeathrayMenuController">
+                        <ul>
+                            <li class="menu-disabled-{{isDisabled}}" ng-click="stun()">Stun</li>
+                            ...
+                        </ul>
+                    </div>
+                </pre>
+                你可以通过控制器适当的设置isDisabled属性的值:
+                <pre name="code" class="xml">
+                    function DeathrayMenuController($scope){
+                        $scope.isDisabled = false;
+                        $scope.stun = function(){
+                            //stun the target, then disable menu to allow regeneration
+                            $scope.isDisabled = 'true';
+                        };
+                    }
+                </pre>
+                <style type="text/css">
+                    .menu-disabled-true {
+                        color: gray;
+                    }
+                    .menu-disabled-false {
+                        color: #000000;
+                    }
+                </style>
+                <div id="DeathrayMenuController2" ng-controller="DeathrayMenuController">
+                    <ul>
+                        <li class="menu-disabled-{{isDisabled}}" ng-click="stun()">Stun</li>
+                    </ul>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function DeathrayMenuController($scope){
+                            $scope.isDisabled = false;
+                            $scope.stun = function(){
+                                //stun the target, then disable menu to allow regeneration
+                                $scope.isDisabled = !$scope.isDisabled;
+                            };
+                        }
+                        var id = "DeathrayMenuController2";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("DeathrayMenuController",DeathrayMenuController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                stun菜单项的class将设置为menu-disabled-加$scope.isDisabled的值. 因为它初始化为false, 默认情况下结果为menu-disabled-false. <br>
+                而此时这里没有与CSS规则匹配的元素, 则没有效果. 当$scope.isDisabled设置为true时, CSS规则将变成menu-disabled-true, 此时则调用规则使文本为灰色. <br>
+                这种技术也同样适用于嵌入内联样式, 例如style="{{some expression}}". <br>
+                虽然想法很好, 但是这里有一个缺点就是它使用了一个水平分割线来组合你的类名. 虽然在这个例子中很容易理解, 但是它可能很快就会变得难以管理, 你必须不断的阅读你的模板和JavaScript来正确的创建你的CSS规则.<br>
+                因此, Angular提供了ng-class和ng-style指令. 它们都接受一个表达式. 这个表达式的计算结果可以是下列之一: <br>
+                一个使用空格分割类名的字符串<br>
+                一个类名数组<br>
+                类名到布尔值的映射
+                让我们想象一下, 你希望在应用程序头部的一个标准位置显示错误和警告给用户. 使用ng-class指令, 你可以这样做:
+                <pre name="code" class="css">
+                    .error {
+                        background-color: red;
+                    }
+                    .warning {
+                        background-color: yellow;
+                    }
+                </pre>
+                <pre name="code" class="xml">
+                    <div ng-controller="HeaderController">
+                        ...
+                        <div ng-class="{error: isError, warning: isWarning}">{{messageText}}</div>
+                        ...
+                        <button ng-click="showError()">Simulate Error</button>
+                        <button ng-click="showWarning()">Simulate Warning</button>
+                    </div>
+                </pre>
+                <pre name="code" class="js">
+                    function HeaderController($scope){
+                        $scope.isError = false;
+                        $scope.isWarning = false;
+                        $scope.showError = function(){
+                            $scope.messageText = 'This is an error';
+                            $scope.isError = true;
+                            $scope.isWarning = false;
+                        };
+                        $scope.showWarning = function(){
+                            $scope.messageText = 'Just a warning. Please carry on';
+                            $scope.isWarning = true;
+                            $scope.isError = false;
+                        };
+                    }
+                </pre>
+                <style type="text/css">
+                    .error {
+                        background-color: red;
+                    }
+                    .warning {
+                        background-color: yellow;
+                    }
+                </style>
+                <div id="HeaderControllerDom" ng-controller="HeaderController">
+                    <div ng-class="{error: isError, warning: isWarning}">{{messageText}}</div>
+                    <button ng-click="showError()">Simulate Error</button>
+                    <button ng-click="showWarning()">Simulate Warning</button>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function HeaderController($scope){
+                            $scope.isError = false;
+                            $scope.isWarning = false;
+                            $scope.showError = function(){
+                                $scope.messageText = 'This is an error';
+                                $scope.isError = true;
+                                $scope.isWarning = false;
+                            };
+                            $scope.showWarning = function(){
+                                $scope.messageText = 'Just a warning. Please carry on';
+                                $scope.isWarning = true;
+                                $scope.isError = false;
+                            };
+                        }
+                        var id = "HeaderControllerDom";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("HeaderController",HeaderController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                你甚至可以做出更漂亮的事情, 例如高亮表格中选中的行. 比方说, 我们要构建一个餐厅目录并且希望高亮用户点击的那行.<br>
+                在CSS中, 我们设置一个高亮行的样式:<br>
+                <pre name="code" class="css">
+                    .selected {
+                        background-color: lightgreen;
+                    }
+                </pre>
+                在模版中, 我们设置ng-class为{selected: $index==selectedRow}. 当模型中的selectedRow属性匹配ng-repeat的$index时设置class为selected. 我们还设置一个ng-click来通知控制器用户点击了哪一行:
+                <pre name="code" class="xml">
+                    <table ng-controller="RestaurantTableController">
+                        <tr ng-repeat="restaurant in directory" ng-click="selectRestaurant($index)" ng-class="{selected: $index==selectedRow}">
+                            <td>{{restaurant.name}}</td>
+                            <td>{{restaurant.cuisine}}</td>
+                        </tr>
+                    </table>
+                </pre>
+                在我们的JavaScript中, 我们只设置虚拟的餐厅和创建selectRow函数:
+                <pre name="code" class="js">
+                    function RestuarantTableController($scope){
+                        $scope.directory = [
+                            {name: 'The Handsome Heifer', cuisine: 'BBQ'},
+                            {name: 'Green\'s Green Greens', cuisine: 'Salads'},
+                            {name: 'House of Fine Fish', cuisine: 'Seafood'}
+                        ];
+                        $scope.selectRestaurant = function(row){
+                            $scope.selectedRow = row;
+                        };
+                    }
+                </pre>
+                <style type="text/css">
+                    .selected {
+                        background-color: lightgreen;
+                    }
+                </style>
+                <table id="RestaurantTableController" ng-controller="RestaurantTableController">
+                    <tr ng-repeat="restaurant in directory" ng-click="selectRestaurant($index)" ng-class="{selected: $index==selectedRow}">
+                        <td>{{restaurant.name}}</td>
+                        <td>{{restaurant.cuisine}}</td>
+                    </tr>
+                </table>
+                <script type="text/javascript">
+                    (function(){
+                        function RestaurantTableController($scope){
+                            $scope.selectedRow = 0;
+                            $scope.directory = [
+                                {name: 'The Handsome Heifer', cuisine: 'BBQ'},
+                                {name: 'Green\'s Green Greens', cuisine: 'Salads'},
+                                {name: 'House of Fine Fish', cuisine: 'Seafood'}
+                            ];
+                            $scope.selectRestaurant = function(row){
+                                $scope.selectedRow = row;
+                            };
+                        }
+                        var id = "RestaurantTableController";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("RestaurantTableController",RestaurantTableController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">src和href属性注意事项</h4>
+            <div class="section_sub_content">
+                当数据绑定给一个&lt;img&gt;或者&lt;a&gt;标签时, 像上面一样在src或者href属性中使用{{ }}处理路径将无法正常工作. 因为在浏览器中图片与其他内容是并行加载的, 所以Angular无法拦截数据绑定的请求.<br>
+                对于&lt;img&gt;而言最明显的语法便是:<br>
+                <pre name="code" class="xml">
+                    <img src="/images/cats/{{imgSrc}}">
+                    <!--  这样写浏览器会发送一个请求。此时{{imgSrc}}还没有被替换，从而发送一个错误的请求 file:///home/damon/workspace/code/pairwinter/js/js-course/everbridge/course/5/5-2/%7B%7BimgSrc%7D%7D -->
+                </pre>
+                相反, 你应该使用ng-src属性并像下面这样编写你的模板:
+                <pre name="code" class="xml">
+                    <img ng-src="/images/cats/{{imgSrc}}">
+                </pre>
+                同样的道理, 对于&lt;a&gt;标签你应该使用ng-href:
+                <pre name="code" class="xml">
+                    <a ng-href="/shop/category={{numberOfBalloons}}">some text</a>
+                </pre>
+                <div id="imgSrcAndAlinkController" ng-controller="imgSrcAndAlinkController">
+                    <img src="{{imgSrc}}"/>
+                    <a href="{{link}}">链接</a>
+                    <img ng-src="{{imgSrc}}"/>
+                    <a ng-href="{{link}}">链接</a>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function imgSrcAndAlinkController($scope){
+                            $scope.imgSrc = "1.jpg";
+                            $scope.link = "#link"
+                            // death ray functions left as exercise to reader
+                        };
+                        var id = "imgSrcAndAlinkController";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("imgSrcAndAlinkController",imgSrcAndAlinkController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">表达式</h4>
+            <div class="section_sub_content">
+                表达式背后的思想是让你巧妙的在你的模板, 应用程序逻辑以及数据之间创建钩子而与此同时防止应用程序逻辑偷偷摸摸的进入模版中. <br>
+                直到现在, 我们一直主要是引用原生的数据作为表达式传递给Angular指令. 但是其实这些表达式可以做更多的事情.<br>
+                <ul>
+                    <li>你可以处理简单的数学运算(+, -, /, *, %)</li>
+                    <li>进行比较(==, !=, &gt;, &lt;, &gt;=, &lt;=)</li>
+                    <li>执行布尔逻辑运算(&&, !!, !)以及按位运算(^, &, |).</li>
+                    <li>你可以调用暴露在控制器的$scope对象上的函数</li>
+                    <li>你还可以引用数据和对象表示法([], {}, …)</li>
+                </ul>
+                下面都是有效表达式的例子: <br>
+                <pre name="code" class="xml">
+                    <div ng-controller="SomeController">
+                        <div>{{recompute() / 10}}</div>
+                        <ul ng-repeat="thing in things">
+                            <li ng-class="{highlight: $index % 4 >= threshold($index)}">
+                                {{otherFunction($index)}}
+                            </li>
+                        </ul>
+                    </div>
+                </pre>
+                这里的第一个表达式recompute() / 10是有效的, 是在模板中设置逻辑很好的好例子, 但是应该避免这种方式. 保持视图和控制器之间的职责分离可以确保它们容易理解和测试.<br>
+                虽然你可以使用表达式做很多事情, 它们由Angular自定义的解释器部分计算. 他们并不使用JavaScript的eval()执行, eval()有相当多的限制.<br>
+                相反, 它们使用Angular自带的自定义解释器执行. 在里面, 你不会看到循环结构(for, while等等), 流程控制语句(if-else, throw)或者改变数据的运算符(++, --).<br>
+                当你需要使用这些类型的运算时, 你应该在你的控制器中使用指令进行处理. <br>
+                尽管表达式在很多方面比JavaScript更加严格, 但它们对undefined和null并不是很严格(更宽松). <br>
+                模板只是简单的渲染一些东西, 并不会抛出一个NullPointerException的错误. 这样就允许你安全的使用模型而没有限制, 并且只要它们得到数据填充就让它们出现在用户界面中.
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">分离用户界面(UI)和控制器职责</h4>
+            <div class="section_sub_content">
+                在你的应用程序中控制器有三个职责:
+                <ul>
+                    <li>在你的应用程序的模型中设置初试状态.[初始化应用程序]</li>
+                    <li>通过$scope暴露模型和函数到视图中. </li>
+                    <li>监控模型的改变并触发行为. </li>
+                </ul>
+                对于第一点第二点在本章的已经看过更多例子. 稍候我们会讨论最后一点. 然而, 控制器其概念上的目的, 是提供代码或者执行用户与视图交互愿望的逻辑.<br>
+                为了保持控制器的小巧和易于管理, 我们建议你针对视图的每一个区域创建一个控制器. 也就是说, 如果你有一个菜单则创建一个MenuController. 如果你有一个面包屑导航, 则编写一个BreadcrumbController, 等等.<br>
+                你可能开始懂了, 但是需要明确的将控制器绑定到一个指定的DOM块中用于管理它们.<br>
+                有两种主要的方式关联控制器与DOM节点, 一种方式是在模板中指定一个ng-controller属性, 另一种方式是通过route(路由)关联一个动态加载的DOM模板片段, 也称作视图.<br>
+                我们将在本章的后面再讨论关于视图和路由的信息.<br>
+                如果你的UI中有一个复杂的片段, 你可以通过创建嵌套的控制器, 通过继承树来共享模型和函数来保持你的代码间接性和可维护性. 嵌套控制器很简单, 你可以简单的在另一个DOM中分配一个控制器到一个DOM元素中做到这一点, 就像这样:
+                <pre name="code" class="xml">
+                    <div ng-controller="ParentController">
+                        <div ng-controller="ChildController">…</div>
+                    </div>
+                </pre>
+                <div id="ParentControllerDom" ng-controller="ParentController">
+                    {{parentName}} -- {{childName}}
+                    <div ng-controller="ChildController">
+                        {{parentName}} -- {{childName}}
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function ParentController($scope){
+                            $scope.parentName="Parent";
+                        };
+                        function ChildController($scope){
+                            $scope.childName="Child";
+                        };
+                        var id = "ParentControllerDom";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("ParentController",ParentController);
+                        module.controller("ChildController",ChildController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                虽然我们将这个表达为控制器嵌套, 实际的嵌套发生在作用域中($scope对象中). 传递给嵌套控制器的$scope继承自父控制器的$scope原型, 这意味着传递给ChildController的$scope将有权访问传递给ParentController的$scope的所有属性.
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">使用作用域发布模型数据</h4>
+            <div class="section_sub_content">
+                将$scope对象传递给我们的控制器便是我们将模型数据暴露给视图的机制. 可能你的应用程序中还有其他的数据, 但Angular中只能够通过scope访问它可以访问的模型部分的属性.<br>
+                你可以认为scope就是作为一个上下文环境用于在你的模型中观察变化的.<br>
+                我们已经看过了很多明确设置作用域的例子, 就像$scope.count = 5. 也有一些间接的方法在模板内设置其自身的模型. 你可以像下面这样做: <br>
+                通过表达式. 由于表达式运行在控制器的作用域关联的元素的上下文中, 在表达式中设置属性与在控制器的作用域中设置一个属性一样. <br>
+                也就是像这样:
+                <pre name="code" class="xml">
+                    <button ng-click="count=3">Set count to three</button>
+                    {{count}}
+                </pre>
+                <div id="SetCountController" ng-controller="SetCountController">
+                    <button ng-click="count=3">Set count to three</button>
+                    {{count}}
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function SetCountController($scope){
+                            $scope.count=0;
+                        };
+                        var id = "SetCountController";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("SetCountController",SetCountController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                这样做也有相同的效果:
+                <pre name="code" class="xml">
+                    <div ng-controller="CountController">
+                        <button ng-click="setCount()">Set count to three</button>
+                    </div>
+                </pre>
+                CountController定义如下:
+                <pre name="code" class="js">
+                    function CountController($scope){
+                        $scope.setCount = function(){
+                            $scope.count = 3;
+                        }
+                    }
+                </pre>
+                在表单的输入框中使用ng-model. 在表达式中, 模型被指定为ng-model的参数也适用于控制器作用域范围. 此外, 这将在表单字段和你指定的模型之间创建一个双向数据绑定.
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">使用$watch监控模型变化</h4>
+            <div class="section_sub_content">
+                所有scope函数中最常用的可能就是$watch了, 当你的模型部分发生变化时它会通知你. 你可以监控单个对象属性, 也可以监控计算结果(函数), 几乎所有的事物都可当作一个属性或者一个JavaScript运算能够被访问. 该函数的签名如下:<br>
+                <b>$watch(watchFn, watchAction, deepWatch);</b>
+                每个参数的详细信息如下:
+                <ul>
+                    <li><b>watchFn</b>这个参数是一个Angular字符串表达式或者是一个返回你所希望监控的模型当前值的函数. 这个表达式会被多次执行, 因此你需要确保它不会有副作用. 也就是说, 它可以被调用多次而不改变状态. 同样的原因, 监控表达式也应该是运算复杂度低的(执行简单的运算). 如果你传递一个字符串的表达式, 它将会对其调用的(执行的表达式)作用域中的有效对象求值.</li>
+                    <li><b>watchAction</b>这是watchFn繁盛变化时会被调用的函数或者表达式. 在函数形式中, 它接受watchFn的新值, 旧值以及作用域的引用. 其签名就是function(newValue, oldValue, scope).</li>
+                    <li><b>deepWatch</b>如果设置为true, 这个可选的布尔参数用于告诉Angular检查所监控的对象中每一个属性的变化. 如果你希望监控数组的个别元素或者对象的属性而不是一个普通的值, 那么你应该使用它. 由于Angular需要遍历数组或者对象, 如果集合(数组元素/对象成员)很大, 那么计算的代价会非常高.</li>
+                </ul>
+                当你不再想收到变化通知时, $watch函数将返回一个注销监听器的函数.<br>
+                如果我们想监控一个属性, 然后在稍后注销它, 我们将使用下面的方式:
+                <pre name="code" class="js">
+                    ...
+                    var dereg = $scope.$watch('someModel.someProperty', callbackOnChange);
+                    ...
+                    dereg();
+                </pre>
+                让我们回顾一下第一章中完整的购物车示例. 比方说, 当用户在他的购物车中添加了超出100美元的商品时, 我们希望申请10美元的优惠. 我们使用下面的模板:
+                <pre name="code" class="xml">
+                    <div ng-controller="CartController">
+                        <h1>Your Order</h1>
+                        <div ng-repeat="item in items">
+                            <span>{{item.name}}</span>
+                            <input ng-model="item.quantity">
+                            <span>{{item.price | currency}}</span>
+                            <span>{{item.price * item.quantity | currency}}</span>
+                            <button ng-click="remove($index)">Remove</button>
+                        </div>
+                        <div>Total: {{totalCart() | currency}}</div>
+                        <div>Discount: {{bill.discount | currency}}</div>
+                        <div>Subtotal: {{subtotal() | currency}}</div>
+                    </div>
+                </pre>
+                紧接着是CartController, 它看起来像下面这样:
+                <pre name="code" class="js">
+                    function CartController($scope){
+                        $scope.bill = {};
+                        $scope.items=[
+                            {name:"苹果",quantity:2,price:2.5},
+                            {name:"梨",quantity:6,price:4.5},
+                            {name:"香蕉",quantity:1,price:5},
+                            {name:"葡萄",quantity:2,price:2}
+                        ];
+                        $scope.remove = function(index){
+                            $scope.items.splice(index,1);
+                        }
+                        $scope.totalCart=function(){
+                            var total = 0;
+                            angular.forEach($scope.items,function(item,i){
+                                total += item.price * item.quantity;
+                            });
+                            return total;
+                        };
+                        var calculateDiscount=function(){
+                            $scope.bill.discount =  $scope.totalCart()>100?10:0;
+                        }
+                        $scope.subtotal = function(){
+                            return $scope.totalCart() - $scope.bill.discount;
+                        }
+                        $scope.$watch($scope.totalCart,calculateDiscount)
+                    }
+                </pre>
+                注意CartController的底部, 我们给用于计算所购买商品总价的totalCart()的值设置了一个监控. 每当这个值变化时, 监控都会调用calculateDiscount(), 并且会给discount(优惠项)设置一个适当的值. 如果总价为$100, 我们将设置优惠为$10. 否则, 优惠就为$0.
+                <div id="CartController" ng-controller="CartController">
+                    <h1>Your Order</h1>
+                    <div ng-repeat="item in items">
+                        <span style="display: inline-block;width: 100px;">{{item.name}}</span>
+                        <input ng-model="item.quantity">
+                        <span>{{item.price | currency}}</span>
+                        <span>{{item.price * item.quantity | currency}}</span>
+                        <button ng-click="remove($index)">Remove</button>
+                    </div>
+                    <div>Total: {{totalCart() | currency}}</div>
+                    <div>Discount: {{bill.discount | currency}}</div>
+                    <div>Subtotal: {{subtotal() | currency}}</div>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function CartController($scope){
+                            $scope.bill = {};
+                            $scope.items=[
+                                {name:"苹果",quantity:2,price:2.5},
+                                {name:"梨",quantity:6,price:4.5},
+                                {name:"香蕉",quantity:1,price:5},
+                                {name:"葡萄",quantity:2,price:2}
+                            ];
+                            $scope.remove = function(index){
+                                $scope.items.splice(index,1);
+                            }
+                            $scope.totalCart=function(){
+                                var total = 0;
+                                angular.forEach($scope.items,function(item,i){
+                                    total += item.price * item.quantity;
+                                });
+                                return total;
+                            };
+                            var calculateDiscount=function(){
+                                $scope.bill.discount =  $scope.totalCart()>100?10:0;
+                            }
+                            $scope.subtotal = function(){
+                                return $scope.totalCart() - $scope.bill.discount;
+                            }
+                            $scope.$watch($scope.totalCart,calculateDiscount)
+                        }
+                        var id = "CartController";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("CartController",CartController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">watch()中的性能注意事项</h4>
+            <div class="section_sub_content">
+                前面例子会正确的执行, 但是这里有一个潜在的性能问题. 虽然并不明显, 如果你在totalCart()中设置一个调试断点, 你会发现在渲染页面时它被调用了6次. 虽然在这个应用程序中你从来没有注意到它, 但是在更多复杂的应用程序中, 运行它6次可能是一个问题.<br>
+                为什么是6次? 其中3次我们可以很轻易的跟踪到, 因为它分别在下面三个过程中运行一次:<br>
+                在{{totalCart() | currency}}模板中 <br>
+                subtotal()函数中 <br>
+                $watch()函数中<br>
+                然后是Angular再运行它们一次, 因而带给我们6次运行. Angular这样做是为了验证在你的模型中变化是否完全传播出去以及验证你的模型是否稳定.<br>
+                Angular通过检查一份所监控属性的副本与它们当前值比较来确认它们是否改变. 事实上, Angular也可以运行它多达十次来确保是否完全传播开. 如果发生这种情况, 你可能需要依赖循环来修复它. <br>
+                虽然你现在会担心这个问题, 但是当你阅读完本书时它可能就不再是问题了. 然而Angular不得不在JavaScript中实现数据绑定, 我们一直与TC39的人共同努力实现一个底层的原生的Object.observe().<br>
+                一旦有了它, Angular将自动使用Object.observe()随时随地呈现给你一个原生效率的数据绑定.<br>
+                在下一章中你会看到, Angular有一个很好的Chrome调试扩展程序(Chrome插件)Batarang, 它将自动给你突出(高亮)昂贵的数据绑定(从性能的角度而言, 表示数据绑定的方式并不是较好的方式).<br>
+                <span class="red">Batarang - 这是一个Angular调试与性能监控工具.</span><br>
+                现在我们知道了这个问题, 这里有一些方法可以解决它. 一种方式是在items数组变化时创建$watch并且只重新计$scope的total, discount和subtotal属性值. <br>
+                做到这一点, 我们只需要使用这些属性更新模板: <br>
+                <pre name="code" class="xml">
+                    <div ng-controller="CartController">
+                        <h1>Your Order</h1>
+                        <div ng-repeat="item in items">
+                            <span>{{item.name}}</span>
+                            <input ng-model="item.quantity">
+                            <span>{{item.price | currency}}</span>
+                            <span>{{item.price * item.quantity | currency}}</span>
+                            <button ng-click="remove($index)">Remove</button>
+                        </div>
+                        <div>Total: {{bill.total | currency}}</div>
+                        <div>Discount: {{bill.discount | currency}}</div>
+                        <div>Subtotal: {{bill.subtotal | currency}}</div>
+                    </div>
+                </pre>
+                然后, 在JavaScript中, 我们要监控items数组, 以及调用一个函数来计算数组任意改变的总值:
+                <pre name="code" class="js">
+                    function CartController($scope){
+                        $scope.bill = {total:0,discount:0,subtotal:0};
+                        $scope.items=[
+                            {name:"苹果",quantity:2,price:2.5},
+                            {name:"梨",quantity:6,price:4.5},
+                            {name:"香蕉",quantity:1,price:5},
+                            {name:"葡萄",quantity:2,price:2}
+                        ];
+                        $scope.remove = function(index){
+                            $scope.items.splice(index,1);
+                        }
+                        var calculateDiscount=function(){
+                            var total = 0;
+                            angular.forEach($scope.items,function(item,i){
+                                total += item.price * item.quantity;
+                            });
+                            $scope.bill.total = total;
+                            $scope.bill.discount =  total>100?10:0;
+                            $scope.bill.subtotal =  total-$scope.bill.discount;
+
+                        }
+                        $scope.$watch('items',calculateDiscount,true);
+                    }
+                </pre>
+                注意这里$watch指定了一个items字符串. 这是因为$watch函数可以接受一个函数(正如我们之前那样)或者一个字符串. 如果传递一个字符串给$watch函数, 在$scope调用的作用域中它将被当作一个表达式.
+                这种测策略在你的应用程序中可能工作得很好. 然而, 由我监控的是items数组, Angular将会制作一个副本以供我们进行比较. 对于一个较大的items清单, 如果我们在Angular每一次计算页面结果时只重新计算bill属性值, 它可能表现得更好. 我们可以通过创建一个$watch来做到这一点, 它带有只用于重新计算属性的watchFn函数. 就像这样:
+                <div id="CartController2" ng-controller="CartController">
+                    <h1>Your Order</h1>
+                    <div ng-repeat="item in items">
+                        <span style="display: inline-block;width: 100px;">{{item.name}}</span>
+                        <input ng-model="item.quantity">
+                        <span>{{item.price | currency}}</span>
+                        <span>{{item.price * item.quantity | currency}}</span>
+                        <button ng-click="remove($index)">Remove</button>
+                    </div>
+                    <div>Total: {{bill.total | currency}}</div>
+                    <div>Discount: {{bill.discount | currency}}</div>
+                    <div>Subtotal: {{bill.subtotal | currency}}</div>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function CartController($scope){
+                            $scope.bill = {total:0,discount:0,subtotal:0};
+                            $scope.items=[
+                                {name:"苹果",quantity:2,price:2.5},
+                                {name:"梨",quantity:6,price:4.5},
+                                {name:"香蕉",quantity:1,price:5},
+                                {name:"葡萄",quantity:2,price:2}
+                            ];
+                            $scope.remove = function(index){
+                                $scope.items.splice(index,1);
+                            }
+                            var calculateDiscount=function(){
+                                var total = 0;
+                                angular.forEach($scope.items,function(item,i){
+                                    total += item.price * item.quantity;
+                                });
+                                $scope.bill.total = total;
+                                $scope.bill.discount =  total>100?10:0;
+                                $scope.bill.subtotal =  total-$scope.bill.discount;
+
+                            }
+                            $scope.$watch('items',calculateDiscount,true);
+                        }
+                        var id = "CartController2";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("CartController",CartController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">多个监控</h4>
+            <div class="section_sub_content">
+                如果你想监控多个属性或者对象, 并且每当它们发生任何变化时都执行一个函数. 你有两个基本的选择:<br>
+                <ul>
+                    <li>监控属性索引值.</li>
+                    <li>把它们放入数组或者对象总并且将传递的deepWatch设置为true.<li>
+                </ul>
+                在第一种情况下, 如果作用域中有一个对象拥有两个属性a和b, 并且希望在发生变化时执行callMe()函数, 你应该同时监控它们, 就像这样: <br>
+                <pre name="code" class="js">
+                    $scope.$watch('things.a + things.b', callMe(…));
+                </pre>
+                例子：
+                <pre name="code" class="xml">
+                    <div ng-controller="multiWatchController">
+                        <button ng-click="person.id=1">change id</button>
+                        <button ng-click="person.name='person'">change name</button>
+                        Person Intro: {{personIntro}}
+                    </div>
+                </pre>
+                <pre name="code" class="js">
+                    function multiWatchController($scope){
+                        $scope.person = {id:0,name:""};
+                        $scope.$watch('person.id + person.name',function(){
+                            $scope.personIntro = $scope.person.id + "-" + $scope.person.name;
+                        });
+                    }
+                </pre>
+                <div id="multiWatchController" ng-controller="multiWatchController">
+                    <button ng-click="person.id=1">change id</button>
+                    <button ng-click="person.name='person'">change name</button>
+                    Person Intro: {{personIntro}}
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        function multiWatchController($scope){
+                            $scope.person = {id:0,name:""};
+                            $scope.$watch('person.id + person.name',function(){
+                                $scope.personIntro = $scope.person.id + "-" + $scope.person.name;
+                            });
+                        }
+                        var id = "multiWatchController";
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.controller("multiWatchController",multiWatchController);
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                当然, 属性a和b可能在不同的对象中, 只要你喜欢你也可以制作这个列表. 如果列表很长, 你可能更喜欢编写一个返回索引值的函数而不是依靠一个逻辑表达式. <br>
+                在第二种情况下, 你可能希望监控things对象中的所有属性. 在这种情况下, 你可以这样做:
+                <pre name="code" class="js">
+                    $scope.$watch('things' calMe(…), true);
+                </pre>
+                这里, 通过将第三个参数设置为true来要求Angular遍历things对象的属性并在它们发生任何改变时调用callMe(). 这同样适用于数组, 只是这里是针对一个对象. <br>
             </div>
         </div>
     </div>
