@@ -107,6 +107,7 @@ body{
 .jc_section_remark{
     color: #ffffff;
     margin-bottom: 10px;
+    padding-left: 20px;
 }
 .jc_section_sub1{
     background-color: cornsilk;
@@ -127,6 +128,7 @@ body{
     display: none;
     line-height: 28px;
     padding-top: 5px;
+    padding-left: 20px;
 }
 .jc_section_sub1.open{
     background-color: #f5f5f5;
@@ -162,4 +164,10 @@ body{
     margin: 0;
     padding: 0;
     line-height: 12px;
+}
+table{
+    width: 50%;
+}
+table th,table td{
+    border: 1px solid;
 }
