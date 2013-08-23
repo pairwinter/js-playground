@@ -18,4 +18,4 @@ test-output/
 *.lnk
 bin-debug/
 *.wav
-config.json
+node_modules/
