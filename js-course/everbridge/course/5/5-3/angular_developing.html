@@ -171,34 +171,274 @@
             我将探讨两种方式, 一种非常简单的方式是使用Yeoman运行应用程序, 另外一种不是很容易的不用Yeoman的方法, 但是同样很好.
         </div>
         <div class="jc_section_sub1">
-            <h4 class="section_sub_title">IDEs</h4>
+            <h4 class="section_sub_title">使用Yeoman</h4>
             <div class="section_sub_content">
-                让我们从你如何编写源代码开始. 有大量的JavaScript编辑器可以选择, 有免费的也有付费的. 长时间以来的事实证明Emacs和Vi是开发JS的最好选择.<br>
-                现在, 各种IDEs都自带了语法高亮, 自动完成以及其他功能, 它给你一个选择的余地, 这可能是值得的. 那么, 应该使用那一个呢? <br>
-                如果你不介意付几十块钱(尽管它有一个30天的免费试用期), WebStorm是个不错的选择, 当今时代, WebStorm由JetBrains提供了最广泛的Web开发平台. <br>
-                它所具有的特性, 在之前只有强类型语言才有, 包括代码自动完成(如图3-1所示, 指定浏览器版本), 代码导航, 语法和多无高亮, 同时支持多个库和框架的启动即可使用.<br>
-                此外, 它还漂亮的集成了在IED中正确的调试JavaScript的功能, 而且这些都是基于Chrome执行的. <br>
-                最大的你应该考虑使用WebStorm开发AngularJS原因是它是唯一继承AngularJS插件的IDEs. 这个插件支持在你的HTML模板中正确的自动完成AngularJS的HTML标签.<br>
-                这些都是常用的代码片段, 否则你每次都要输入拼凑的代码片段. 因此不应该像下面这样输入: <br>
+                Yeoman让你很简单的使用一个Web服务器服务你所有的静态资源和相关的JavaScript文件. 只需要运行以下命令:
                 <pre name="code" class="js">
-                    directive('$directiveName$', function factory($injectables$){
-                        var directiveDefinitionObject = {
-                            $directiveAttr$;
-                            compile: function complie(tElement, tAttrs, transclude){
-                                $END$;
-                                return function(scope, elements, attrs){
-                                //...
-                                }
-                            }
-                        };
-                        return directiveDefinitionObject;
+                    yeoman server
+                </pre>
+                它将启动一个服务器同时在你的浏览器中打开AngularJS应用程序的主页. 每当你改变你的源代码时, 它甚至会刷新(自动刷新)浏览器. 很酷不是吗?.
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">不使用Yeoman</h4>
+            <div class="section_sub_content">
+                如果不使用Yeoman, 你可能需要配置一个服务器来服务你所有主目录中的文件.   <br>
+                如果你不知道一个简单的方法做到这一点, 或者不想浪费时间创建你自己的Web服务器, 你可以在Node.js中使用ExpressJS快速的编写一个简单的Web服务器(只要简单的使用npm install -g express来获取它). <br>
+                它可能看起来像下面这样:
+                <pre name="code" class="js">
+                    //available at chapter3/sample-app/web-server.js
+                    var express = require('express'),
+                    app = express(),
+                    port = parseInt(process.env.PORT, 10) || 8080;
+                    app.configure(function(){
+                    app.use(express.methodOverride());
+                    app.use(express.bodyParser());
+                    app.use(express.static(__dirname + '/'));
+                    app.use(app.router);
+                    });
+                    app.listen(port);
+                    console.log("Now serving the app at http://localhost:" + port + "app");
+                </pre>
+                一旦你有了这个文件, 你就可以使用Node运行这个文件, 通过使用下面的命令:
+                <pre name="code" class="js">
+                    node web-server.js
+                </pre>
+                同时它将在8080端口启动服务器(或者你自己选择端口). <br>
+                可选的, 在应用程序文件夹中使用Python你应该运行:
+                <pre name="code" class="js">
+                python -m SimpleHTTPServer
+                </pre>
+                无论你是否决定继续, 一旦你配置好服务器并运行起来, 都将被导航导下面的URL:   <br>
+                http://localhost:[port-number]/app/index.html  <br>
+                然后你就可以在浏览器中查看你刚刚创建的应用程序. 注意, 你需要手动的刷新浏览器来查看改变, 不同于使用Yeoman.
+            </div>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">测试AngularJS</h3>
+        <div class="jc_section_remark">
+            之前已经说过(甚至在本章的前面), 我们再重新说一次: 测试是必不可少的, AngularJS使编写合理的单元测试和集成测试变得很简单. <br>
+            虽然AngularJS使用多个测试运行器运行的很好, 但我们坚信Karma胜过大多数你所需要的提供强大, 坚实和及其快速的运行器.
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">Karma</h4>
+            <div class="section_sub_content">
+                Karma存在的主要的原因是它让你的测试驱动开发(TDD)流程变得简单, 快速和有趣.
+                它使用NodeJS和SocketIO(你不需要知道它们是什么, 只需要假设它们是很棒很酷的库), 并允许在多个浏览器中及其快速的运行你的代码和测试.
+                在https:// github.com/vojtajina/karma/中可以找到更多信息.
+                <div style="color: blue">
+                    TDD简介
+                    测试驱动开发或者TDD, 是一个通过确保在开发生命周期内首先编写测试的敏捷方法, 这是在代码实现之前进行的, 这就是测试驱动的开发(不只是作为一种验证工具).
+                    TDD的原则很简单:
+                    <ul>
+                        <li>代码只需要在一个所需要的代码测试失败时编写.</li>
+                        <li>编写最少的代码以确保测试通过. </li>
+                        <li>在每一步删除重复代码. </li>
+                        <li>一旦所有的测试通过, 接下来就是给下一个所需要的功能添加失败测试.  </li>
+                    </ul>
+                    以下是确保这些原则的简单规则:
+                    <ul>
+                        <li>有组织的开发你的代码, 每一行代码都要有目的的编写. </li>
+                        <li>你的代码仍然是高度模块化, 紧密结合和可复用的(你需要能够测试它)</li>
+                        <li>提供一系列的全面的测试列表, 以防后期的破坏和Bugs.</li>
+                        <li>测试也应该充当规范和文档, 以适应后期需要和变化.</li>
+                    </ul>
+                    在AngularJS中我们发现这是真的, 同时在整个AngularJS代码库中我们都是使用TDD来开发. 对于像JavaScript这样的无需编译的动态语言, 我们坚信良好的单元测试可以减轻未来的头痛.
+                </div>
+                那么, 我们如何获取迷人的Karma呢? 好吧, 首先确保在你的机器上安装了NodeJS. 它自带了NPM(Node包管理器), 这使得它易于管理和安装成千上万的NodeJS可用的库.<br>
+                一旦你安装了NodeJS和NPM, 安装Karma只需要简单的运行下面的命令: <br>
+                <pre name="code" class="js">
+                    sudo npm install -g karma
+                </pre>
+                到这里. 你只要简单的三部来开始使用Karma(我刚才说了, 请不要了解它现实上是怎么使用的).<br>
+                <b>获取配置文件: </b><br>
+                如果你是用Yeoman创建应用程序骨架, 那么你就已经有一个现成的Karma配置文件等你来使用. 如果不是, 那么继续, 并且在你的应用程序目录的根文件夹中执行下面的命令: <br>
+                <pre name="code" class="js">
+                    karma init
+                </pre>
+                在你的终端控制器中执行(定位到目录文件夹,然后执行命令), 他会生成一个虚拟的配置文件(karma.conf.js), 你可以根据你的喜好来编辑它, 它默认带有一些很好的标准. 你可以使用它.<br>
+                <b>启动Karma服务器: </b><br>
+                只需要运行下面的命令:
+                <pre name="code" class="js">
+                    karma start [optionalPathToConfigFile]
+                </pre>
+                这将会在9876端口启动Karma服务器(这是默认情况, 你可以通过编辑在上一步提到的karma.conf.js文件来改变).<br>
+                虽然Karma应该打开一个浏览器并自动捕获它, 它将在控制台中打印所有其他浏览器中捕获所需要的指令. <br>
+                如果你懒得这样做, 只需要在其他浏览器或者设备中浏览http://localhost:9876, 并且你最好在多个浏览器中运行测试.<br>
+                虽然Karma可以自动捕获常用的浏览器, 在启动时.(FireFox, Chrome, IE, Opera, 甚至是PhantomJS), 但它不仅限于只是这些浏览器.<br>
+                任何可以浏览一个URL的设备都可能可以作为Karma运行器. 因此如果你打开你的iPhone或者Android设备上浏览器并浏览http://machinename:9876(只要是可访问的), 你都可能在移动设备上运行同样的测试.  <br>
+                <b>运行测试: </b><br>
+                执行下面的命令:
+                <pre name="code" class="js">
+                    karma run
+                </pre>
+                就是这样. 运行这个命令之后, 你应该获得正好打印在控制台中的结果. 很简单, 不是吗?
+            </div>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">单元测试</h3>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">单元测试</h4>
+            <div class="section_sub_content">
+                AngularJS是的编写单元测试变得更简单, 默认情况下支持编写Jasmine风格的测试(就是Karma). <br>
+                Jasmine就是我们所说的行为驱动开发框架, 它允许你编写规范来说明你的代码行为应该如何表现. 一个Jasmine测试范例看起来可能是这样子的.
+                <pre name="code" class="js">
+                    describe("MyController:", function(){
+                        it("to work correctly", function(){
+                            var a = 12;
+                            var b = a;
+                            expect(a).toBe(b);
+                            expect(a).not.toBe(null);
+                        });
                     });
                 </pre>
-                在WebStorm中, 你可以只输入以下内容:
+                正如你可以看到, 它本身就是非常容易阅读的格式, 大部分的代码都可以用简单的英文来阅读理解.  <br>
+                它还提供了一个非常多样化和强大的匹配集合(就像expect从句), 当然它还有xUnit常用的setUp和tearDowns(函数在每个独立的测试用例之前或者之后执行).  <br>
+                AngularJS提供了一些优雅的原型, 和测试函数一样, 它允许你有在单元测试中创建服务, 控制器和过滤器的权利, 以及模拟HTTPRequests输出等等. 我们将在第五章讨论这个.  <br>
+                Karma可以使它很容易的集成到你的开发流程中, 以及在你编写的代码中获取即时的反馈.  <br>
+                <b>集成到IDEs中</b><br>
+                Karma并没有所有最新版和最好的(greatest)IDEs使用的插件(已经实现的还没有), 但实际上你并不需要.  <br>
+                所有你所需要做的就是在你的IDEs中添加一个执行"karma start"和"karma run"的快捷命令.    <br>
+                这通常可以通过添加一个简单的脚本来执行, 或者实际的shell命令, 依赖于你所选择的编辑器. 当然, 每次完成运行你都应该看到结果.      <br>
+                <b>在每一个变化上运行测试</b><br>
+                这是许多TDD开发者的理想国: 能够运行在它们所有的测试中, 每次它们按下保存, 在急毫秒之内迅速的得到返回结果.                     <br>
+                使用AngularJS和Karma可以很容易做到这一点. 事实证明, Karma配置文件(记住就是前面的karma.conf.js)有一个看似无害的名为**autoWatch**的标志.      <br>
+                设置它为true来告诉Karma每次运行你的测试文件(这就是你的源代码和测试代码)都监控它的变化. 然后在你的IDE中执行"karma start", 猜猜会怎样? Karma运行结果将可供你的IDE使用.  <br>
+                你甚至不需要切换控制台或者终端来了解发生了什么.
+            </div>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">端到端/集成测试</h3>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">端到端/集成测试</h4>
+            <div class="section_sub_content">
+                随着应用程序的发展(或者有这个趋势, 事实上很快, 之前你甚至已经意识到这一点), 测试它们是否如预期那样工作而不需要手动的裁剪任何功能.<br>
+                毕竟, 没一添加新的特性, 你不仅要验证新特性的工作, 还要验证老特性是否仍然更够正常工作, 并且没有bug和功能也没有退化. 如果你开始添加多个浏览器, 你可以很容看出, 其实这些可以变成一个组合. <br>
+                AngularJS视图通过提供一个Scenario Runner来模拟用户与应用程序交互来缓解这种现象.<br>
+                Scenario Runner允许你按照类Jasmine的语法来描述应用程序. 正如之前的单元测试, 我们将会有一些的describes(针对这个特性), 同时它还是独立(描述每个单独功能的特性).<br>
+                和往常一样, 你可以有一些共同的行为, 对于执行每个规范之前和之后.(我们称之为测试).<br>
+                来看一个应用程序示例, 他返回过滤器结果列表, 看起来可能像下面这样:
                 <pre name="code" class="js">
-                    ngdc
+                    describe("Search Results", function(){
+                        beforeEach(function(){
+                            browser().navigateTo("http://localhost:8000/app/index.html");
+                        });
+                        it("Should filter results", function(){
+                            input("searchBox").enter("jacksparrow");
+                            element(":button").click();
+                            expect(repeater("ul li").count()).toEqual(10);
+                            input("filterText").enter("Bees");
+                            expect(repeater("ul li").count()).toEqual(1);
+                        });
+                    });
                 </pre>
-                然后按Tab键获取同样的代码. 这只是大多数代码自动完成插件提供的功能之一.
+                有两种方式运行这些测试. 不过, 无论使用那种方式运行它们, 你都必须有一个Web服务器来启动你的应用程序服务(请参见上一节来查看如何做到这一点). 一旦做到这一点, 可以使用下列方法之一:
+                <table style="width: 100%">
+                    <tbody>
+                        <tr>
+                            <th>
+                                自动化: <br>
+                                Karma现在支持运行Angular情景测试. 创建一个Karma配置文件然后进行以下改变:
+                            </th>
+                            <td>
+                                <ul>
+                                    <li>a. 添加一个ANGULAR_SCENARIO & ANGULAR_SCENARIO_ADAPTER到配置的文件部分.</li>
+                                    <li>
+                                        b. 添加一个代理服务器将请求定位到正确的测试文件所在目录, 例如:
+                                        proxies = {'/': 'http://localhost:8000/test/e2e'}; </li>
+                                    <li>
+                                        c. 添加一个Karma root(根目录/基础路径)以确保Karma的源文件不会干扰你的测试, 像这样:
+                                        urlRoot = '/_karma_/';
+                                    </li>
+                                </ul>
+                                然后只需要记得通过浏览http://localhost:9876/_karma_来捕捉Karma服务器, 你应该使用Karma自由的运行你的测试.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                手动: <br>
+                                手动的方法允许你从你的Web服务器上打开一个简单的页面运行(和查看)所有的测试.
+                            </th>
+                            <td>
+                                <ul>
+                                    <li>a. 创建一个简单的runner.html文件, 这来源于Angular库的angular-scenario.js文件.</li>
+                                    <li>b. 所有的JS源文件都遵循你所编写的你的场景组件部分的规范.</li>
+                                    <li>c. 启动你的Web服务器, 浏览runner.html文件.</li>
+                                </ul>
+                                然后只需要记得通过浏览http://localhost:9876/_karma_来捕捉Karma服务器, 你应该使用Karma自由的运行你的测试.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                为什么你应该使用Angular场景运行器, 或者说是外部的第三方库活端对端的测试运行器? 使用场景运行器有令人惊讶的好处, 包括:
+                <table style="width: 100%">
+                    <tbody>
+                        <tr>
+                            <th>AngularJS意识</th>
+                            <td>Angular场景运行器, 顾名思义, 它是由Angular创建的. 因此, 他就是Angular aware, 它直到并理解各种各样的Angular元素, 类似绑定. 需要输入一些文本? 检查绑定的值? 验证中继器(repeater)状态? 所有的这些都可以通过场景运行器轻松的完成.</td>
+                        </tr>
+                        <tr>
+                            <th>无需随机等待</th>
+                            <td>Angular意识也意味着Angular直到所有的XHR何时向服务器放出, 从而可以避免页面加载所等待的间隔时间. 场景运行器直到何时加载一个页面, 从而比Selenium测试更具确定性, 例如, 超时等待页面加载时任务可能失败.</td>
+                        </tr>
+                        <tr>
+                            <th>调试功能</th>
+                            <td>探究JavaScript, 如果你查看你的代码不是很好; 当你希望暂停和恢复测试时, 所有的这些都运行场景测试吗? 然而所有的这一切通过Angular场景运行器都是可行的, 等等.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">编译</h3>
+        <div class="jc_section_remark">
+            在JavaScript世界里, 编译通常意味着压缩代码, 虽然一些实际的编译可能使用的时Google的Closure库. 但是为么你会希望将所有漂亮的, 写的很好, 很容易理解的代码变得不可读呢? <br>
+            原因之一是我们的目标是是应用程序更快的响应用户. 这是为什么客户端应用程序几年前不想现在腾飞得这么快的主要原因. 能够越早获取应用程序并运行, 响应得也越早.  <br>
+            这种快速响应是压缩JS代码的动机. 代码越小, 越能有效的减小负载, 同时能够更快的将相关文件发送给用户. 这在移动应用程序中显得尤为重要, 因为其规模为成为瓶颈.<br>
+            这里有集中方法可以压缩你给应用程序所编写的AngularJS代码, 每种方法都具有不同的效果.
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">基本的和简单的优化</h4>
+            <div class="section_sub_content">
+                这包括压缩所有在你的代码中使用的变量, 但是不会压缩属性. 这就是所谓的传递给Closure Compiler的简单优化. <br>
+                者不会给你带来多大的文件大小的节省, 但是你仍然可以获得一个可观的最小开销.  <br>
+                这项工作的原因是编译器(Closure或者UglifyJS)并不会重命名你从模板中引用的属性. 因此, 你的模板会继续工作, 仅仅重命名局部变量和参数.         <br>
+                对于Google Closure, 只需简单的调用下面的命令:
+                java -jar closure_compiler.js --compilation_level | SIMPLE_OPTIMIZATIONS --js path/to/files.js
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">高级优化</h4>
+            <div class="section_sub_content">
+                高级优化有一点棘手, 它会试图重名几乎任何东西和每个函数. 得到这个级别的优化工作, 你将需要通过显示的告诉它哪些函数, 变量和属性需要重命名(通过使用一个externsfile). 者通常是通过模板访问函数和属性. <br>
+                编译将会使用这个externs文件, 然后重命名所有的东西. 如果处理好, 这可能会导致的你的JavaScript文件大幅度的减小, 但是它的确需要相当大的工作像, 包括每次改变代码都要更急externs文件.<br>
+                要记住一件事: 当你想要压缩代码时, 你要使用依赖注入的形式(在控制器上指定$inject属性).  <br>
+                下面的代码不会工作
+                <pre class="js" name="code">
+                    function MyController($scope, $resource){
+                        //Stuff here
+                    }
+                </pre>
+
+                你需要像下面这样做:
+                <pre class="js" name="code">
+                    function MyController($scope, $resource){
+                        //Some Stuff here
+                    }
+                    MyController.$inject = ['$scope', '$resource'];
+                </pre>
+                或者是使用模块, 像这样:
+                <pre class="js" name="code">
+                    myAppModule('MyController', ['$scope', '$resource', function($scope, $resource){
+                        //Some stuff here
+                    }]);
+                </pre>
+                一旦所有的变量都混肴或者压缩只有, 这是使用Angular找出那些你最初使用的服务和变量的方式. <br>
+                每次都是数组的方式注入是比较好的处理发方式, 以避免开始编译代码时的错误. 挠头并视图找出为什么提供的$e变量丢失了(一些任务的混肴版本压缩了它)是不值得的.
             </div>
         </div>
     </div>

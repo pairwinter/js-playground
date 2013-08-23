@@ -1,8 +1,12 @@
 {
-    "name": "JavescriptCourse"
-    , "version": "0.0.1"
-    , "private": true
-    , "dependencies": {
-        "express": "3.x"
-    }
+  "name": "JavescriptCourse",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "3.x"
+  },
+  "devDependencies": {
+    "karma": "*",
+    "karma-ng-scenario": "~0.1.0"
+  }
 }
