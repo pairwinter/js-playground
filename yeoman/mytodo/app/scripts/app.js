@@ -11,6 +11,10 @@ angular.module('mytodoApp', ['ui','LocalStorageModule'])
         templateUrl: 'views/userInfo.html',
         controller: 'UserinfoCtrl'
       })
+      .when('//user/userInfo', {
+        templateUrl: 'views//user/userInfo.html',
+        controller: 'UserUserinfoCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
