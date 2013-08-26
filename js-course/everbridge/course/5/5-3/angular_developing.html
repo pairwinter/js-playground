@@ -316,8 +316,8 @@
             <h4 class="section_sub_title">端到端/集成测试</h4>
             <div class="section_sub_content">
                 随着应用程序的发展(或者有这个趋势, 事实上很快, 之前你甚至已经意识到这一点), 测试它们是否如预期那样工作而不需要手动的裁剪任何功能.<br>
-                毕竟, 没一添加新的特性, 你不仅要验证新特性的工作, 还要验证老特性是否仍然更够正常工作, 并且没有bug和功能也没有退化. 如果你开始添加多个浏览器, 你可以很容看出, 其实这些可以变成一个组合. <br>
-                AngularJS视图通过提供一个Scenario Runner来模拟用户与应用程序交互来缓解这种现象.<br>
+                毕竟, 没一次添加新的特性, 你不仅要验证新特性的工作, 还要验证老特性是否仍然更够正常工作, 并且没有bug和功能也没有退化. 如果你开始添加多个浏览器, 你可以很容易看出, 其实这些可以变成一个组合. <br>
+                AngularJS视图通过提供一个Scenario Runner来模拟用户与应用程序交互来<b class="red">缓解</b>这种现象.<br>
                 Scenario Runner允许你按照类Jasmine的语法来描述应用程序. 正如之前的单元测试, 我们将会有一些的describes(针对这个特性), 同时它还是独立(描述每个单独功能的特性).<br>
                 和往常一样, 你可以有一些共同的行为, 对于执行每个规范之前和之后.(我们称之为测试).<br>
                 来看一个应用程序示例, 他返回过滤器结果列表, 看起来可能像下面这样:
@@ -341,20 +341,20 @@
                         <tr>
                             <th>
                                 自动化: <br>
-                                Karma现在支持运行Angular情景测试. 创建一个Karma配置文件然后进行以下改变:
+                                Karma现在支持运行Angular情景测试. 创建一个Karma配置文件karma.e2e.config.js然后进行以下改变:
                             </th>
                             <td>
                                 <ul>
-                                    <li>a. 添加一个ANGULAR_SCENARIO & ANGULAR_SCENARIO_ADAPTER到配置的文件部分.</li>
+                                    <li>a. 设置frameworks: ['ng-scenario'],</li>
                                     <li>
                                         b. 添加一个代理服务器将请求定位到正确的测试文件所在目录, 例如:
-                                        proxies = {'/': 'http://localhost:8000/test/e2e'}; </li>
+                                        proxies = {'/': 'http://localhost:8000/test/e2e'};
+                                    </li>
                                     <li>
                                         c. 添加一个Karma root(根目录/基础路径)以确保Karma的源文件不会干扰你的测试, 像这样:
                                         urlRoot = '/_karma_/';
                                     </li>
                                 </ul>
-                                然后只需要记得通过浏览http://localhost:9876/_karma_来捕捉Karma服务器, 你应该使用Karma自由的运行你的测试.
                             </td>
                         </tr>
                         <tr>
@@ -364,11 +364,10 @@
                             </th>
                             <td>
                                 <ul>
-                                    <li>a. 创建一个简单的runner.html文件, 这来源于Angular库的angular-scenario.js文件.</li>
-                                    <li>b. 所有的JS源文件都遵循你所编写的你的场景组件部分的规范.</li>
+                                    <li>a. 创建一个简单的runner.html文件, 加载Angular库的angular-scenario.js文件.</li>
+                                    <li>b. 加载你自己的场景组件js.</li>
                                     <li>c. 启动你的Web服务器, 浏览runner.html文件.</li>
                                 </ul>
-                                然后只需要记得通过浏览http://localhost:9876/_karma_来捕捉Karma服务器, 你应该使用Karma自由的运行你的测试.
                             </td>
                         </tr>
                     </tbody>
@@ -378,11 +377,11 @@
                     <tbody>
                         <tr>
                             <th>AngularJS意识</th>
-                            <td>Angular场景运行器, 顾名思义, 它是由Angular创建的. 因此, 他就是Angular aware, 它直到并理解各种各样的Angular元素, 类似绑定. 需要输入一些文本? 检查绑定的值? 验证中继器(repeater)状态? 所有的这些都可以通过场景运行器轻松的完成.</td>
+                            <td>Angular场景运行器, 顾名思义, 它是由Angular创建的. 因此, 他就是Angular aware, 它知道并理解各种各样的Angular元素, 类似绑定. 需要输入一些文本， 检查绑定的值， 验证中继器(repeater)状态， 所有的这些都可以通过场景运行器轻松的完成.</td>
                         </tr>
                         <tr>
                             <th>无需随机等待</th>
-                            <td>Angular意识也意味着Angular直到所有的XHR何时向服务器放出, 从而可以避免页面加载所等待的间隔时间. 场景运行器直到何时加载一个页面, 从而比Selenium测试更具确定性, 例如, 超时等待页面加载时任务可能失败.</td>
+                            <td>Angular意识也意味着Angular知道所有的XHR何时向服务器放出, 从而可以避免页面加载所等待的间隔时间. 场景运行器知道何时加载一个页面, 从而比Selenium测试更具确定性, 例如, 超时等待页面加载时任务可能失败.</td>
                         </tr>
                         <tr>
                             <th>调试功能</th>
@@ -396,7 +395,7 @@
     <div class="jc_section">
         <h3 class="jc_section_title">编译</h3>
         <div class="jc_section_remark">
-            在JavaScript世界里, 编译通常意味着压缩代码, 虽然一些实际的编译可能使用的时Google的Closure库. 但是为么你会希望将所有漂亮的, 写的很好, 很容易理解的代码变得不可读呢? <br>
+            在JavaScript世界里, 编译通常意味着压缩代码, 虽然一些实际的编译可能使用的的Google的Closure库. 但是为么你会希望将所有漂亮的, 写的很好, 很容易理解的代码变得不可读呢? <br>
             原因之一是我们的目标是是应用程序更快的响应用户. 这是为什么客户端应用程序几年前不想现在腾飞得这么快的主要原因. 能够越早获取应用程序并运行, 响应得也越早.  <br>
             这种快速响应是压缩JS代码的动机. 代码越小, 越能有效的减小负载, 同时能够更快的将相关文件发送给用户. 这在移动应用程序中显得尤为重要, 因为其规模为成为瓶颈.<br>
             这里有集中方法可以压缩你给应用程序所编写的AngularJS代码, 每种方法都具有不同的效果.
@@ -439,6 +438,252 @@
                 </pre>
                 一旦所有的变量都混肴或者压缩只有, 这是使用Angular找出那些你最初使用的服务和变量的方式. <br>
                 每次都是数组的方式注入是比较好的处理发方式, 以避免开始编译代码时的错误. 挠头并视图找出为什么提供的$e变量丢失了(一些任务的混肴版本压缩了它)是不值得的.
+            </div>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">其他优秀工具</h3>
+        <div class="jc_section_remark">
+            在本节, 我们将会看一些其他有助于简化你的开发流程和提高效率的工具. 这包括使用Batarang调试真实的代码和使用Yeoman开发.
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">调试</h4>
+            <div class="section_sub_content">
+                当你使用JavaScript工作时, 在浏览器中调试你的代码会成为一个习惯. 你越早接受这个事实, 对你越有好处. 值得庆幸的是, 当过去没有Firebug时, 这件事已经走过了漫长的路.
+                现在, 不管选择什么浏览器, 一般来说你都可以介入代码来分析错误和判断应用程序的状态. 只需要去了解Chrome和Internet Explorer的开发者工具, 能同时在FireFox和Chrome中工作的Firebug.
+                这里有一些帮助你进一步调试应用程序的技巧提示:
+                <ul>
+                    <li>永远记住, 当你希望调试引用程序时, 记得切换到非压缩版本的代码和依赖中进行. 你不仅会获得更好(可读)变量名, 也会获得代码行号和实际有用的信息以及调试功能.</li>
+                    <li>尽量保持你的源代码为独立的JS文件, 而不是内联在HTML中.</li>
+                    <li>断点调试是很有用的! 它们允许你检查你的应用程序状态, 模型, 以及给定的时间点上的所有信息.   </li>
+                    <li>"暂停所有异常"是内置在当今大多数开发者工具中的一个非常有用的选项. 当发现一个异常是调试器会终止继续运行并高亮导致异常的代码行.  </li>
+                </ul>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">Batarang</h4>
+            <div class="section_sub_content">
+                当然, 我们有<b class="red">Batarang</b>.<b class="red">Batarang</b>是一个添加AngularJS知识的Chrome扩展, 它是嵌套在Google Chrome中内置开发者工具. <br>
+                安装完成后它就会在Chorme的开发者工具面板中添加一个AngularJS选项. <br>
+                你有没有想过你的AngularJS应用程序的当前状态是什么? 当前(视图)包含的每个模型, 作用域和变量是什么? 你的应用程序性能如何?  如果你还没有想过, 相信我, 你会的. 当你需要这么做时, Batarang会为你服务.
+                这里有Batarang的四个主要的有用的附加功能:
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>模型选项</th>
+                            <td>Batarang允许你从根源向下深入探究`scope`. 然后你可以看到这些`scopes`是如何嵌套以及模型是如何与之关联的.(如图3-2所示). 你甚至可以实时的改变它们并在应用程序中查看变化的反映. 很酷, 不是吗?</td>
+                        </tr>
+                        <tr>
+                            <th>性能选项</th>
+                            <td>性能选项必须单独启用, 它会注入一些特殊的JavaScript代码到你的应用程序中. 一旦你启用它, 你就可以看到不同的作用域和模型, 并且可以在每个作用域执行所有的性能监控表达式. 随着你使用应用程序, 性能也会得到更新, 因此它可以很好的实时工作.</td>
+                        </tr>
+                        <tr>
+                            <th>服务依赖</th>
+                            <td>对于一个简单的应用程序, 不会超过1-2个控制器和服务依赖. 但是事实上, 全面的应用程序, 如果没有工具支持, 服务依赖管理会成为噩梦. 幸好这里有Batarang可以给你提供服务, 填补这个洞, 因为它给你提供了一个干净, 简单的方法来查看可视化的服务依赖图表</td>
+                        </tr>
+                        <tr>
+                            <th>元素属性和控制台访问</th>
+                            <td>当你通过HTML模板来探究一个AngularJS应用程序时, 元素选项的属性窗格中现在有一个额外的AngularJS属性部分. 这允许你检查模型所连接的给定元素的`scope`. 它也会公开这个元素的`scope`到控制台中, 因此你可以在控制台中通过`$scope`变量来访问它</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">Yeoman: 优化你的工作流程</h4>
+            <div class="section_sub_content">
+                相当多的工具如雨后春笋般涌现, 以帮助你在开发应用程序时优化工作流程. 我们在前面章节所谈及的Yeoman就是这样一种工具, 它拥有令人印象深刻的功能集, 包括:
+                <ul>
+                    <li>轻快的脚手架</li>
+                    <li>内置预览服务器</li>
+                    <li>集成包管理</li>
+                    <li>一流的构建过程</li>
+                    <li>使用PhantomJS进行单元测试</li>
+                </ul>
+                详细使用方式参考： <a href="www.yeoman.">Yeoman</a>
+            </div>
+        </div>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">使用RequireJS整合AngularJS</h3>
+        <div class="jc_section_remark">
+            如果你提单做好更多的事情, 正好会让你的开发环境更简单. 后期修改你的开发环境, 会需要修改更多的文件. 依赖管理和创建包部署是任何规模的项目所忧虑的. <br>
+            使用JavaScript设置你的开发环境是相当困难的, 因为它涉及Ant构建维护, 连接你的文件来构建脚本, 压缩它们等等.<br>
+            值得庆幸的是, 在不久之前已经出现了像RequireJS这样的工具, 它允许你定义和管理你的JS依赖关系, 以及将他们挂到一个简单的构建过程中.<br>
+            随着这些异步加载管理的工具诞生, 能够确保所有的依赖文件在执行之前加载好, 重点工作可以放在实际的功能开发, 在此之前从未如此简单过. <br>
+            值得庆幸的是, AngularJS能够很好的发挥<a href="http://requirejs.org/">[RequireJS]</a>, 因此你可以做到两全其美.
+            这里有一个目标示例, 我们找到了在一个系统中能够工作的很好而且易于遵循的方式来提供一个样本设置.
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">配置</h4>
+            <div class="section_sub_content">
+                <table style="width: 100%">
+                    <tbody>
+                    <tr>
+                        <th>项目结构</th>
+                        <td>
+                            <ul>
+                                <li>
+                                    <b class="red">app(webapp):</b>这个目录是所有显示给用户的应用程序代码宿主目录. 包括HTML, JS, CSS, 图片和依赖的库
+                                    <ul>
+                                        <li><b class="red">style:</b>包含所有的CSS/Less文件</li>
+                                        <li><b class="red">images:</b>包含项目的所有图片文件</li>
+                                        <li><b class="red">script:</b>主AngularJS代码库. 这个目录也包括我们的引导程序代码, 主要的RequireJS集成
+                                            <ul>
+                                                <li><b class="red">controllers:</b>这里是AngularJS控制器</li>
+                                                <li><b class="red">directives:</b>这里是AngularJS指令</li>
+                                                <li><b class="red">filters:</b>这里是AngularJS过滤器</li>
+                                                <li><b class="red">services:</b>这里是AngularJS服务</li>
+                                            </ul>
+                                        </li>
+                                        <li><b class="red">vendor: </b>我们所依赖的库(Bootstrap, RequireJS, jQuery)</li>
+                                        <li><b class="red">views: </b>视图的HTML模板部分和项目所使用的组件</li>
+                                    </ul>
+                                </li>
+                                <li><b class="red">config: </b>包含单元测试和场景测试的Karma配置</li>
+                                <li>
+                                    <b class="red">test: </b>包含应用程序的单元测试和场景测试(整合的)
+                                    <ul>
+                                        <li><b class="red">spec: </b>包含应用程序的JS目录中的单元测试和镜像结构</li>
+                                        <li><b class="red">e2e: </b>包含端到端的场景规范</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>使用RequireJS</th>
+                        <td>
+                            在你的main.js中配置RequireJS
+                            <pre name='code' class="js">
+                                require.config({
+                                    paths: {
+                                        angular: 'vendor/angular.min',
+                                        jquery: 'vendor/jquery',
+                                        domReady: 'vendor/require/domReady',
+                                        twitter: 'vendor/bootstrap',
+                                        angularResource: 'vendor/angular-resource.min'
+                                    },
+                                    shim: {
+                                        'twitter/js/bootstrap': {
+                                            deps: ['jquery/jquery']
+                                        },
+                                        angular: {
+                                            deps: ['jquery/jquery', 'twitter/js/bootstrap'],
+                                            exports: 'angular'
+                                        },
+                                        angularResource: {
+                                            deps: ['angular']
+                                        }
+                                    }
+                                });
+                                require([
+                                    'app',
+                                    'bootstrap',//Note this is not Twitter Bootstrap,but our AngularJS bootstrap 也就是我们下面将要创建的js文件
+                                    'controllers/mainControllers',
+                                    'services/searchServices',
+                                    'directives/ngbkFocus'
+                                    //Any individual controller, service, directive or filter file
+                                    //that you add will need to be pulled in here.
+                                    //This will have to be maintained by hand.
+                                    ],
+                                    function(angular, app){
+                                        'use strict';
+
+                                        app.config(['$routeProvider',
+                                            function($routeProvider){
+                                                //define your Routes here
+                                            }
+                                        ]);
+                                    }
+                                );
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>创建bootstrap.js <br>
+                            用于引导
+                        </th>
+                        <td>
+                            bootstrap它等到DOM准备就绪(这里使用的RequireJS的插件`domReady`), 然后告诉AngularJS继续执行, 这是很好的.
+                            <pre name="code" class="js">
+                                // The app/scripts/bootstrap.js file which tells AngularJS
+                                // to go ahead and bootstrap when the DOM is loaded
+                                define(['angular', 'domReady'], function(angular, domReady) {
+                                    domReady(function() {
+                                        angular.bootstrap(document, [‘MyApp’]);
+                                    });
+                                });
+                            </pre>
+                            这里将引导从应用程序中分割出来, 还有一个有事, 即我们可以使用一个伪造的文件潜在的取代我们的`mainApp`或者出于测试的目的使用一个`mockApp`. <br>
+                            例如 如果你所依赖的服务器不可开, 你只需要创建一个`fakeApp`使用伪造的数据来替换所有的`$http`请求, 以保持你的开发秩序. 这样的话, 你就可以只悄悄的使用一个`fakeBootstrap`和一个`fakeApp`到你的应用程序中.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>主页面main.html</th>
+                        <td>
+                            你的`main.html`主模板(app目录中)可能看起来像下面这样:
+                            <pre name="code" class="xml">
+                                &lt;html&gt; <!-- Do not add ng-app here as we bootstrap AngularJS manually-->
+                                &lt;head&gt;
+                                    &lt;title&gt;My AngularJS App&lt;/title&gt;
+                                    &lt;meta charset="utf-8" /&gt;
+                                    &lt;link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css"&gt;
+                                    &lt;link rel="stylesheet" type="text/css"
+                                          href="styles/bootstrap-responsive.min.css"&gt;
+                                    &lt;link rel="stylesheet" type="text/css" href="styles/app.css"&gt;
+                                &lt;/head&gt;
+                                &lt;body class="home-page" ng-control ler="RootController"&gt;
+                                &lt;div ng-view &gt;&lt;/div&gt;
+                                &lt;script data-main="scripts/main" src="lib/require/require.min.js"&gt;&lt;/script&gt;
+                                &lt;/body&gt;
+                                &lt;/html&gt;
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Controller</th>
+                        <td>
+                            我们来看看`scripts/controllers/controllers.js`文件, 这看起来几乎与`scripts/directives/directives.js`, `scripts/filters/filters.js`和`js/services/services.js`一模一样:
+                            <pre name="code" class="js">
+                                // The app/scripts/bootstrap.js file which tells AngularJS
+                                // to go ahead and bootstrap when the DOM is loaded
+                                define(['angular'], function(angular){
+                                    'use strict';
+                                    return angular.module('controllers', []);
+                                });
+                            </pre>
+                            因为我们使用了RequireJS依赖的结构, 所有的这些都会保证只在Angular依赖满足并加载完成的情况下才会运行.  <br>
+                            每个文件都定义为一个Angular模块, 然后通过将单个的控制器, 指令, 过滤器和服务添加到定义中来使用.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>directives</th>
+                        <td>
+                            <pre name="code" class="js">
+                                //File: ngbkFocus.js
+                                define(['directives/directives'], function(directives) {
+                                    directives.directive(ngbkFocus, ['$rootScope'], function($rootScope){
+                                        return {
+                                            restict: 'A',
+                                            scope: true,
+                                            link: function(scope, element, attrs){
+                                                element[0].focus();
+                                            }
+                                        }
+                                    });
+                                });
+                            </pre>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Controller</th>
+                        <td>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
