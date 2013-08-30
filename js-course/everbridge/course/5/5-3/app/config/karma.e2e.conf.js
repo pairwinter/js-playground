@@ -14,10 +14,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'bower_components/requirejs/require.js',
-      'test/e2e/test-e2e-config.js',
-      'scripts/views/todo/view-todo.js',
-      'test/e2e/**/*.js'
+      'test/e2e/todo/*.js'
     ],
     urlRoot : '/_karma_/',
 
@@ -65,7 +62,7 @@ module.exports = function(config) {
 
 
     // If browser does not capture in given timeout [ms], kill it
-    captureTimeout: 60000,
+//    captureTimeout: 60000,
 
 
     // Continuous Integration mode
