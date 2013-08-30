@@ -1,23 +1,15 @@
 'use strict';
 
-angular.module('mytodoApp')
-  .controller('MainCtrl', function ($scope) {
-    $scope.todos = ['todo 1', 'todo 2', 'todo 3'];
-    /*
-     var todosInStore = localStorageService.get('todos');
-     $scope.todos = todosInStore && todosInStore.split('\n') || [];
-     $scope.$watch(function(){
-     localStorageService.add('todos',$scope.todos.join('\n'));
-     });
-     */
-    $scope.addTodo = function () {
-      if (!$scope.todo || !$scope.todo.trim()) {
-        return;
+define(['app'],function(app){
+  app.filter('UpperCase', function(){
+    var UpperCase = function(input){
+      var words = input.split(' ');
+      for(var i = 0; i < words.length; i++){
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1);
       }
-      $scope.todos.push($scope.todo);
-      $scope.todo = '';
+
+      return words.join(' ');
     };
-    $scope.removeTodo = function (index) {
-      $scope.todos.splice(index, 1);
-    };
+    return UpperCase;
   });
+});

@@ -2,46 +2,29 @@
 
 //the app/scripts/main.js file, which defines our RequireJS config
 require.config({
+//    enforceDefine:true,
+    baseUrl:'../',
     paths: {
-        angular: 'vendor/angular.min',
-        jquery: 'vendor/jquery',
-        domReady: 'vendor/require/domReady',
-        twitter: 'vendor/bootstrap',
-        angularResource: 'vendor/angular-resource.min'
+        jquery: 'bower_components/jquery/jquery',
+        domReady: 'bower_components/requirejs-domready/domReady',
+        angular: 'bower_components/angular/angular',
+        angularUi : 'bower_components/angular-ui/build/angular-ui',
+        angularResource: 'bower_components/angular-resource/angular-resource',
+        c:'scripts/controllers',
+        d:'scripts/directives',
+        f:'scripts/filters',
+        s:'scripts/services',
+        routeDependencyResolveService : 'scripts/services/RouteDependencyResolve',
+        configModuleBaseService : 'scripts/services/ConfigModuleBase',
+        v:'scripts/views'
     },
-    shim: {
-        'twitter/js/bootstrap': {
-            deps: ['jquery/jquery']
-        },
-        angular: {
-            deps: ['jquery/jquery', 'twitter/js/bootstrap'],
-            exports: 'angular'
-        },
-        angularResource: {
-            deps: ['angular']
-        }
-    }
+    shim:{
+      angularUi:{
+        deps : ['angular']
+      },
+      angularResource:{
+        deps : ['angular']
+      }
+    },
+    urlArgs:'version=1.0'
 });
-
-require([
-    'app',
-    //Note this is not Twitter Bootstrap
-    //but our AngularJS bootstrap
-    'bootstrap',
-    'controllers/mainControllers',
-    'services/searchServices',
-    'directives/ngbkFocus'
-    //Any individual controller, service, directive or filter file
-    //that you add will need to be pulled in here.
-    //This will have to be maintained by hand.
-],
-    function(angular, app){
-        'use strict';
-
-        app.config(['$routeProvider',
-            function($routeProvider){
-                //define your Routes here
-            }
-        ]);
-    }
-);

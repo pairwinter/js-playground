@@ -3,13 +3,14 @@
 <head>
     <title>My AngularJS App</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css"
-          href="styles/bootstrap-responsive.min.css">
-    <link rel="stylesheet" type="text/css" href="styles/app.css">
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap-sass/bootstrap-2.3.2.css">
+    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap-sass/bootstrap-responsive-2.3.2.css">
 </head>
-<body class="home-page" ng-control ler="RootController">
+<body class="home-page">
+<a href="#/todo">todo</a>
 <div ng-view ></div>
-<script data-main="scripts/main" src="lib/require/require.min.js"></script>
+<script src="../bower_components/requirejs/require.js"></script>
+<script src="../scripts/main.js"></script>
+<script src="../scripts/views/todo/view-todo.js"></script>
 </body>
 </html>

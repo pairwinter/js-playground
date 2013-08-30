@@ -5,7 +5,7 @@ module.exports = function(config) {
   config.set({
 
     // base path, that will be used to resolve files and exclude
-    basePath: '',
+    basePath: '../',
 
 
     // frameworks to use
@@ -14,14 +14,10 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'everbridge/resources/javascripts/jquery-1.9.1.js',
-      'everbridge/resources/javascripts/plugin/angular/angular.js',
-      'everbridge/resources/javascripts/plugin/angular/angular-mocks/angular-mocks.js',
-      'everbridge/resources/javascripts/plugin/angular/angular-ui/build/angular-ui.js',
-      'everbridge/resources/javascripts/plugin/angular/angular-local-storage/angular-local-storage.js',
-      'everbridge/course/5/5-3/scripts/*.js',
-      'everbridge/course/5/5-3/scripts/controllers/*.js',
-      'everbridge/course/5/5-3/tests/e2e/*.js',
+      'bower_components/requirejs/require.js',
+      'test/e2e/test-e2e-config.js',
+      'scripts/views/todo/view-todo.js',
+      'test/e2e/**/*.js'
     ],
     urlRoot : '/_karma_/',
 

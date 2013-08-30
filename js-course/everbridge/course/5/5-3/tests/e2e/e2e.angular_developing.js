@@ -8,6 +8,10 @@ describe("Search Results", function(){
   it("Should filter results", function(){
     input("todo").enter("jacksparrow");
     element(":button").click();
+
+//    expect(0).toEqual(0);
+
+
     expect(repeater("ul li").count()).toEqual(1);
 
     input("todo").enter("jacksparrow");

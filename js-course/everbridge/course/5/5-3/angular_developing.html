@@ -519,169 +519,175 @@
             <div class="section_sub_content">
                 <table style="width: 100%">
                     <tbody>
-                    <tr>
-                        <th>项目结构</th>
-                        <td>
-                            <ul>
-                                <li>
-                                    <b class="red">app(webapp):</b>这个目录是所有显示给用户的应用程序代码宿主目录. 包括HTML, JS, CSS, 图片和依赖的库
-                                    <ul>
-                                        <li><b class="red">style:</b>包含所有的CSS/Less文件</li>
-                                        <li><b class="red">images:</b>包含项目的所有图片文件</li>
-                                        <li><b class="red">script:</b>主AngularJS代码库. 这个目录也包括我们的引导程序代码, 主要的RequireJS集成
-                                            <ul>
-                                                <li><b class="red">controllers:</b>这里是AngularJS控制器</li>
-                                                <li><b class="red">directives:</b>这里是AngularJS指令</li>
-                                                <li><b class="red">filters:</b>这里是AngularJS过滤器</li>
-                                                <li><b class="red">services:</b>这里是AngularJS服务</li>
-                                            </ul>
-                                        </li>
-                                        <li><b class="red">vendor: </b>我们所依赖的库(Bootstrap, RequireJS, jQuery)</li>
-                                        <li><b class="red">views: </b>视图的HTML模板部分和项目所使用的组件</li>
-                                    </ul>
-                                </li>
-                                <li><b class="red">config: </b>包含单元测试和场景测试的Karma配置</li>
-                                <li>
-                                    <b class="red">test: </b>包含应用程序的单元测试和场景测试(整合的)
-                                    <ul>
-                                        <li><b class="red">spec: </b>包含应用程序的JS目录中的单元测试和镜像结构</li>
-                                        <li><b class="red">e2e: </b>包含端到端的场景规范</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>使用RequireJS</th>
-                        <td>
-                            在你的main.js中配置RequireJS
-                            <pre name='code' class="js">
-                                require.config({
-                                    paths: {
-                                        angular: 'vendor/angular.min',
-                                        jquery: 'vendor/jquery',
-                                        domReady: 'vendor/require/domReady',
-                                        twitter: 'vendor/bootstrap',
-                                        angularResource: 'vendor/angular-resource.min'
-                                    },
-                                    shim: {
-                                        'twitter/js/bootstrap': {
-                                            deps: ['jquery/jquery']
+                        <tr>
+                            <th>项目结构</th>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <b class="red">app(webapp):</b>这个目录是所有显示给用户的应用程序代码宿主目录. 包括HTML, JS, CSS, 图片和依赖的库
+                                        <ul>
+                                            <li><b class="red">style:</b>包含所有的CSS/Less文件</li>
+                                            <li><b class="red">images:</b>包含项目的所有图片文件</li>
+                                            <li><b class="red">script:</b>主AngularJS代码库. 这个目录也包括我们的引导程序代码, 主要的RequireJS集成
+                                                <ul>
+                                                    <li><b class="red">controllers:</b>这里是AngularJS控制器</li>
+                                                    <li><b class="red">directives:</b>这里是AngularJS指令</li>
+                                                    <li><b class="red">filters:</b>这里是AngularJS过滤器</li>
+                                                    <li><b class="red">services:</b>这里是AngularJS服务</li>
+                                                </ul>
+                                            </li>
+                                            <li><b class="red">vendor: </b>我们所依赖的库(Bootstrap, RequireJS, jQuery)</li>
+                                            <li><b class="red">views: </b>视图的HTML模板部分和项目所使用的组件</li>
+                                        </ul>
+                                    </li>
+                                    <li><b class="red">config: </b>包含单元测试和场景测试的Karma配置</li>
+                                    <li>
+                                        <b class="red">test: </b>包含应用程序的单元测试和场景测试(整合的)
+                                        <ul>
+                                            <li><b class="red">spec: </b>包含应用程序的JS目录中的单元测试和镜像结构</li>
+                                            <li><b class="red">e2e: </b>包含端到端的场景规范</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>使用RequireJS</th>
+                            <td>
+                                在你的main.js中配置RequireJS
+                                <pre name='code' class="js">
+                                    require.config({
+                                        paths: {
+                                            angular: 'vendor/angular.min',
+                                            jquery: 'vendor/jquery',
+                                            domReady: 'vendor/require/domReady',
+                                            twitter: 'vendor/bootstrap',
+                                            angularResource: 'vendor/angular-resource.min'
                                         },
-                                        angular: {
-                                            deps: ['jquery/jquery', 'twitter/js/bootstrap'],
-                                            exports: 'angular'
-                                        },
-                                        angularResource: {
-                                            deps: ['angular']
+                                        shim: {
+                                            'twitter/js/bootstrap': {
+                                                deps: ['jquery/jquery']
+                                            },
+                                            angular: {
+                                                deps: ['jquery/jquery', 'twitter/js/bootstrap'],
+                                                exports: 'angular'
+                                            },
+                                            angularResource: {
+                                                deps: ['angular']
+                                            }
                                         }
-                                    }
-                                });
-                                require([
-                                    'app',
-                                    'bootstrap',//Note this is not Twitter Bootstrap,but our AngularJS bootstrap 也就是我们下面将要创建的js文件
-                                    'controllers/mainControllers',
-                                    'services/searchServices',
-                                    'directives/ngbkFocus'
-                                    //Any individual controller, service, directive or filter file
-                                    //that you add will need to be pulled in here.
-                                    //This will have to be maintained by hand.
-                                    ],
-                                    function(angular, app){
+                                    });
+                                    require([
+                                        'app',
+                                        'bootstrap',//Note this is not Twitter Bootstrap,but our AngularJS bootstrap 也就是我们下面将要创建的js文件
+                                        'controllers/mainControllers',
+                                        'services/searchServices',
+                                        'directives/ngbkFocus'
+                                        //Any individual controller, service, directive or filter file
+                                        //that you add will need to be pulled in here.
+                                        //This will have to be maintained by hand.
+                                        ],
+                                        function(angular, app){
+                                            'use strict';
+
+                                            app.config(['$routeProvider',
+                                                function($routeProvider){
+                                                    //define your Routes here
+                                                }
+                                            ]);
+                                        }
+                                    );
+                                </pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>创建bootstrap.js <br>
+                                用于引导
+                            </th>
+                            <td>
+                                bootstrap它等到DOM准备就绪(这里使用的RequireJS的插件`domReady`), 然后告诉AngularJS继续执行, 这是很好的.
+                                <pre name="code" class="js">
+                                    // The app/scripts/bootstrap.js file which tells AngularJS
+                                    // to go ahead and bootstrap when the DOM is loaded
+                                    define(['angular', 'domReady'], function(angular, domReady) {
+                                        domReady(function() {
+                                            angular.bootstrap(document, [‘MyApp’]);
+                                        });
+                                    });
+                                </pre>
+                                这里将引导从应用程序中分割出来, 还有一个有事, 即我们可以使用一个伪造的文件潜在的取代我们的`mainApp`或者出于测试的目的使用一个`mockApp`. <br>
+                                例如 如果你所依赖的服务器不可开, 你只需要创建一个`fakeApp`使用伪造的数据来替换所有的`$http`请求, 以保持你的开发秩序. 这样的话, 你就可以只悄悄的使用一个`fakeBootstrap`和一个`fakeApp`到你的应用程序中.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>主页面main.html</th>
+                            <td>
+                                你的`main.html`主模板(app目录中)可能看起来像下面这样:
+                                <pre name="code" class="js">
+                                    &lt;html&gt;
+                                        &lt;head&gt;
+                                            &lt;title&gt;My AngularJS App&lt;/title&gt;
+                                            &lt;meta charset="utf-8" /&gt;
+                                            &lt;link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css"&gt;
+                                            &lt;link rel="stylesheet" type="text/css"
+                                                  href="styles/bootstrap-responsive.min.css"&gt;
+                                            &lt;link rel="stylesheet" type="text/css" href="styles/app.css"&gt;
+                                        &lt;/head&gt;
+                                        &lt;body class="home-page" ng-control ler="RootController"&gt;
+                                        &lt;div ng-view &gt;&lt;/div&gt;
+                                        &lt;script data-main="scripts/main" src="lib/require/require.min.js"&gt;&lt;/script&gt;
+                                        &lt;/body&gt;
+                                    &lt;/html&gt;
+                                </pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Controller</th>
+                            <td>
+                                我们来看看`scripts/controllers/controllers.js`文件, 这看起来几乎与`scripts/directives/directives.js`, `scripts/filters/filters.js`和`js/services/services.js`一模一样:
+                                <pre name="code" class="js">
+                                    // The app/scripts/bootstrap.js file which tells AngularJS
+                                    // to go ahead and bootstrap when the DOM is loaded
+                                    define(['angular'], function(angular){
                                         'use strict';
-
-                                        app.config(['$routeProvider',
-                                            function($routeProvider){
-                                                //define your Routes here
-                                            }
-                                        ]);
-                                    }
-                                );
-                            </pre>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>创建bootstrap.js <br>
-                            用于引导
-                        </th>
-                        <td>
-                            bootstrap它等到DOM准备就绪(这里使用的RequireJS的插件`domReady`), 然后告诉AngularJS继续执行, 这是很好的.
-                            <pre name="code" class="js">
-                                // The app/scripts/bootstrap.js file which tells AngularJS
-                                // to go ahead and bootstrap when the DOM is loaded
-                                define(['angular', 'domReady'], function(angular, domReady) {
-                                    domReady(function() {
-                                        angular.bootstrap(document, [‘MyApp’]);
+                                        return angular.module('controllers', []);
                                     });
-                                });
-                            </pre>
-                            这里将引导从应用程序中分割出来, 还有一个有事, 即我们可以使用一个伪造的文件潜在的取代我们的`mainApp`或者出于测试的目的使用一个`mockApp`. <br>
-                            例如 如果你所依赖的服务器不可开, 你只需要创建一个`fakeApp`使用伪造的数据来替换所有的`$http`请求, 以保持你的开发秩序. 这样的话, 你就可以只悄悄的使用一个`fakeBootstrap`和一个`fakeApp`到你的应用程序中.
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>主页面main.html</th>
-                        <td>
-                            你的`main.html`主模板(app目录中)可能看起来像下面这样:
-                            <pre name="code" class="xml">
-                                &lt;html&gt; <!-- Do not add ng-app here as we bootstrap AngularJS manually-->
-                                &lt;head&gt;
-                                    &lt;title&gt;My AngularJS App&lt;/title&gt;
-                                    &lt;meta charset="utf-8" /&gt;
-                                    &lt;link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css"&gt;
-                                    &lt;link rel="stylesheet" type="text/css"
-                                          href="styles/bootstrap-responsive.min.css"&gt;
-                                    &lt;link rel="stylesheet" type="text/css" href="styles/app.css"&gt;
-                                &lt;/head&gt;
-                                &lt;body class="home-page" ng-control ler="RootController"&gt;
-                                &lt;div ng-view &gt;&lt;/div&gt;
-                                &lt;script data-main="scripts/main" src="lib/require/require.min.js"&gt;&lt;/script&gt;
-                                &lt;/body&gt;
-                                &lt;/html&gt;
-                            </pre>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Controller</th>
-                        <td>
-                            我们来看看`scripts/controllers/controllers.js`文件, 这看起来几乎与`scripts/directives/directives.js`, `scripts/filters/filters.js`和`js/services/services.js`一模一样:
-                            <pre name="code" class="js">
-                                // The app/scripts/bootstrap.js file which tells AngularJS
-                                // to go ahead and bootstrap when the DOM is loaded
-                                define(['angular'], function(angular){
-                                    'use strict';
-                                    return angular.module('controllers', []);
-                                });
-                            </pre>
-                            因为我们使用了RequireJS依赖的结构, 所有的这些都会保证只在Angular依赖满足并加载完成的情况下才会运行.  <br>
-                            每个文件都定义为一个Angular模块, 然后通过将单个的控制器, 指令, 过滤器和服务添加到定义中来使用.
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>directives</th>
-                        <td>
-                            <pre name="code" class="js">
-                                //File: ngbkFocus.js
-                                define(['directives/directives'], function(directives) {
-                                    directives.directive(ngbkFocus, ['$rootScope'], function($rootScope){
-                                        return {
-                                            restict: 'A',
-                                            scope: true,
-                                            link: function(scope, element, attrs){
-                                                element[0].focus();
+                                </pre>
+                                因为我们使用了RequireJS依赖的结构, 所有的这些都会保证只在Angular依赖满足并加载完成的情况下才会运行.  <br>
+                                每个文件都定义为一个Angular模块, 然后通过将单个的控制器, 指令, 过滤器和服务添加到定义中来使用.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>directives</th>
+                            <td>
+                                <pre name="code" class="js">
+                                    //File: ngbkFocus.js
+                                    define(['directives/directives'], function(directives) {
+                                        directives.directive(ngbkFocus, ['$rootScope'], function($rootScope){
+                                            return {
+                                                restict: 'A',
+                                                scope: true,
+                                                link: function(scope, element, attrs){
+                                                    element[0].focus();
+                                                }
                                             }
-                                        }
+                                        });
                                     });
-                                });
-                            </pre>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Controller</th>
-                        <td>
+                                </pre>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>filters</th>
+                            <td>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>services</th>
+                            <td>
+
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

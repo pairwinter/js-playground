@@ -1,0 +1,17 @@
+{
+  "name": "mytodoApp",
+  "version": "1.0.0",
+  "homepage": "https://github.com/pairwinter/js",
+  "authors": [
+    "damon <damon.liu@everbridge.com>"
+  ],
+  "description": "qwe",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

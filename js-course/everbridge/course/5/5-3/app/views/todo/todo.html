@@ -1,0 +1,14 @@
+<div ng-controller="TodoController">
+    <ul>
+        <li ng-repeat="todo in todos">
+            <input type="text" ng-model="todo"/>
+            <a class="btn" style="vertical-align: top" ng-click="removeTodo($index)">X</a>
+        </li>
+    </ul>
+    <form ng-submit="addTodo()">
+        <div class="controls form-inline">
+            <input type="text" ng-model="todo" size="20" ngbk-focus/>
+            <button class="btn btn-primary" type="submit">Add</button>
+        </div>
+    </form>
+</div>
