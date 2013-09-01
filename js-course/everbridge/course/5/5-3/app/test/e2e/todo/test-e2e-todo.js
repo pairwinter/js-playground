@@ -1,20 +1,21 @@
 'use strict';
 
-describe("Test Todo", function(){
-  beforeEach(function(){
-    browser().navigateTo("/course/5/5-3/app/views/main.html#/todo");
-    sleep(1);
-//    browser().window().hash("todo");
-//    sleep(1);
+describe("Test Todo", function () {
+  beforeEach(function () {
+    browser().navigateTo("/course/5/5-3/app/views/main.html");
   });
-  it("Should filter results", function(){
-    console.log(browser().location().path());
-    input("todo").enter("jacksparrow");
-    element(":button").click();
-    expect(repeater("ul li").count()).toEqual(1);
+  describe('todo', function () {
+    beforeEach(function () {
+      browser().navigateTo('#/todo');
+      sleep(0.5);
+    });
 
-    input("todo").enter("jacksparrow");
-    element(":button").click();
-    expect(repeater("ul li").count()).toEqual(1);
+    it('should render view1 when user navigates to /todo', function () {
+      input("todo").enter("jacksparrow");
+      element("[ng-view] :button").click();
+      expect(repeater("ul li").count()).toEqual(4);
+      element('[ng-view] .btn:first').click();
+      expect(repeater("ul li").count()).toEqual(3);
+    });
   });
 });
