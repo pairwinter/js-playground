@@ -16,6 +16,8 @@ describe("Test Todo", function () {
       expect(repeater("ul li").count()).toEqual(4);
       element('[ng-view] .btn:first').click();
       expect(repeater("ul li").count()).toEqual(3);
+      input("todo").enter("");
+      expect(repeater("ul li").count()).toEqual(3);
     });
   });
 });
