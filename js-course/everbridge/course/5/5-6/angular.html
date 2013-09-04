@@ -1,0 +1,1160 @@
+<!doctype html>
+<html>
+<head>
+    <title> Angular </title>
+    <meta charset="utf-8">
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/javascripts/plugin/syntax-highlighter/Styles/SyntaxHighlighter.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="../../../resources/css/ember/style.css">
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shCore.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushXml.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/syntax-highlighter/Scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/angular/angular.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../../resources/ready.js"></script>
+
+    <style type="text/css">
+        .done-true {
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+<div class="control_container">
+    <a href="../../../index.html">Index</a>
+        <span class="control">
+            <a href="javascript:" class="openControl">+</a>
+            <a href="javascript:" class="closeControl">-</a>
+        </span>
+    <h2 class="title">Angular Directive</h2>
+</div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">Directive</h3>
+        <div class="jc_section_remark">
+            这是 ng 最强大的一部分，也是最复杂最让人头疼的部分。
+            目前我们看到的所谓“模板”系统，只不过是官方实现的几个指令而已。这意味着，通过自定义各种指令，我们不但可以完全定义一套“模板”系统，更可以把 HTML 页面直接打造成为一种 DSL （领域特定语言）。
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">指令的使用</h4>
+            <div class="section_sub_content">
+                使用指令时，它的名字可以有多种形式，把指令放在什么地方也有多种选择。
+                通常，指令的定义名是形如 ngBind 这样的 “camel cased” 形式。在使用时，它的引用名可以是：
+                <ul>
+                    <li>ng:bind</li>
+                    <li>ng_bind</li>
+                    <li>ng-bind</li>
+                    <li>x-ng-bind</li>
+                    <li>data-ng-bind</li>
+                </ul>
+                指令可以放在多个地方，它们的作用相同：
+                <pre name='code' class="xml">
+                    <span my-dir="exp"></span> 作为标签的属性
+                    <span class="my-dir: exp;"></span> 作为标签类属性的值
+                    <my-dir></my-dir> 作为标签
+                    <!-- directive: my-dir exp --> 作为注释
+                </pre>
+                这些方式可以使用指令定义中的 restrict 属性来控制。 <br>
+                可以看出，指令即可以作为标签使用，也可以作为属性使用。仔细考虑一下，这在类 XML 的结构当中真算得上是一种神奇的机制。
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">指令的执行过程</h4>
+            <div class="section_sub_content">
+                ng 中对指令的解析与执行过程是这样的：
+                <ul>
+                    <li>浏览器得到 HTML 字符串内容，解析得到 DOM 结构。</li>
+                    <li>ng 引入，把 DOM 结构扔给 $compile 函数处理：</li>
+                        <ul>
+                            <li>找出 DOM 结构中有变量占位符</li>
+                            <li>匹配找出 DOM 中包含的所有指令引用</li>
+                            <li>把指令关联到 DOM</li>
+                            <li>关联到 DOM 的多个指令按权重排列 </li>
+                            <li>执行指令中的 compile 函数（改变 DOM 结构，返回 link 函数）</li>
+                            <li>得到的所有 link 函数组成一个列表作为 $compile 函数的返回</li>
+                        </ul>
+                    <li>执行 link 函数（连接模板的 scope）。</li>
+                </ul>
+
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">基本的自定义方法</h4>
+            <div class="section_sub_content">
+                自定义一个指令可以非常非常的复杂，但是其基本的调用形式，同自定义服务大概是相同的：
+                <pre name='code' class="xml">
+                    &lt;p show style="font-size: 12px;"&gt;&lt;/p&gt;
+                    &lt;script type="text/javascript"&gt;
+                        var app = angular.module('Demo', []);
+                        app.directive('show', function(){
+                          var func = function($scope, $element, $attrs){
+                              console.log($scope);
+                              console.log($element);
+                              console.log($attrs);
+                          }
+                          return func;
+                          //return {compile: function(){return func}}
+                        });
+                        angular.bootstrap(document, ['Demo']);
+                    &lt;/script&gt;
+                </pre>
+                <div id="dom1">
+                    <p show>在log中查看信息</p>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        var id = "dom1",controllerName = id+'Controller';
+//                        $("#"+id).attr('ng-controller',controllerName);
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.directive('show', function(){
+                            var func = function($scope, $element, $attrs){
+                                console.log($scope);
+                                console.log($element);
+                                console.log($attrs);
+                            }
+//                            return ['$scope','$element','$attrs',func];
+                            return func;
+                        });
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                如果在 <code>directive</code> 中直接返回一个函数，则这个函数会作为 <code>compile</code> 的返回值，也即是作为 <code>link</code> 函数使用。 <br>
+                这里说的 <code>compile</code> 和 <code>link</code> 都是一个指令的组成部分，一个完整的定义应该返回一个对象，这个对象包括了多个属性：
+                <ul>
+                    <li>name</li>
+                    <li>priority</li>
+                    <li>terminal</li>
+                    <li>scope</li>
+                    <li>controller</li>
+                    <li>require</li>
+                    <li>restrict</li>
+                    <li>template</li>
+                    <li>templateUrl</li>
+                    <li>replace</li>
+                    <li>transclude</li>
+                    <li>compile</li>
+                    <li>link</li>
+                </ul>
+                上面的每一个属性，都可以单独探讨的。
+
+                看一个完整的例子,用来格式化代码:
+                <pre name='code' class="js">
+                    var app = angular.module('Demo', [], angular.noop);
+                    app.directive('code', function(){
+                        var func = function($scope, $element, $attrs){
+                            var html = $element.text();
+                            var lines = html.split('\n');
+                            //处理首尾空白
+                            if(lines[0].trim() == ''){lines = lines.slice(1, lines.length - 1)}
+                            if(lines[lines.length-1].trim() == ''){lines = lines.slice(0, lines.length - 1)}
+                            $element.empty();
+                            //处理外框
+                            (function(){
+                                $element.css('clear', 'both');
+                                $element.css('display', 'block');
+                                $element.css('line-height', '20px');
+                                $element.css('height', '200px');
+                            })();
+                            var isShowLine = 'lines' in $attrs;//是否显示行号的选项
+                            //处理内容
+                            (function(){
+                                var div = $('<div style="height: %spx;"></div>'.replace('%s', (lines.length*10)+""));
+                                var s = '';
+                                angular.forEach(lines, function(l, i){
+                                    var line = isShowLine?('<span style="margin: 0;">%s</span>'.replace('%s', i + 1) ):'';
+                                    s +=('<p>'+line +l+'</p>');
+                                });
+                                div.html(s);
+                                $element.append(div);
+                            })();
+                        }
+                        return {link: func, restrict: 'AE'}; //以元素或属性的形式使用命令
+                    });
+                    angular.bootstrap(document, ['Demo']);
+                </pre>
+
+                <div id="dom2">
+                    <pre lines code>
+                        alert(1);
+                        alert(2);
+                        alert(3);
+                        alert(4);
+                        alert(5);
+                    </pre>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        var id = "dom2",controllerName = id+'Controller';
+//                        $("#"+id).attr('ng-controller',controllerName);
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.directive('code', function(){
+                            var func = function($scope, $element, $attrs){
+                                var html = $element.text();
+                                var lines = html.split('\n');
+                                //处理首尾空白
+                                if(lines[0].trim() == ''){lines = lines.slice(1, lines.length - 1)}
+                                if(lines[lines.length-1].trim() == ''){lines = lines.slice(0, lines.length - 1)}
+                                $element.empty();
+                                //处理外框
+                                (function(){
+                                    $element.css('clear', 'both');
+                                    $element.css('display', 'block');
+                                    $element.css('line-height', '20px');
+                                    $element.css('height', '200px');
+                                })();
+                                var isShowLine = 'lines' in $attrs;//是否显示行号的选项
+                                //处理内容
+                                (function(){
+                                    var div = $('<div style="height: %spx;"></div>'.replace('%s', (lines.length*10)+""));
+                                    var s = '';
+                                    angular.forEach(lines, function(l, i){
+                                        var line = isShowLine?('<span style="margin: 0;">%s</span>'.replace('%s', i + 1) ):'';
+                                        s +=('<p>'+line +l+'</p>');
+                                    });
+                                    div.html(s);
+                                    $element.append(div);
+                                })();
+                            }
+                            return {link: func, restrict: 'AE'}; //以元素或属性的形式使用命令
+                        });
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                上面这个自定义的指令，做的事情就是解析节点中的文本内容，然后修改它，再把生成的新内容填充到节点当中去。 <br>
+                其间还涉及了节点属性值 lines 的处理。这算是指令中最简单的一种形式。因为它是“一次性使用”，中间没有变量的处理。<br>
+                比如如果节点原来的文本内容是一个变量引用，类似于 {{ code }} ，那上面的代码就不行了。这种情况麻烦得多。后面会讨论。 <br>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">属性值类型的自定义</h4>
+            <div class="section_sub_content">
+                读取属性值，并进行相应的变动
+                看一个简单的例子：
+                <pre name='code' class="js">
+                    <p color="red">有颜色的文本</p>
+                    <color color="red">有颜色的文本</color>
+                    &lt;script type="text/javascript"&gt;
+                      var app = angular.module('Demo', [], angular.noop);
+                      app.directive('color', function(){
+                          var link = function($scope, $element, $attrs){
+                              $element.css('color', $attrs.color);
+                          }
+                          return {link: link,
+                              restrict: 'AE'};
+                      });
+                      angular.bootstrap(document, ['Demo']);
+                    &lt;/script&gt;
+                </pre>
+                <div id="dom3">
+                    <p color='red'>文本的颜色</p>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        var id = "dom3",controllerName = id+'Controller';
+//                        $("#"+id).attr('ng-controller',controllerName);
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.directive('color',function(){
+                            var link = function($scope,$element,$attrs){
+                                $element.css({color:$attrs.color});
+                            }
+                            return {link : link,restrick : 'AE'};
+                        });
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                我们定义了一个叫 color 的指令，可以指定节点文本的颜色。     <br>
+                但是这个例子还无法像 ng-show 那样工作的，这个例子只能渲染一次，然后就无法根据变量来重新改变显示了。  <br>
+                要响应变化，我们需要手工使用 scope 的 $watch 来处理：
+                <pre name='code' class="js">
+                    <input type="text" ng-model="textColor"/>
+                    <p color='textColor'>文本的颜色</p>
+                    &lt;script type="text/javascript"&gt;
+                      module.directive('color',function(){
+                            var link = function($scope,$element,$attrs){
+                                $scope.$watch($attrs.color,function(newColor){
+                                    $element.css({color:newColor});
+                                });
+                            }
+                            return {link : link,restrick : 'AE'};
+                        });
+                        module.controller(controllerName,function($scope){
+                            $scope.textColor = 'red';
+                        });
+                    &lt;/script&gt;
+                </pre>
+                <div id="dom4">
+                    <input type="text" ng-model="textColor"/>
+                    <p color='textColor'>文本的颜色</p>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        var id = "dom4",controllerName = id+'Controller';
+                        $("#"+id).attr('ng-controller',controllerName);
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.directive('color',function(){
+                            var link = function($scope,$element,$attrs){
+                                $scope.$watch($attrs.color,function(newColor){
+                                    $element.css({color:newColor});
+                                });
+                            }
+                            return {link : link,restrick : 'AE'};
+                        });
+                        module.controller(controllerName,function($scope){
+                            $scope.textColor = 'red';
+                        });
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">Compile的细节</h4>
+            <div class="section_sub_content">
+                指令的处理过程，是 ng 的 Compile 过程的一部分，它们也是紧密联系的。继续深入指令的定义方法，首先就要对 Compile 的过程做更细致的了解。  <br>
+                前面说过， ng 对页面的处理过程：
+                <ul>
+                    <li>浏览器把 HTML 字符串解析成 DOM 结构。</li>
+                    <li>ng 把 DOM 结构给 $compile ，返回一个 link 函数。</li>
+                    <li>传入具体的 scope 调用这个 link 函数。</li>
+                    <li>得到处理后的 DOM ，这个 DOM 处理了指令，连接了数据。</li>
+                </ul>
+                $compile 最基本的使用方式：
+                <pre name='code' class="js">
+                    var link = $compile('<p>{{ text }}</p>');
+                    var node = link($scope);
+                    console.log(node);
+                </pre>
+                上面的 $compile 和 link 调用时都有额外参数来实现其它功能。先看 link 函数，它形如：
+                <pre name='code' class="js">
+                    function(scope[, cloneAttachFn]
+                </pre>
+                第二个参数 cloneAttachFn 的作用是，表明是否复制原始节点，及对复制节点需要做的处理，下面这个例子说明了它的作用：
+                <pre name='code' class="xml">
+                    <div ng-controller="TestCtrl"></div>
+                    &lt;div id="a"&gt;A {{ text }}&lt;/div&gt;
+                    &lt;div id="b"&gt;B &lt;/div&gt;
+                </pre>
+                <pre name='code' class="js">
+                    app.controller('TestCtrl', function($scope, $compile){
+                        var link = $compile($('#a'));
+                        //true参数表示新建一个完全隔离的scope,而不是继承的child scope
+                        var scope = $scope.$new(true);
+                        scope.text = '12345';
+                        //var node = link(scope, function(){}); //只要传递了第二匿名函数就表示要clone原始dom
+                        var node = link(scope);
+                        $('#b').append(node);//#a会被放置到#b中，而不是clone之后再放置到#b中
+                    });
+                </pre>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th style="width: 100px">#a没有被clone</th>
+                            <td>
+                                <div id="dom5" style="padding-left: 20px">
+                                    <div ng-controller="dom5Controller"></div>
+                                    <div id="a">A {{ text }}</div>
+                                    <div id="b">B </div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        var id = "dom5",controllerName = id+'Controller';
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.controller(controllerName,function($scope,$compile){
+                                            var link = $compile($('#a'));
+                                            var scope = $scope.$new(true);
+                                            scope.text = '这是A的内容';
+                                            var node = link(scope);
+                                            $('#b').append(node);
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th style="width: 100px">#a被clone</th>
+                            <td>
+                                <div id="dom6" style="padding-left: 20px">
+                                    <div ng-controller="dom6Controller"></div>
+                                    <div id="a1">A {{ text }}</div>
+                                    <div id="b1">B </div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        var id = "dom6",controllerName = id+'Controller';
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.controller(controllerName,function($scope,$compile){
+                                            var link = $compile($('#a1'));
+                                            var scope = $scope.$new(true);
+                                            scope.text = '这是A的内容';
+                                            var node = link(scope,function(){});
+                                            $('#b1').append(node);
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                cloneAttachFn 对节点的处理是有限制的，你可以添加 class ，但是不能做与数据绑定有关的其它修改（修改了也无效）：
+                <pre name='code' class="js">
+                    app.controller('TestCtrl', function($scope, $compile){
+                        var link = $compile($('#a'));
+                        var scope = $scope.$new(true);
+                        scope.text = '12345';
+                        var node = link(scope, function(clone_element, scope){
+                          clone_element.text(clone_element.text() + ' ...'); //无效
+                          clone_element.text('{{ text2 }}'); //无效
+                          clone_element.addClass('new_class');
+                        });
+                        $('#b').append(node);
+                    });
+                </pre>
+                修改无效的原因是，像 {{ text }} 这种所谓的 Interpolate 在 $compile 中已经被处理过了，生成了相关函数（这里起作用的是 directive 中的一个 postLink 函数），    <br>
+                后面执行 link 就是执行了 $compile 生成的这些函数。当然，如果你的文本没有数据变量的引用，那修改是会有效果的。
+                <table style="width: 100%">
+                    <tbody>
+                    <tr>
+                        <th>#a 中存在数据变量的引用{{ text }}，不可以修改#a的内容</th>
+                        <td>
+                            <pre name='code' class="js">
+                                <div ng-controller="dom5Controller"></div>
+                                &lt;div id="a"&gt;A {{ text }}&lt;/div&gt;
+                                &lt;div id="b"&gt;B &lt;/div&gt;
+                                module.controller(controllerName,function($scope,$compile){
+                                    var link = $compile($('#a'));
+                                    var scope = $scope.$new(true);
+                                    scope.text = '这是A的内容,没有被修改';
+                                    var node = link(scope,function(clone_element,scope){
+                                        clone_element.text('修改A的内容'); //没有修改成功，
+                                        clone_element.css({color:'red'}); //修改成功
+                                    });
+                                    $('#b').append(node);
+                                });
+                            </pre>
+                            <div id="dom7" style="padding-left: 20px">
+                                <div ng-controller="dom7Controller"></div>
+                                <div id="a2">A {{ text }}</div>
+                                <div id="b2">B </div>
+                            </div>
+                            <script type="text/javascript">
+                                (function(){
+                                    var id = "dom7",controllerName = id+'Controller';
+                                    var module = angular.module(id,[]),dom = document.getElementById(id);
+                                    module.controller(controllerName,function($scope,$compile){
+                                        var link = $compile($('#a2'));
+                                        var scope = $scope.$new(true);
+                                        scope.text = '这是A的内容,没有被修改';
+                                        var node = link(scope,function(clone_element,scope){
+                                            clone_element.text('修改A的内容');
+                                            clone_element.css({color:'red'});
+                                        });
+                                        $('#b2').append(node);
+                                    });
+                                    angular.bootstrap(dom, [id]);
+                                })();
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>#a 中不存在数据变量的引用，可以修改#a的内容</th>
+                        <td>
+                            <pre name='code' class="js">
+                                <div ng-controller="dom5Controller"></div>
+                                &lt;div id="a"&gt;A &lt;/div&gt;
+                                &lt;div id="b"&gt;B &lt;/div&gt;
+                                module.controller(controllerName,function($scope,$compile){
+                                    var link = $compile($('#a'));
+                                    var scope = $scope.$new(true);
+                                    scope.text = '这是A的内容';
+                                    var node = link(scope,function(clone_element,scope){
+                                        clone_element.text('修改A的内容，修改成功！'); //修改成功，
+                                        clone_element.css({color:'red'}); //修改成功
+                                    });
+                                    $('#b').append(node);
+                                });
+                            </pre>
+                            <div id="dom8" style="padding-left: 20px">
+                                <div ng-controller="dom8Controller"></div>
+                                <div id="a3">A</div>
+                                <div id="b3">B</div>
+                            </div>
+                            <script type="text/javascript">
+                                (function(){
+                                    var id = "dom8",controllerName = id+'Controller';
+                                    var module = angular.module(id,[]),dom = document.getElementById(id);
+                                    module.controller(controllerName,function($scope,$compile){
+                                        var link = $compile($('#a3'));
+                                        var scope = $scope.$new(true);
+                                        scope.text = '这是A的内容';
+                                        var node = link(scope,function(clone_element,scope){
+                                            clone_element.text('修改A的内容，修改成功！');
+                                            clone_element.css({color:'red'});
+                                        });
+                                        $('#b3').append(node);
+                                    });
+                                    angular.bootstrap(dom, [id]);
+                                })();
+                            </script>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                前面在说自定义指令时说过， link 函数是由 compile 函数返回的，也就像前面说的，应该把改变 DOM 结构的逻辑放在 compile 函数中做。 <br>
+                $compile 还有两个额外的参数：
+                <pre name='code' class="js">
+                    $compile(element, transclude, maxPriority);
+                </pre>
+                <code>maxPriority</code> 是指令的权重限制，这个容易理解，后面再说。 <br>
+                <code>transclude</code> 是一个函数，这个函数会传递给 <code>compile</code> 期间找到的 <code>directive</code> 的 <code>compile</code> 函数（编译节点的过程中找到了指令，指令的 <code>compile</code> 函数会接受编译时传递的 <code>transclude</code> 函数作为其参数）。 <br>
+                但是在实际使用中，除非我们手工调用 <code>$compile</code> 之外，初始化根节点时的 <code>compile</code> 是不会传递这个参数的。   <br>
+                在我们定义指令时，它的 compile 函数是这个样子的：
+                <pre name='code' class="js">
+                    function compile(tElement, tAttrs, transclude) { ... }
+                </pre>
+                事实上， <code>transclude</code> 的值，就是 <code>directive</code> 所在的 原始 节点，
+                把原始节点重新做了编译之后得到的 <code>link</code> 函数（需要 <code>directive</code> 定义时使用 <code>transclude</code> 选项），
+                后面会专门演示这个过程。所以，官方文档上也把 <code>transclude</code> 函数描述成 <code>link</code> 函数的样子（如果自定义的指令只用在自己手动 <code>$compile</code> 的环境中，那这个函数的形式是可以随意的） <br>
+                <span class="red">所以记住，定义指令时， compile 函数的第三个参数 transclude ，就是一个 link ，装入 scope 执行它你就得到了一个节点。</span>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">transclude的细节</h4>
+            <div class="section_sub_content">
+                <code>transclude</code> 有两方面的东西，一个是使用 $compile 时传入的函数，另一个是定义指令的 compile 函数时接受的一个参数。
+                虽然这里的一出一进本来是相互对应的，但是实际使用中，因为大部分时候不会手动调用 $compile ，所以，在“默认”情况下，指令接受的 transclude 又会是一个比较特殊的函数。
+                看一个基本的例子：
+                <pre name='code' class="js">
+                    module.directive('more',function(){
+                        var func = function(element,attrs,transclude){
+                            var sum = transclude(1,2);
+                            element.text(sum);
+                        }
+                        return {compile:func,restrict:'AE'};
+                    });
+                    module.controller(controllerName,function($scope,$compile,$element){
+                        var s = '<p more></p>';
+                        var link = $compile(s,function(a,b){return a+b});
+                        var scope = $scope.$new(true);
+                        var node = link(scope);
+                        $element.append(node);
+                    });
+                </pre>
+                <div id="dom9"></div>
+                <script type="text/javascript">
+                    (function(){
+                        var id = "dom9",controllerName = id+'Controller';
+                        $('#'+id).attr('ng-controller',controllerName);
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.directive('more',function(){
+                            var func = function(element,attrs,transclude){
+                                var sum = transclude(1,2);
+                                element.text(sum);
+                            }
+                            return {compile:func,restrict:'AE'};
+                        });
+                        module.controller(controllerName,function($scope,$compile,$element){
+                            var s = '<p more></p>';
+                            var link = $compile(s,function(a,b){return a+b});
+                            var scope = $scope.$new(true);
+                            var node = link(scope);
+                            $element.append(node);
+                        });
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                我们定义了一个 more 指令，它的 compile 函数的第三个参数，就是我们手工 $compile 时传入的。 <br>
+                如果不是手工 $compile ，而是 ng 初始化时找出的指令，则 transclude 是一个 link 函数（指令定义需要设置 transclude 选项）：
+                <pre name='code' class="js">
+                    app.directive('more', function($rootScope, $document){
+                    var func = function(element, attrs, link){
+                      var node = link($rootScope);
+                      node.removeAttr('more'); //不去掉就变死循环了
+                      $('body', $document).append(node);
+                    }
+
+                    return {compile: func,
+                            transclude: 'element', // element是节点,其它值是节点的内容
+                            restrict: 'A'};
+                  });
+                </pre>
+                <div id="dom10">
+                    <div more>{{ text }}</div>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        var id = "dom10",controllerName = id+'Controller';
+                        $('#'+id).attr('ng-controller',controllerName);
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.directive('more',function($rootScope,$document){
+                            var func = function(element,attrs,link){
+                                var node = link($rootScope);
+                                node.removeAttr('more');
+//                                $('#'+id,$document).append(node);
+                            }
+                            return {
+                                template:'<div></div>',
+                                compile:func,
+                                transclude: 'element',
+                                restrict:'AE'
+                            };
+                        });
+                        module.controller(controllerName,function($scope){
+                            $scope.text = '123456789';
+                        });
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">把节点内容作为变量处理的类型</h4>
+            <div class="section_sub_content">
+                回顾最开始的那个代码显示的例子，那个例子只能处理一次节点内容。如果节点的内容是一个变量的话，需要用另外的思路来考虑。  <br>
+                这里我们假设的例子是，定义一个指令 showLenght ，它的作用是在一段文本的开头显示出这段节点文本的长度，节点文本是一个变量。指令使用的形式是：
+                <pre name='code' class="xml">
+                    &lt;div ng-controller="TestCtrl"&gt;
+                        &lt;div show-length&gt;{{ text }}&lt;/div&gt;
+                        &lt;button ng-click="text='xx'"&gt;改变&lt;/button&gt;
+                    &lt;/div>
+                </pre>
+                从上面的 HTML 代码中，大概清楚 ng 解析它的过程（只看 show-length 那一行）：
+                <ul>
+                    <li>解析 <code>div</code> 时发现了一个 <code>show-length</code> 的指令。</li>
+                    <li>如果 <code>show-length</code> 指令设置了 <code>transclude</code> 属性，则 <code>div</code> 的节点内容被重新编译，得到的 <code>link</code> 函数作为指令 <code>compile</code> 函数的参数传入。</li>
+                    <li>如果 <code>show-length</code> 指令没有设置 <code>transclude</code> 属性，则继续处理它的子节点（ TextNode ）。</li>
+                    <li>不管是上面的哪种情况，都会继续处理到 <code>{{ text }}</code> 这段文本。 </li>
+                    <li>发现 <code>{{ text }}</code> 是一个 Interpolate ，于是自动在此节点中添加了一个指令，这个指令的 <code>link</code> 函数就是为 <code>scope</code> 添加了一个 <code>$watch</code> ，实现的功能是是当 <code>scope</code> 作 <code>$digest</code> 的时候，就更新节点文本。 </li>
+                </ul>
+                与处理 {{ text }} 时添加的指令相同，我们实现 showLength 的思路，也就是：
+                <ul>
+                    <li>修改原来的 DOM 结构</li>
+                    <li>为 scope 添加 $watch ，当 $digest 时修改指定节点的文本，其值为指定节点文本的长度。</li>
+                </ul>
+                <pre name='code' class="js">
+                    module.directive('showLength',function($rootScope,$document){
+                        var func = function(element,attrs,link){
+                            return function(scope,iElement,iAttrs,controller){
+                                var node = link(scope);
+                                iElement.append(node);
+                                var lnode = $('<span></span>');
+                                iElement.append(lnode);
+                                scope.$watch(function(scope){
+                                    lnode.text('==>'+scope.text.length);
+                                });
+                            }
+                        }
+                        return {
+                            compile:func,
+                            transclude: true,
+                            restrict:'AE'
+                        };
+                    });
+                    module.controller(controllerName,function($scope){
+                        $scope.text = '123456789';
+                    });
+                </pre>
+                <div id="dom11">
+                    <input type="text" ng-model="text"/>
+                    <show-length>{{ text }}</show-length>
+                </div>
+                <script type="text/javascript">
+                    (function(){
+                        var id = "dom11",controllerName = id+'Controller';
+                        $('#'+id).attr('ng-controller',controllerName);
+                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                        module.directive('showLength',function($rootScope,$document){
+                            var func = function(element,attrs,link){
+                                return function(scope,iElement,iAttrs,controller){
+                                    var node = link(scope);
+                                    iElement.append(node);
+                                    var lnode = $('<span></span>');
+                                    iElement.append(lnode);
+                                    scope.$watch(function(scope){
+                                        lnode.text('==>'+scope.text.length);
+                                    });
+                                }
+                            }
+                            return {
+                                compile:func,
+                                transclude: true,
+                                restrict:'AE'
+                            };
+                        });
+                        module.controller(controllerName,function($scope){
+                            $scope.text = '123456789';
+                        });
+                        angular.bootstrap(dom, [id]);
+                    })();
+                </script>
+                上面代码中，因为设置了 transclude 属性，我们在 showLength 的 link 函数（就是 return 的那个函数）中， <br>
+                使用 func 的第三个函数来重塑了原来的文本节点，并放在我们需要的位置上。然后，我们添加自己的节点来显示长度值。最后给当前的 scope 添加 $watch ，以更新这个长度值。
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">指令定义时的参数</h4>
+            <div class="section_sub_content">
+                指令定义时的参数如下：
+                <ul>
+                    <li>name</li>
+                    <li>priority</li>
+                    <li>terminal</li>
+                    <li>scope</li>
+                    <li>controller</li>
+                    <li>require</li>
+                    <li>restrict</li>
+                    <li>template</li>
+                    <li>templateUrl</li>
+                    <li>replace</li>
+                    <li>transclude</li>
+                    <li>compile</li>
+                    <li>link</li>
+                </ul>
+                <table style="width: 100%">
+                    <tbody>
+                        <tr>
+                            <th>priority</th>
+                            <td>
+                                这个值设置指令的权重，默认是 0 。当一个节点中有多个指令存在时，就按着权限从大到小的顺序依次执行它们的 compile 函数。相同权重顺序不定。
+                                <pre name='code' class="xml">
+                                    <aa bb></aa>
+                                </pre>
+                                <pre name='code' class="js">
+                                    module.directive('aa', function(){
+                                        var func = function(element, attrs, link){
+                                            console.log('aa');
+                                        }
+                                        return {compile: func,
+                                            priority: 1,
+                                            restrict: 'EA'};
+                                    });
+
+                                    module.directive('bb', function(){
+                                        var func = function(element, attrs, link){
+                                            console.log('bb');
+                                        }
+
+                                        return {compile: func,
+                                            priority: 2,
+                                            terminal: false,
+                                            restrict: 'EA'
+                                        };
+                                    });
+
+                                    module.directive('cc', function(){
+                                        var func = function(element, attrs, link){
+                                            console.log('cc');
+                                        }
+
+                                        return {compile: func,
+                                            priority: 3,
+                                            terminal: false,
+                                            restrict: 'EA'
+                                        };
+                                    });
+                                    module.controller(controllerName,function($scope){
+                                        $scope.text = 'console.log中先打印cc再打印bb最后打印aa,谁的priority大，执行的优先级就高！';
+                                    });
+                                </pre>
+
+                                <div id="dom12">
+                                    <div aa bb cc>{{ text }}</div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        var id = "dom12",controllerName = id+'Controller';
+                                        $('#'+id).attr('ng-controller',controllerName);
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.directive('aa', function(){
+                                            var func = function(element, attrs, link){
+                                                console.log('aa');
+                                            }
+                                            return {compile: func,
+                                                priority: 1,
+                                                restrict: 'EA'};
+                                        });
+
+                                        module.directive('bb', function(){
+                                            var func = function(element, attrs, link){
+                                                console.log('bb');
+                                            }
+
+                                            return {compile: func,
+                                                priority: 2,
+                                                terminal: false,
+                                                restrict: 'EA'
+                                            };
+                                        });
+
+                                        module.directive('cc', function(){
+                                            var func = function(element, attrs, link){
+                                                console.log('cc');
+                                            }
+
+                                            return {compile: func,
+                                                priority: 3,
+                                                terminal: false,
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.controller(controllerName,function($scope){
+                                            $scope.text = 'console.log中先打印cc再打印bb最后打印aa,谁的priority大，执行的优先级就高！';
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>terminal</th>
+                            <td>是否以当前指令的权重为结束界限。如果这值设置为 true ，则节点中权重小于当前指令的其它指令不会被执行。相同权重的会执行。</td>
+                        </tr>
+                        <tr>
+                            <th>scope</th>
+                            <td>
+                                scope 的形式。
+                                <ul>
+                                    <li>false 节点的 scope ，</li>
+                                    <li>true 继承创建一个新的 scope ， </li>
+                                    <li>{} 不继承创建一个新的隔离 scope 。 </li>
+                                    <li>{@attr: '引用节点属性', =attr: '把节点属性值引用成scope属性值', &attr: '把节点属性值包装成函数'}   </li>
+                                </ul>
+                                <pre name='code' class="xml">
+                                    <div ng-controller="TestCtrl">
+                                        <a>{{ text }}</a> <br>
+                                        <b>{{ text }}</b> <br>
+                                        <c>{{ text }}</c> <br>
+                                        <d abc='123' text='{{ text }}' cc='cc属性的值'>{{ b }}</d>  <br>
+                                        <e text='text'>{{ a }}</e>   <br>
+                                        <div f abc="here = here + 1" ng-click="show(here)">Click</div>
+                                    </div>
+                                </pre>
+                                <pre name='code' class="js">
+                                    module.directive('a', function(){
+                                        var func = function(element, attrs, link){
+                                            return function(scope){
+                                                console.log(scope.text);
+                                            }
+                                        }
+                                        return {compile: func,
+                                            scope : false,//这是默认值，使用root scope
+                                            restrict: 'EA'};
+                                    });
+                                    module.directive('b', function(){
+                                        var func = function(element, attrs, link){
+                                            return function(scope){
+                                                console.log(scope.text);
+                                            }
+                                        }
+
+                                        return {compile: func,
+                                            scope:true,//继承 root scope
+                                            restrict: 'EA'
+                                        };
+                                    });
+                                    module.directive('c', function(){
+                                        var func = function(element, attrs, link){
+                                            return function(scope){
+                                                scope.text = '创建一个新的scope';
+                                                console.log(scope.text);
+                                            }
+                                        }
+
+                                        return {compile: func,
+                                            scope:{},// 创建一个新的scope
+                                            restrict: 'EA'
+                                        };
+                                    });
+                                    module.directive('d', function(){
+                                        var func = function(element, attrs, link){
+                                            return function(scope,iElement,iAttrs){
+                                                //通过attr.$observe去观察属性值的变化，包括interpolation（例如text=”{{text}}”）。不单单很有效，而且是简单地获取真实值唯一的办法。
+                                                // 因为在linking阶段，interpolation还没被赋值（替换真实值），所以在这时候访问它，结果是undefined。
+                                                iAttrs.$observe('text', function(value) {
+                                                    console.log(value + ',现在它绑定给了当前新的scope的b属性！');
+                                                });
+                                                //还有一种方法:
+                                                /*setTimeout(function(){
+                                                    console.log(scope.b + ',现在它绑定给了当前新的scope的b属性！');
+                                                },0);*/
+
+                                            }
+                                        }
+
+                                        return {compile: func,
+                                            /**
+                                             * @abc 引用 div 节点的 abc 属性。
+                                             * @text 引用 div 节点的 text 属性，而 text 属性又是一个变量绑定，于是 scope 中 b 属性值就和 Controller 中 base scope 的 text 变量绑定在一起了
+                                             * @ 没有写 attr name ，则默认取自己的值，这里是取 div 的 cc 属性。
+                                             */
+                                            scope:{a: '@abc', b: '@text', cc: '@'},// 创建一个新的scope,并使用节点属性填充值
+                                            restrict: 'EA'
+                                        };
+                                    });
+                                    module.directive('e', function(){
+                                        var func = function(element, attrs, link){
+                                            return function(scope){
+                                                console.log(scope.a);
+                                            }
+                                        }
+
+                                        return {compile: func,
+                                            scope:{a:'=text'},// 创建一个新的scope,=attr 只是它把节点的属性值当成节点 scope 的属性名来使用，作用相当于上面例子中的 @text ,注意text属性值的写法,一个有{{  }},一个没有
+                                            restrict: 'EA'
+                                        };
+                                    });
+                                    module.directive('f', function(){
+                                        var func = function(element, attrs, link){
+                                            return function(scope){
+                                                console.log(scope.text);
+                                                scope.a();
+                                                scope.b();
+                                                scope.show = function(here){
+                                                    console.log('inner :' + here);
+                                                    scope.a({here:5});
+                                                    scope.b();
+                                                }
+                                            }
+                                        };
+                                        return {compile: func,
+                                            /**
+                                             * scope.a 是 &abc,即scope.a = function(){here = here + 1},只是其中的 here 是 TestCtrl 的.
+                                             * scope.b 是 &ngClick ，即：scope.b = function(){show(here)}
+                                             * 这里的 show() 和 here 都是 TestCtrl 的，于是上面的代码最开始会在终端输出一个 124
+                                             * 当点击“这里”时，这时执行的 show(here) 就是 llink 中定义的那个函数了，与 TestCtrl 无关。
+                                             * 但是，其间的 scope.a({here:5}) ，因为 a 执行时是 TestCtrl 的上下文，于是向 a 传递的一个对象，里面的所有属性 TestCtrl 就全收下了，接着执行 here=here+1 ，于是我们会在屏幕上看到 6 。
+                                             */
+                                            scope:{a: '&abc', b: '&ngClick'},//创建一个新的scope, &attr 是包装一个函数出来，这个函数以节点所在的 scope 为上下文
+                                            restrict: 'EA'
+                                        };
+                                    });
+                                    module.controller(controllerName,function($scope){
+                                        $scope.text = 'base scope 中 text 的值';
+                                        $scope.here = 123;
+                                        $scope.show = function(here){
+                                            console.log(here);
+                                        }
+                                    });
+                                </pre>
+                                <div id="dom13">
+                                    <a>{{ text }}</a> <br>
+                                    <b>{{ text }}</b> <br>
+                                    <c>{{ text }}</c> <br>
+                                    <d abc='123' text='{{ text }}' cc='cc属性的值'>{{ b }}</d>  <br>
+                                    <e text='text'>{{ a }}</e>   <br>
+                                    <div f abc="here = here + 1" ng-click="show(here)">Click</div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        var id = "dom13",controllerName = id+'Controller';
+                                        $('#'+id).attr('ng-controller',controllerName);
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.directive('a', function(){
+                                            var func = function(element, attrs, link){
+                                                return function(scope){
+                                                    console.log(scope.text);
+                                                }
+                                            }
+                                            return {compile: func,
+                                                scope : false,//这是默认值，使用root scope
+                                                restrict: 'EA'};
+                                        });
+                                        module.directive('b', function(){
+                                            var func = function(element, attrs, link){
+                                                return function(scope){
+                                                    console.log(scope.text);
+                                                }
+                                            }
+
+                                            return {compile: func,
+                                                scope:true,//继承 root scope
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.directive('c', function(){
+                                            var func = function(element, attrs, link){
+                                                return function(scope){
+                                                    scope.text = '创建一个新的scope';
+                                                    console.log(scope.text);
+                                                }
+                                            }
+
+                                            return {compile: func,
+                                                scope:{},// 创建一个新的scope
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.directive('d', function(){
+                                            var func = function(element, attrs, link){
+                                                return function(scope,iElement,iAttrs){
+                                                    //通过attr.$observe去观察属性值的变化，包括interpolation（例如text=”{{text}}”）。不单单很有效，而且是简单地获取真实值唯一的办法。
+                                                    // 因为在linking阶段，interpolation还没被赋值（替换真实值），所以在这时候访问它，结果是undefined。
+                                                    iAttrs.$observe('text', function(value) {
+                                                        var text = value + ',现在它绑定给了当前新的scope的b属性！';
+                                                        console.log(text);
+                                                    });
+                                                    //还有一种方法:
+                                                    /*setTimeout(function(){
+                                                        console.log(scope.b + ',现在它绑定给了当前新的scope的b属性！');
+                                                    },0);*/
+
+                                                }
+                                            }
+
+                                            return {compile: func,
+                                                /**
+                                                 * @abc 引用 div 节点的 abc 属性。
+                                                 * @text 引用 div 节点的 text 属性，而 text 属性又是一个变量绑定，于是 scope 中 b 属性值就和 Controller 中 base scope 的 text 变量绑定在一起了
+                                                 * @ 没有写 attr name ，则默认取自己的值，这里是取 div 的 cc 属性。
+                                                 */
+                                                scope:{a: '@abc', b: '@text', cc: '@'},// 创建一个新的scope,并使用节点属性填充值
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.directive('e', function(){
+                                            var func = function(element, attrs, link){
+                                                return function(scope){
+                                                    console.log(scope.a);
+                                                }
+                                            }
+
+                                            return {compile: func,
+                                                scope:{a:'=text'},// 创建一个新的scope,=attr 只是它把节点的属性值当成节点 scope 的属性名来使用，作用相当于上面例子中的 @text ,注意text属性值的写法,一个有{{  }},一个没有
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.directive('f', function(){
+                                            var func = function(element, attrs, link){
+                                                return function(scope){
+                                                    console.log(scope.text);
+                                                    scope.a();
+                                                    scope.b();
+                                                    scope.show = function(here){
+                                                        console.log('inner :' + here);
+                                                        scope.a({here:5});
+                                                        scope.b();
+                                                    }
+                                                }
+                                            };
+                                            return {compile: func,
+                                                /**
+                                                 * scope.a 是 &abc,即scope.a = function(){here = here + 1},只是其中的 here 是 TestCtrl 的.
+                                                 * scope.b 是 &ngClick ，即：scope.b = function(){show(here)}
+                                                 * 这里的 show() 和 here 都是 TestCtrl 的，于是上面的代码最开始会在终端输出一个 124
+                                                 * 当点击“这里”时，这时执行的 show(here) 就是 llink 中定义的那个函数了，与 TestCtrl 无关。
+                                                 * 但是，其间的 scope.a({here:5}) ，因为 a 执行时是 TestCtrl 的上下文，于是向 a 传递的一个对象，里面的所有属性 TestCtrl 就全收下了，接着执行 here=here+1 ，于是我们会在屏幕上看到 6 。
+                                                 */
+                                                scope:{a: '&abc', b: '&ngClick'},//创建一个新的scope, &attr 是包装一个函数出来，这个函数以节点所在的 scope 为上下文
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.controller(controllerName,function($scope){
+                                            $scope.text = 'base scope 中 text 的值';
+                                            $scope.here = 123;
+                                            $scope.show = function(here){
+                                                console.log(here);
+                                            }
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>controller</th>
+                            <td>为指令定义一个 controller ， function controller($scope, $element, $attrs, $transclude) { ... }</td>
+                        </tr>
+                        <tr>
+                            <th>require</th>
+                            <td>要引用的其它指令 conroller 的名字， ?name 忽略不存在的错误， ^name 在父级查找。</td>
+                        </tr>
+                        <tr>
+                            <th>restrict</th>
+                            <td>
+                                指令可以以哪些方式被使用，可以同时定义多种方式。
+                                <ul>
+                                    <li> <code>E</code> 元素方式 &lt;my-directive&gt;&lt;/my-directive&gt;</li>
+                                    <li> <code>A</code> 属性方式 &lt;div my-directive="exp"&gt; &lt;/div&gt; </li>
+                                    <li> <code>C</code> 类方式 &lt;div class="my-directive: exp;"&gt;&lt;/div&gt;</li>
+                                    <li> <code>M</code> 注释方式 &lt;!-- directive: my-directive exp --&gt;</li>
+                                </ul>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>template</th>
+                            <td>模板内容。</td>
+                        </tr>
+                        <tr>
+                            <th>templateUrl</th>
+                            <td>从指定地址获取模板内容。</td>
+                        </tr>
+                        <tr>
+                            <th>replace</th>
+                            <td>是否使用模板内容替换掉整个节点， true 替换整个节点， false 替换节点内容。</td>
+                        </tr>
+                        <tr>
+                            <th>transclude</th>
+                            <td>可以是 'element' 或 true 两种值。</td>
+                        </tr>
+                        <tr>
+                            <th>compile</th>
+                            <td>基本的定义函数。 function compile(tElement, tAttrs, transclude) { ... }</td>
+                        </tr>
+                        <tr>
+                            <th>link</th>
+                            <td>前面介绍过了。大多数时候我们不需要单独定义它。只有 compile 未定义时 link 才会被尝试。 function link(scope, iElement, iAttrs, controller) { ... }</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title"></h4>
+            <div class="section_sub_content">
+
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title"></h4>
+            <div class="section_sub_content">
+
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title"></h4>
+            <div class="section_sub_content">
+
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title"></h4>
+            <div class="section_sub_content">
+
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title"></h4>
+            <div class="section_sub_content">
+
+            </div>
+        </div>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title"></h4>
+            <div class="section_sub_content">
+
+            </div>
+        </div>
+    </div>
+<script type="text/javascript" src="angular.js"></script>
+</body>
+</html>
