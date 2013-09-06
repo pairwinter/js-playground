@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Member Portal-Forgot Password</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta name="description" content=" ">
+    <meta name="author" content="Everbridge">
+    <meta name="keywords" content=" ">
+    <link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap.css?version=1.0" type="text/css">
+    <link rel="stylesheet" href="./stylesheet/styles.css?version=1.0">
+    <link rel="stylesheet" href="./stylesheet/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
+    <link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="./javascript/plugins/bootstrap/html5shiv.min.js"></script>
+      <script src="./javascript/plugins/bootstrap/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Accessibility http://getbootstrap.com/getting-started/ -->
+    <a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a>
+    <!--head start-->
+    <header class="navbar navbar-default navbar-static-top">
+      <div class="navbar-inverse">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="navbar-header">
+          <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <nav class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../login.html" tabindex="" title="Login" >Login</a> </li>
+            <li><a href="sign_up.html" tabindex=""  title="SIGN UP">SIGN UP</a> </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li> <a href="overview.html" tabindex="" title="Overview">Overview</a> </li>
+            <li> <a href="faq.html" tabindex="" title="FAQs">FAQs</a> </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!--head end-->
+
+    <!--main start-->
+    <div class="container" id="main_container">
+      <div class="row">
+        <div class="col-sm-offset-1 col-sm-11">
+          <h1>Forgot Password</h1>
+          <p>Forgot your password? Please enter your username and registered email address, we will send reset password link to your mailbox! </p>
+
+          <form id="form1" class="form-horizontal" action="" method="post">
+
+            <div class="form-group">
+              <label for="username" class="col-sm-3 control-label"><i class="red">*</i> Username </label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="username" name="username" maxlength="80" tabindex="" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="registemail" class="col-sm-3 control-label"><i class="red">*</i> Registration Email  </label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="registemail" name="registemail" maxlength="80" tabindex="" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="question" class="col-sm-3 control-label">Security Question</label>
+              <div class="col-sm-6">
+                <select  disabled tabindex="" id="question" name="question" class="form-control">
+                  <option value="question_one">What is your maternal grandmother's maiden name?</option>
+                  <option value="question_two">What is the city or town where your mother and father met?</option>
+                  <option value="question_three">What is the name of your favorite childhood friend?</option>
+                  <option value="question_four">What is the city or town where you met your spouse/significant other?</option>
+                  <option value="question_five">Where was your first job?</option>
+                  <option value="question_six">What school did you attend in sixth grade?</option>
+                  <option value="question_seven">What was your childhood nickname?</option>
+                  <option value="question_eight">What street did you live on in third grade?</option>
+                  <option value="question_nine">What was the name of your favorite pet or stuffed animal?</option>
+                  <option value="question_ten">What was the last name of your favorite teacher?</option>
+                  <option value="question_eleven">What is the city or town of your birth?</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="answer" class="col-sm-3 control-label"><i class="red">*</i> Security Answer</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="answer" name="answer" maxlength="120" tabindex="" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-3">
+                <button type="submit" class="btn btn-primary btn-block"> Save </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--footer start-->
+    <footer class="footer">
+      <div class="text-center"> 
+	  	<p class="footer-logo">Powered by </p>
+        <p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a>
+          <span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
+      </div>
+    </footer>
+    <!--footer end-->
+    <script type="text/javascript" src="javascript/jquery.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/bootstrap/bootstrap.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/jquery-validation/jquery.validate.js"></script> 
+    <script type="text/javascript" src="javascript/everbridge/EB_Common.js"></script> 
+    <script type="text/javascript" src="javascript/everbridge/eb_validation.js"></script> 
+    <script type="text/javascript" src="javascript/views/ssp.js"></script> 
+    <script type="text/javascript" src="javascript/views/forgot_username.js"></script> 
+    <script type="text/javascript">
+      $(function() {
+        EB_Common.views.forgotUsername.initPage();
+      });
+    </script>
+  </body>
+</html>

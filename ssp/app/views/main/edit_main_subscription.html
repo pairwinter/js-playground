@@ -1,0 +1,285 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Member Portal-My Subscriptions</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta name="description" content=" ">
+    <meta name="author" content="Everbridge">
+    <meta name="keywords" content=" ">
+    <link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap.css?version=1.0" type="text/css">
+    <link rel="stylesheet" href="./stylesheet/styles.css?version=1.0">
+    <link rel="stylesheet" href="./stylesheet/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
+    <link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="./javascript/plugins/bootstrap/html5shiv.min.js"></script>
+      <script src="./javascript/plugins/bootstrap/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <!-- Accessibility http://getbootstrap.com/getting-started/ --> 
+    <a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a> 
+    <!--head start-->
+    <header class="navbar navbar-default navbar-static-top">
+      <div class="navbar-inverse">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="navbar-header">
+          <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">
+            Hi Dave (dbro234)
+          </span>
+          <a class="navbar-brand" href="login.html" tabindex="">Logout</a>
+        </div>
+        <nav class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li> <a href="main_home.html" tabindex="" title="Home">Home</a> </li>
+            <li> <a href="overview.html" tabindex="" title="Overview">Overview</a> </li>
+            <li> <a href="faq.html" tabindex="" title="FAQs">FAQs</a> </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!--head end--> 
+
+    <!--main start-->
+    <div class="container" id="main_container">
+      <div class="row">
+        <div class="col-sm-3"> 
+          <!--Sidebar content-->
+          <div class="text-center"> <a id="help_hide" href="#" title="Help & answers" class="btn btn-info help-answer">Help & answers</a> </div>
+          <div id="help_show" hidden class="help-answer-ct">
+            <p><strong>Subscriptions</strong><br>
+              Select</p>
+            <p><a href="#" tabindex="" title="Get help">Get help</a></p>
+          </div>
+        </div>
+        <div class="col-sm-9"> 
+          <form id="mainForm" method="post" action="main_home.html" role="form">
+            <h1>Edit My Subscriptions</h1>
+            <p>Keep me informed about the items selected below.</p>
+            <ul class="subscrip_oneul">
+              <li>
+                <h3> <a title="County of Los Angeles" href="#"> <span class="sr-only">Expand/collapse this section</span> <i class="icn_minus_16"></i>County of Los Angeles </a> </h3>
+                <ul class="subscrip_twoul  col-sm-7">
+                  <li>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" value="">
+                        <h4><b>Select all items in all categories</b></h4>
+                      </label>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" class="" tabindex="" id="">
+                      </label>
+                      <a title="Glendale(4)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_add_16"></i>Glendale(4)</h4>
+                      </a> </div>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" tabindex="" id="">
+                      </label>
+                      <a title="Inglewood(9)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_minus_16"></i>Inglewood(9)</h4>
+                      </a> </div>
+                    <ul class="subscrip_thrul">
+                      <li>
+                        <label class="checkbox">
+                          <input type="checkbox" value="">
+                          <h5>Parking</h5>
+                        </label>
+                      </li>
+                      <li>
+                        <label  class="checkbox">
+                          <input type="checkbox" value="">
+                          <h5>Traffic</h5>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox">
+                          <input type="checkbox" value="">
+                          <h5>Fairs/Festivals</h5>
+                        </label>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" class="" tabindex="" id="">
+                      </label>
+                      <a title="South Side (11)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_add_16"></i>South Side (11)</h4>
+                      </a> </div>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" class="" tabindex="" id="">
+                      </label>
+                      <a title="West Hollywood (6)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_add_16"></i>West Hollywood (6)</h4>
+                      </a> </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="subscrip_oneul">
+              <li>
+                <h3> <a title="Weather" href="#"> <span class="sr-only">Expand/collapse this section</span> <i class="icn_minus_16"></i>Weather </a> </h3>
+                <ul class="subscrip_twoul col-sm-7">
+                  <li>
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" tabindex="" value="">
+                        <h4><b>Select all items in all categories </b></h4>
+                      </label>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" tabindex="">
+                      </label>
+                      <a title="Wind (3)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_add_16"></i>Wind (3)</h4>
+                      </a> </div>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" tabindex="">
+                      </label>
+                      <a title="Wind (3)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_minus_16"></i>Wind (3)</h4>
+                      </a> </div>
+                    <ul class="subscrip_thrul">
+                      <li>
+                        <label class="checkbox">
+                          <input type="checkbox" tabindex="">
+                          <h5>Dust Storm Watch </h5>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox">
+                          <input type="checkbox" tabindex="">
+                          <h5>Dust Storm Warning </h5>
+                        </label>
+                      </li>
+                      <li>
+                        <label class="checkbox">
+                          <input type="checkbox" tabindex="">
+                          <h5>Fairs/Festivals</h5>
+                        </label>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" tabindex="">
+                      </label>
+                      <a title="Snow (5)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_add_16"></i>Snow (5)</h4>
+                      </a> </div>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" tabindex="">
+                      </label>
+                      <a title="Rain (10)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_add_16"></i>Rain (10)</h4>
+                      </a> </div>
+                  </li>
+                  <li>
+                    <div class="checkbox">
+                      <label> <span class="sr-only">Select/Deselect all items in this section</span>
+                        <input type="checkbox" tabindex="">
+                      </label>
+                      <a title="Flood (2)" href="#"> <span class="sr-only">Expand/collapse this section</span>
+                        <h4><i class="icn_add_16"></i>Flood (2)</h4>
+                      </a> </div>
+                  </li>
+                </ul>
+                <div class="div_timezoo col-sm-5">
+                  <label class="checkbox"> <span class="sr-only">Select/Deselect all items in this section</span>
+                    <input type="checkbox" value="">
+                    <b> Do NOT contact me between:</b> </label>
+                  <select tabindex="">
+                    <option>9:00</option>
+                  </select>
+                  <select tabindex="">
+                    <option>AM</option>
+                    <option>PM</option>
+                  </select>
+                  &nbsp;&nbsp;and&nbsp;&nbsp;
+                  <select tabindex="">
+                    <option>7:00</option>
+                  </select>
+                  <select tabindex="">
+                    <option>AM</option>
+                    <option>PM</option>
+                  </select>
+                  <br>
+                  <br>
+                  <select tabindex="" class="form-control">
+                    <option>GMT 5:00 - Eastern Time, New York</option>
+                  </select>
+                </div>
+              </li>
+            </ul>
+            <div class="form-group">
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <button type="submit" id="createBtn" class="btn btn-primary btn-block">Save</button>
+                  </div>
+                  <div class="col-xs-4">
+                    <button type="button" class="btn btn-link btn-block">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!--footer start-->
+    <footer class="footer">
+      <div class="text-center"> 
+	  	<p class="footer-logo">Powered by </p>
+        <p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a> <span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
+      </div>
+    </footer>
+    <script type="text/javascript" src="javascript/jquery.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/bootstrap/bootstrap.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/jquery-validation/jquery.validate.js?version="></script> 
+    <script type="text/javascript" src="javascript/everbridge/EB_Common.js?version="></script> 
+    <script type="text/javascript" src="javascript/everbridge/eb_validation.js?version="></script> 
+    <script type="text/javascript" src="javascript/views/ssp.js?version="></script> 
+    <script type="text/javascript" src="javascript/views/main.js"></script> 
+    <script type="text/javascript">
+      $(function() {
+        EB_Common.views.main.initEditSubscriptionPage();
+      });
+    </script>
+  </body>
+</html>

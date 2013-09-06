@@ -1,0 +1,346 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Member Portal-Edit My Locations</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta name="description" content=" ">
+    <meta name="author" content="Everbridge">
+    <meta name="keywords" content=" ">
+    <link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap.css?version=1.0" type="text/css">
+    <link rel="stylesheet" href="./stylesheet/styles.css?version=1.0">
+    <link rel="stylesheet" href="./stylesheet/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
+    <link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="./javascript/plugins/bootstrap/html5shiv.min.js"></script>
+      <script src="./javascript/plugins/bootstrap/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <!-- Accessibility http://getbootstrap.com/getting-started/ -->
+    <a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a>
+    <!--head start-->
+    <header class="navbar navbar-default navbar-static-top">
+      <div class="navbar-inverse">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="navbar-header">
+          <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">
+            Hi Dave (dbro234)
+          </span>
+          <a class="navbar-brand" href="login.html" tabindex="">Logout</a>
+        </div>
+        <nav class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li> <a href="main_home.html" tabindex="" title="Home">Home</a> </li>
+            <li> <a href="overview.html" tabindex="" title="Overview">Overview</a> </li>
+            <li> <a href="faq.html" tabindex="" title="FAQs">FAQs</a> </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!--head end-->
+
+    <!--main start-->
+    <div class="container" id="main_container">
+      <div class="row">
+        <div class="col-sm-3">
+          <!--Sidebar content-->
+          <div class="text-center"> 
+            <a id="help_hide" href="#" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
+          </div>
+          <div id="help_show" hidden class="help-answer-ct">
+            <p><strong>Location name:</strong><br>
+              Location name
+              Using a name for your 
+              locations(s) allows you to easily 
+              identify them later.<br>
+              You are able to add more than 
+              one if desired i.e. home, work, 
+              childcare addresses.</P>
+            <p><strong>Address</strong><br>
+              By providing an address you 
+              will be able to receive alerts 
+              that effect a specific location i.e 
+              weather, evacuations, etc.<br>
+              The more address information 
+              you provide here, the better 
+              our ability to get your match.</p>
+            <p>Good:<br>
+              23 Main St.<br>
+              Denver<br>
+              Colorado<br>
+              87654</p>
+            <p>Bad:<br>
+              23 Main<br>
+              Denver</p>
+            <p><a href="#" tabindex="" title="Get help">Get help</a></p>
+          </div>
+        </div>
+
+        <div class="col-sm-9">
+          <!--Body content-->
+          <h1>Edit My Locations</h1>
+          <p>Enter one or more locations you care about. You'll receive an alert if something happens that affects them.</p>
+          <div class="row">
+            <div class="col-md-9 text-right">
+              <button type="button" class="btn"  tabindex="" id="addLocation" style="display: none;">+ New Location</button>
+            </div>
+
+            <div class="col-md-9">
+              <div id="locationList" class="table-responsive">
+                <table class="table table-striped" id="locationGrid">
+                  <thead>
+                    <tr>
+                      <th>Location Name</th>
+                      <th>Address</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Home 1</td>
+                      <td>23 mAIN sT. Waltham .MA</td>
+                      <td><a class="btn btn-link" editlink title="Edit">Edit</a> <a class="btn btn-link" title="Delete">Delete</a></td>
+                    </tr>
+                    <tr class="active" >
+                      <td><b>Home 2</b></td>
+                      <td><b>23 mAIN sT. Waltham .MA</b></td>
+                      <td><b><a class="btn btn-link black" style="color:#333333" editlink   title="Edit">Edit</a> <a class="btn btn-link" title="Delete">Delete</a></b></td>
+                    </tr>
+                    <tr>
+                      <td>Business 1</td>
+                      <td>23 Main St., Waltham, MA 02451</td>
+                      <td><a class="btn btn-link" editlink title="Edit">Edit</a> <a class="btn btn-link" title="Delete">Delete</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <form id="mainForm" class="form-horizontal" role="form" action="main_home.html" method="post">
+            <div id="locationContainer">
+              <div class="form-group">
+                <label for="locationName" class="col-sm-3 control-label"><i class="red">*</i> Location Name</label>
+                <div class="col-sm-6">
+                  <input type="text" id="locationName" name="locationName" class="form-control"  maxlength="40" tabindex="" value="">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="country" class="col-sm-3 control-label"><i class="red">*</i> Country</label>
+                <div class="col-sm-6">
+                  <select id="country" name="country"  class="form-control" tabindex="" title="United States" >
+                      <option>United States</option>
+                    </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="address" class="col-sm-3 control-label"><i class="red">*</i> Address</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" value="3451 No. Main St." id="address" name="address" maxlength="100" tabindex="" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="apt_suite_unit" class="col-sm-3 control-label">Apt/Suite/Unit</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="apt_suite_unit" name="apt_suite_unit"  maxlength="10" tabindex="" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="city" class="col-sm-3 control-label">City</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" value="Provo" id="city" name="city" maxlength="40" tabindex="" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="state" class="col-sm-3 control-label">State/Province</label>
+                <div class="col-sm-6">
+                  <select id="state" name="state" maxlength="10"  tabindex=""  class="form-control">
+                    <option>Colorado</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="postalcode" class="col-sm-3 control-label">Postal Code</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="postalcode" name="postalcode" tabindex="" value="87690"/>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-6">
+                <button type="button" id="verifyAddress" class="btn btn-default" tabindex="" data-toggle="modal" data-target="#pointmap">Verify This Address</button>
+                <button type="button" class="btn btn-link">Cancel</button> 
+
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <!--main end--> 
+
+    <!--footer start-->
+    <footer class="footer">
+      <div class="text-center"> 
+	  	<p class="footer-logo">Powered by </p>
+        <p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a>
+          <span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
+      </div>
+    </footer>
+
+    <!-- Pointing to it on the map -->
+    <div id="pointmap" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog" style="width:1000px;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Verify Your Location</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-9">
+                <!--Sidebar content-->
+                <h2>Home 1</h2>
+                <p>We found a few possible matches, do any of these look right?</p>
+                <label class="radio">
+                  <input type="radio" name="" id="" value="" >
+                  A -3 Longspur Rd., Loveland CO 80537 </label>
+                <label class="radio">
+                  <input type="radio" name="" id="" value="">
+                  B -3 Longspur Rd., Graceland CO 81123 </label>
+                <label class="radio">
+                  <input type="radio" name="" id="" value="">
+                  C -3 Longspur Rd., Denver CO 82345 </label>
+                <label class="radio select_bg">
+                  <input type="radio" name="" id="" value="" checked="checked">
+                  D - Show us - drag the pin to your location</label>	
+                <div class="marginl_20">
+                  <strong>My Location:</strong> 3 Longspur Road, Colorado
+                </div>
+                <p> <img src="images/map2.png" class="img-responsive"> </p>
+              </div>
+              <div class="col-sm-3">
+                <!--Body content-->
+                <div class=" display_none help-answer-ct" id="help_show2" style="display: block;">
+                  <p><strong>Suggested address(es)</strong><br>
+                    These come from the address 
+                    information you provided. 
+                    Markers on the map offer a 
+                    visual reference.</p>
+                  <p><strong>Don't see your address?</strong><br>
+                    By providing more address 
+                    information we may be able to 
+                    offer better alternatives. Try 
+                    entering your address again.</p>
+                  <p>OR:<br>
+                    If a marker on the map looks 
+                    close, click and drag it to the 
+                    correct position. Use the map 
+                    controls to zoom in or out as 
+                    needed.</p>
+                  <p>Multiple addresses:<br>
+                    Want to keep track of more than 
+                    one address? You can add as 
+                    many as you need from the 
+                    address entry page.</p>
+                  <p><a tabindex="" href="#" title="Get help">Get help</a></p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button id="myLocation" type="button" class="btn btn-primary" tabindex="" aria-hidden="true" data-dismiss="modal">This Is My Location</button>
+              <button type="button" aria-hidden="true" data-dismiss="modal" class="btn btn-default" tabindex="">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+
+    <script type="text/x-jsrender" id="anotherLocationTmpl">
+      <div class="form-group">
+      <label for="locationName" class="col-sm-3 control-label"><i class="red">*</i> Location Name</label>
+      <div class="col-sm-6">
+      <input type="text" class="form-control" id="locationName" name="locationName" tabindex="" required />
+      </div>
+      </div>
+
+      <div class="form-group">
+      <label for="country" class="col-sm-3 control-label"><i class="red">*</i> Country</label>
+      <div class="col-sm-6">
+      United States
+      </div>
+      </div>
+      <div class="form-group">
+      <label for="address" class="col-sm-3 control-label"><i class="red">*</i> Address</label>
+      <div class="col-sm-6">
+      <input type="text" class="form-control" id="address" name="address" tabindex="" required />
+      </div>
+      </div>
+
+      <div class="form-group">
+      <label for="apt_suite_unit" class="col-sm-3 control-label">Apt/Suite/Unit</label>
+      <div class="col-sm-6">
+      <input type="text" class="form-control" id="apt_suite_unit" name="apt_suite_unit" tabindex="" />
+      </div>
+      </div>
+
+      <div class="form-group">
+      <label for="city" class="col-sm-3 control-label">City</label>
+      <div class="col-sm-6">
+      <input type="text" class="form-control" id="city" name="city" tabindex="" />
+      </div>
+      </div>
+
+      <div class="form-group">
+      <label for="state" class="col-sm-3 control-label">State/Province</label>
+      <div class="col-sm-6">
+      <select id="state" name="state"  tabindex=""  class="form-control">
+      <option>Colorado</option>
+      </select>
+      </div>
+      </div>
+
+      <div class="form-group">
+      <label for="postalcode" class="col-sm-3 control-label">Postal Code</label>
+      <div class="col-sm-6">
+      <input type="text" class="form-control" id="postalcode" name="postalcode" tabindex="" />
+      </div>
+      </div>
+
+    </script> 
+
+    <script type="text/javascript" src="javascript/jquery.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/bootstrap/bootstrap.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/jquery-validation/jquery.validate.js?version="></script> 
+    <script type="text/javascript" src="javascript/everbridge/EB_Common.js?version="></script> 
+    <script type="text/javascript" src="javascript/everbridge/eb_validation.js?version="></script> 
+    <script type="text/javascript" src="javascript/views/ssp.js?version="></script> 
+    <script type="text/javascript" src="javascript/views/main.js?version="></script> 
+    <script type="text/javascript">
+      $(function() {
+        EB_Common.views.main.initEditLocationPage();
+      });
+    </script>
+  </body>
+</html>

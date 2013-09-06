@@ -111,6 +111,7 @@
                 </div>
                 <script type="text/javascript">
                     (function(){
+                        console.log(js_course.splitLine);
                         var id = "dom1",controllerName = id+'Controller';
 //                        $("#"+id).attr('ng-controller',controllerName);
                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -192,6 +193,7 @@
                 </div>
                 <script type="text/javascript">
                     (function(){
+                        console.log(js_course.splitLine);
                         var id = "dom2",controllerName = id+'Controller';
 //                        $("#"+id).attr('ng-controller',controllerName);
                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -258,6 +260,7 @@
                 </div>
                 <script type="text/javascript">
                     (function(){
+                        console.log(js_course.splitLine);
                         var id = "dom3",controllerName = id+'Controller';
 //                        $("#"+id).attr('ng-controller',controllerName);
                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -296,6 +299,7 @@
                 </div>
                 <script type="text/javascript">
                     (function(){
+                        console.log(js_course.splitLine);
                         var id = "dom4",controllerName = id+'Controller';
                         $("#"+id).attr('ng-controller',controllerName);
                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -365,6 +369,7 @@
                                 </div>
                                 <script type="text/javascript">
                                     (function(){
+                                        console.log(js_course.splitLine);
                                         var id = "dom5",controllerName = id+'Controller';
                                         var module = angular.module(id,[]),dom = document.getElementById(id);
                                         module.controller(controllerName,function($scope,$compile){
@@ -389,6 +394,7 @@
                                 </div>
                                 <script type="text/javascript">
                                     (function(){
+                                        console.log(js_course.splitLine);
                                         var id = "dom6",controllerName = id+'Controller';
                                         var module = angular.module(id,[]),dom = document.getElementById(id);
                                         module.controller(controllerName,function($scope,$compile){
@@ -448,6 +454,7 @@
                             </div>
                             <script type="text/javascript">
                                 (function(){
+                                    console.log(js_course.splitLine);
                                     var id = "dom7",controllerName = id+'Controller';
                                     var module = angular.module(id,[]),dom = document.getElementById(id);
                                     module.controller(controllerName,function($scope,$compile){
@@ -490,6 +497,7 @@
                             </div>
                             <script type="text/javascript">
                                 (function(){
+                                    console.log(js_course.splitLine);
                                     var id = "dom8",controllerName = id+'Controller';
                                     var module = angular.module(id,[]),dom = document.getElementById(id);
                                     module.controller(controllerName,function($scope,$compile){
@@ -552,6 +560,7 @@
                 <div id="dom9"></div>
                 <script type="text/javascript">
                     (function(){
+                        console.log(js_course.splitLine);
                         var id = "dom9",controllerName = id+'Controller';
                         $('#'+id).attr('ng-controller',controllerName);
                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -592,6 +601,7 @@
                 </div>
                 <script type="text/javascript">
                     (function(){
+                        console.log(js_course.splitLine);
                         var id = "dom10",controllerName = id+'Controller';
                         $('#'+id).attr('ng-controller',controllerName);
                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -669,6 +679,7 @@
                 </div>
                 <script type="text/javascript">
                     (function(){
+                        console.log(js_course.splitLine);
                         var id = "dom11",controllerName = id+'Controller';
                         $('#'+id).attr('ng-controller',controllerName);
                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -722,6 +733,121 @@
                 <table style="width: 100%">
                     <tbody>
                         <tr>
+                            <th>compile <br>
+                                & <br>
+                                link
+                            </th>
+                            <td>
+                                <ul>
+                                    <li>
+                                        <code>compile function</code>:用于处理DOM模版的转换。由于大多数directive都不需要转换模版，所以compile不会经常被使用到。 <br>
+                                        需要compile function的directive，一般是那种需要转换DOM模版的（如ngRepeat），或者是需要异步加载内容的（如ngView）。 <br>
+                                        compile function拥有一下的参数:
+                                        <ul>
+                                            <li> <code>tElement</code> - 模版元素 – 使用当前directive的元素。仅仅在当前元素或者当前元素子元素下做模版转换是安全的。</li>
+                                            <li> <code>tAttrs</code> - 模版属性 - 标准化的属性，在当前元素声明的，可以在各个directive之间共享</li>
+                                            <li> <code>transclude</code> – 一个转换用的linking function:  function(scope,cloneLinking)</li>
+                                        </ul>
+                                        <b class="red">注意：如果template被克隆过，那么template实例和link实例不能是同一个object。为此，在compile function中做任何除了DOM转换以外的事情，是不安全的，这将应用到所有克隆中。
+                                        特别是，DOM事件监听器的注册的操作，应该在linking function中进行，而不是compile function。  </b>    <br>
+
+                                        compile function 可以有一个返回值，类型可以是function或者object。
+                                        compile 这个参数。它除了可以返回一个函数用为 link 函数之外，还可以返回一个对象，
+                                        <ul>
+                                            <li> <code>返回function</code> – 通常在不需要compile function（为空）时使用，等同于通过link(directive定义模版的属性)注册linking function。</li>
+                                            <li>
+                                                <code>返回包含pre、post属性的object</code> - 允许我们控制在linking phase期间何时调用linking function。   <br>
+                                                link 函数是由两部分组成，所谓的 preLink 和 postLink 。 <br>
+                                                区别在于执行顺序，特别是在指令层级嵌套的结构之下， postLink 是在所有的子级指令 link 完成之后才最后执行的。 compile 如果只返回一个函数，则这个函数被作为 postLink 使用:
+                                                <ul>
+                                                    <li> <code>Pre-link function</code>:在子元素linked之前执行。在这里做DOM转换是不安全的，因为compiler的linking function在link时可能会定位不到正确的元素。</li>
+                                                    <li> <code>Post-link function</code>:在子元素linked之后执行。在这里执行DOM转换是安全的。</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <code>linking function</code>:负责注册DOM事件监听器，也可以进行DOM的更新操作。link function会在模版克隆操作完毕之后执行。这里存放着directive大多数的逻辑。
+                                        <ul>
+                                            <li> <code>scope</code> - 被directive用于注册watches(http://docs.angularjs.org/api/ng.$rootScope.Scope#$watch)。</li>
+                                            <li> <code>iElement</code> - 元素实例 - directive使用的元素。只有在postLink function里面对子元素进行操作，才是安全的。因为子元素已经被link（与model连接吗？！）。</li>
+                                            <li> <code>iAttrs</code> - 属性实例 - 标准的当前元素的属性列表。在所有directive的linking function之间分享的。</li>
+                                            <li> <code>controller</code> - controller实例 - 如果在当前元素的directive中，有其中一个定义了controller，那么可以在这里获取到该controller的实例。这个controller是在所有directive之间共享的，允许各个directive将controller当作一个它们之间沟通频道。</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <pre name='code' class="xml">
+                                    <div aa> <bb></bb> </div>
+                                </pre>
+                                <pre name='code' class="js">
+                                    module.directive('aa', function(){
+                                        var func = function(element, attrs, link){
+                                            return {
+                                                pre:function(){console.log('aa link pre')},
+                                                post:function(){console.log('aa link post')}
+                                            }
+                                        }
+                                        return {compile: func,
+                                            restrict: 'EA'};
+                                    });
+
+                                    module.directive('bb', function(){
+                                        var func = function(element, attrs, link){
+                                            return {
+                                                pre:function(){console.log('bb link pre')},
+                                                post:function(){console.log('bb link post')}
+                                            }
+                                        }
+
+                                        return {compile: func,
+                                            restrict: 'EA'
+                                        };
+                                    });
+                                    module.controller(controllerName,function($scope){
+                                        $scope.text = 'console.log中先打印cc再打印bb最后打印aa,谁的priority大，执行的优先级就高！';
+                                    });
+                                </pre>
+                                <div id="dom0">
+                                    <div aa> <bb></bb> </div>
+                                    <div id='dom0Log'></div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        console.log(js_course.splitLine);
+                                        var id = "dom0",controllerName = id+'Controller';
+                                        $('#'+id).attr('ng-controller',controllerName);
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.directive('aa', function(){
+                                            var func = function(element, attrs, link){
+                                                return {
+                                                    pre:function(){js_course.utils.log('dom0Log','aa link pre',true)},
+                                                    post:function(){js_course.utils.log('dom0Log','aa link post',true)}
+                                                }
+                                            }
+                                            return {compile: func,
+                                                restrict: 'EA'};
+                                        });
+
+                                        module.directive('bb', function(){
+                                            var func = function(element, attrs, link){
+                                                return {
+                                                    pre:function(){js_course.utils.log('dom0Log','bb link pre',true)},
+                                                    post:function(){js_course.utils.log('dom0Log','bb link post',true)}
+                                                }
+                                            }
+
+                                            return {compile: func,
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.controller(controllerName,function($scope){
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>priority</th>
                             <td>
                                 这个值设置指令的权重，默认是 0 。当一个节点中有多个指令存在时，就按着权限从大到小的顺序依次执行它们的 compile 函数。相同权重顺序不定。
@@ -771,6 +897,7 @@
                                 </div>
                                 <script type="text/javascript">
                                     (function(){
+                                        console.log(js_course.splitLine);
                                         var id = "dom12",controllerName = id+'Controller';
                                         $('#'+id).attr('ng-controller',controllerName);
                                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -955,6 +1082,7 @@
                                 </div>
                                 <script type="text/javascript">
                                     (function(){
+                                        console.log(js_course.splitLine);
                                         var id = "dom13",controllerName = id+'Controller';
                                         $('#'+id).attr('ng-controller',controllerName);
                                         var module = angular.module(id,[]),dom = document.getElementById(id);
@@ -1070,12 +1198,304 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>controller</th>
-                            <td>为指令定义一个 controller ， function controller($scope, $element, $attrs, $transclude) { ... }</td>
-                        </tr>
-                        <tr>
-                            <th>require</th>
-                            <td>要引用的其它指令 conroller 的名字， ?name 忽略不存在的错误， ^name 在父级查找。</td>
+                            <th>
+                                controller <br>
+                                name <br>
+                                require
+                            </th>
+                            <td>
+                                <table style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th>controller</th>
+                                            <th>name & require</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <p>
+                                                    为指令定义一个 controller ， function controller($scope, $element, $attrs, $transclude) { ... } <br>
+                                                    这个参数的作用是提供一个 controller 的构造函数，它会在 compile 函数之后， link 函数之前被执行。
+                                                </p>
+                                                <pre name='code' class="xml">
+                                                    <div aa></div>
+                                                </pre>
+                                                <pre name='code' class="js">
+                                                    module.directive('aa', function(){
+                                                        var func = function(element, attrs, link){
+                                                            console.log('directive compile function execute');
+                                                            return function(){
+                                                                console.log('directive link function execute');
+                                                            }
+                                                        }
+                                                        var controller = function($scope,$element,$attrs,$transclude){
+                                                            console.log('directive controller function execute');
+                                                        }
+                                                        return {compile: func,
+                                                            priority: 1,
+                                                            controller:controller,
+                                                            restrict: 'EA'};
+                                                    });
+                                                </pre>
+                                                <div id="dom14">
+                                                    <div aa>
+                                                        参数Contrller,执行顺序是
+                                                        <ul>
+                                                            <li>directive <code>compile</code> function execute</li>
+                                                            <li>directive <code>controller</code> function execute</li>
+                                                            <li>directive <code>link</code> function execute</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    (function(){
+                                                        console.log(js_course.splitLine);
+                                                        var id = "dom14",controllerName = id+'Controller';
+                                                        $('#'+id).attr('ng-controller',controllerName);
+                                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                                        module.directive('aa', function(){
+                                                            var func = function(element, attrs, link){
+                                                                console.log('directive compile function execute');
+                                                                return function(){
+                                                                    console.log('directive link function execute');
+                                                                }
+                                                            }
+                                                            var controller = function($scope,$element,$attrs,$transclude){
+                                                                console.log('directive controller function execute');
+                                                            }
+                                                            return {compile: func,
+                                                                priority: 1,
+                                                                controller:controller,
+                                                                restrict: 'EA'};
+                                                        });
+                                                        module.controller(controllerName,function($scope){
+
+                                                        });
+                                                        angular.bootstrap(dom, [id]);
+                                                    })();
+                                                </script>
+                                                controller 的最后一个参数， $transclude ，是一个只接受 cloneAttachFn 作为参数的一个函数。  <br>
+                                                按官方的说法，这个机制的设计目的是为了 <b class="red">让各个指令之间可以互相通信</b>。参考普通节点的处理方式，这里也是处理指令 scope 的合适位置。
+                                                <pre name='code' class="xml">
+                                                    &lt;div aa bb&gt;&lt;/div&gt; //aa、bb是同级
+                                                </pre>
+                                                <pre name='code' class="js">
+                                                    module.directive('aa', function(){
+                                                        var func = function(element, attrs, link){
+                                                            console.log('directive compile function execute');
+                                                            return function(){
+                                                                console.log('directive link function execute');
+                                                            }
+                                                        }
+                                                        var controller = function($scope,$element,$attrs,$transclude){
+                                                            console.log('directive controller function execute');
+                                                        }
+                                                        return {compile: func,
+                                                            priority: 1,
+                                                            controller:controller,
+                                                            restrict: 'EA'};
+                                                    });
+                                                </pre>
+                                                <div id="dom15">
+                                                    <div aa bb></div>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    (function(){
+                                                        console.log(js_course.splitLine);
+                                                        var id = "dom15",controllerName = id+'Controller';
+                                                        $('#'+id).attr('ng-controller',controllerName);
+                                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                                        module.directive('aa', function(){
+                                                            var func = function(element, attrs, link){
+                                                                return function(){
+                                                                    console.log('directive : aa');
+                                                                }
+                                                            }
+                                                            var controller = function($scope,$element,$attrs,$transclude){
+                                                                console.log('controller:aa');
+                                                                this.aa = 'controller:aa';
+                                                            }
+                                                            return {compile: func,
+                                                                priority: 1,
+                                                                controller:controller,
+                                                                name:'aa',
+                                                                restrict: 'EA'};
+                                                        });
+                                                        module.directive('bb', function(){
+                                                            var func = function(element, attrs, link){
+                                                                return function($scope, $element, $attrs, $controller){
+                                                                    console.log('directive : bb');
+                                                                    console.log($controller.aa);
+                                                                }
+                                                            }
+                                                            var controller = function($scope,$element,$attrs,$transclude){
+                                                                console.log('controller:bb');
+                                                            }
+                                                            return {compile: func,
+                                                                priority: 1,
+                                                                require:'aa',
+                                                                controller:controller,
+                                                                restrict: 'EA'};
+                                                        });
+                                                        module.controller(controllerName,function($scope){
+
+                                                        });
+                                                        angular.bootstrap(dom, [id]);
+                                                    })();
+                                                </script>
+                                            </td>
+                                            <td>
+                                                <ul>
+                                                    <li> <code>name</code> 为 controller 重起一个名字，以方便在 require 参数中引用。</li>
+                                                    <li>
+                                                        <code>require</code> 要引用的其它指令 conroller 的名字， ?name 忽略不存在的错误， ^name 在父级查找。
+                                                        <ul>
+                                                            <li>
+                                                                <code>?</code>如果指定的 controller 不存在，则忽略错误。即：
+                                                                <pre name='code' class="js">
+                                                                    require: '?aa'
+                                                                </pre>
+                                                                如果名为 aa 的 controller 不存在时，不会直接抛出错误， link 函数中对应的 $controller 为 undefined 。
+                                                            </li>
+                                                            <li>
+                                                                <code>^</code>同时在 <code>父级节点</code> 中寻找指定的 controller ，把上面的例子小改一下：
+                                                                <pre name='code' class="xml">
+                                                                    &lt;aa&gt;&lt;bb cc&gt;&lt;/bb&gt;&lt;/aa&gt; //aa是父级节点，bb是子节点
+                                                                </pre>
+                                                                把 b 的 require 改成
+                                                                <pre name='code' class="js">
+                                                                    require: '?^aa'
+                                                                </pre>
+                                                                如果没有 <code>^</code> 那么bb就找不到名字为 <code>aa</code> 的 controller，  <br>
+                                                                如果加上了 <code>^</code> 那么bb在同级找不到名字为 <code>aa</code> 之后，会去父级找。 <br>
+                                                                如果名为 aa 的 controller 不存在时，不会直接抛出错误， link 函数中对应的 $controller 为 undefined 。
+                                                            </li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                                <pre name='code' class="xml">
+                                                    &lt;aa&gt;&lt;bb cc&gt;&lt;/bb&gt;&lt;/aa&gt; //aa是父级节点，bb是子节点
+                                                </pre>
+                                                首先在 directive cc中寻找名字为aa的controller，没有的话去directive aa中找。
+                                                <pre name='code' class="js">
+                                                    module.directive('aa', function(){
+                                                        var func = function(element, attrs, link){
+                                                            return function(){
+                                                                console.log('directive : aa');
+                                                            }
+                                                        }
+                                                        var controller = function($scope,$element,$attrs,$transclude){
+                                                            console.log('controller:aa');
+                                                            this.aa = 'controller:aa';
+                                                        }
+                                                        return {compile: func,
+                                                            priority: 1,
+                                                            controller:controller,
+                                                            name:'aa',
+                                                            restrict: 'EA'};
+                                                    });
+                                                    module.directive('bb', function(){
+                                                        var func = function(element, attrs, link){
+                                                            return function($scope, $element, $attrs, $controller){
+                                                                console.log('directive : bb');
+                                                                console.log($controller.aa);
+                                                            }
+                                                        }
+                                                        var controller = function($scope,$element,$attrs,$transclude){
+                                                            console.log('controller:bb');
+                                                        }
+                                                        return {compile: func,
+                                                            priority: 1,
+                                                            require:'^aa',
+                                                            controller:controller,
+                                                            restrict: 'EA'};
+                                                    });
+                                                    module.directive('cc', function(){
+                                                        var func = function(element, attrs, link){
+                                                            return function($scope, $element, $attrs, $controller){
+                                                                console.log('directive : cc');
+                                                            }
+                                                        }
+                                                        var controller = function($scope,$element,$attrs,$transclude){
+                                                            console.log('controller:cc');
+                                                            this.aa = 'controller:cc';
+                                                        }
+                                                        return {compile: func,
+                                                            priority: 1,
+                                                            name:'aa',
+                                                            controller:controller,
+                                                            restrict: 'EA'};
+                                                    });
+                                                </pre>
+                                                <div id="dom16">
+                                                    <aa><bb cc></bb></aa>
+                                                </div>
+                                                <script type="text/javascript">
+                                                    (function(){
+                                                        console.log(js_course.splitLine);
+                                                        var id = "dom16",controllerName = id+'Controller';
+                                                        $('#'+id).attr('ng-controller',controllerName);
+                                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                                        module.directive('aa', function(){
+                                                            var func = function(element, attrs, link){
+                                                                return function(){
+                                                                    console.log('directive : aa');
+                                                                }
+                                                            }
+                                                            var controller = function($scope,$element,$attrs,$transclude){
+                                                                console.log('controller:aa');
+                                                                this.aa = 'controller:aa';
+                                                            }
+                                                            return {compile: func,
+                                                                priority: 1,
+                                                                controller:controller,
+                                                                name:'aa',
+                                                                restrict: 'EA'};
+                                                        });
+                                                        module.directive('bb', function(){
+                                                            var func = function(element, attrs, link){
+                                                                return function($scope, $element, $attrs, $controller){
+                                                                    console.log('directive : bb');
+                                                                    console.log($controller.aa);
+                                                                }
+                                                            }
+                                                            var controller = function($scope,$element,$attrs,$transclude){
+                                                                console.log('controller:bb');
+                                                            }
+                                                            return {compile: func,
+                                                                priority: 1,
+                                                                require:'^aa',
+                                                                controller:controller,
+                                                                restrict: 'EA'};
+                                                        });
+                                                        module.directive('cc', function(){
+                                                            var func = function(element, attrs, link){
+                                                                return function($scope, $element, $attrs, $controller){
+                                                                    console.log('directive : cc');
+                                                                }
+                                                            }
+                                                            var controller = function($scope,$element,$attrs,$transclude){
+                                                                console.log('controller:cc');
+                                                                this.aa = 'controller:cc';
+                                                            }
+                                                            return {compile: func,
+                                                                priority: 1,
+                                                                name:'aa',
+                                                                controller:controller,
+                                                                restrict: 'EA'};
+                                                        });
+                                                        module.controller(controllerName,function($scope){
+
+                                                        });
+                                                        angular.bootstrap(dom, [id]);
+                                                    })();
+                                                </script>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
                             <th>restrict</th>
@@ -1091,20 +1511,219 @@
                             </td>
                         </tr>
                         <tr>
-                            <th>template</th>
-                            <td>模板内容。</td>
-                        </tr>
-                        <tr>
-                            <th>templateUrl</th>
-                            <td>从指定地址获取模板内容。</td>
-                        </tr>
-                        <tr>
-                            <th>replace</th>
-                            <td>是否使用模板内容替换掉整个节点， true 替换整个节点， false 替换节点内容。</td>
+                            <th>
+                                template <br>
+                                templateUrl <br>
+                                replace
+                            </th>
+                            <td>
+                                <ul>
+                                    <li> <code>template</code> 模板内容，这个内容会根据 replace 参数的设置替换节点或只替换节点内容。</li>
+                                    <li> <code>templateUrl</code> 从指定地址获取模板内容。</li>
+                                    <li> <code>replace</code> 是否使用模板内容替换掉整个节点， true 替换整个节点， false 替换节点内容。</li>
+                                </ul>
+                                <pre name='code' class="xml">
+                                    &lt;div ng-controller="TestCtrl"&gt;
+                                        &lt;h1 aa&gt;原始内容&lt;/h1&gt;
+                                        &lt;h1 bb&gt;原始内容&lt;/h1&gt;
+                                    &lt;/div&gt;
+                                </pre>
+                                <pre name='code' class="js">
+                                    module.directive('aa', function(){
+                                        var func = function(element, attrs, link){
+                                            return function($scope){
+
+                                            }
+                                        };
+                                        var controller = function($scope){
+                                            $scope.text = "456";
+                                        }
+                                        return {compile: func,
+                                            priority: 1,
+                                            controller : controller,
+                                            template:'<p><span class="red">{{ text }}</span><button type="button" ng-click="btnClick(text)">点击</button></p>',
+                                            replace:true, //true 替换整个节点， false 替换节点内容。
+                                            scope:true,
+                                            restrict: 'EA'};
+                                    });
+                                    module.directive('bb', function(){
+                                        var func = function(element, attrs, link){
+                                            return function($scope){
+
+                                            }
+                                        };
+                                        var controller = function($scope){
+                                            $scope.text = "456";
+                                        }
+                                        return {compile: func,
+                                            priority: 1,
+                                            controller : controller,
+                                            templateUrl:'/course/5/5-6/template/template.html',
+                                            replace:true, //true 替换整个节点， false 替换节点内容。
+                                            scope:true,
+                                            restrict: 'EA'};
+                                    });
+                                    module.controller(controllerName,function($scope){
+                                        $scope.text = "123";
+                                        $scope.btnClick = function(text){
+                                            alert(text);
+                                        }
+                                    });
+                                </pre>
+                                <div id="dom17">
+                                    <div aa>原始内容</div>
+                                    <div bb>原始内容</div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        console.log(js_course.splitLine);
+                                        var id = "dom17",controllerName = id+'Controller';
+                                        $('#'+id).attr('ng-controller',controllerName);
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.directive('aa', function(){
+                                            var func = function(element, attrs, link){
+                                                return function($scope){
+
+                                                }
+                                            };
+                                            var controller = function($scope){
+                                                $scope.text = "456";
+                                            }
+                                            return {compile: func,
+                                                priority: 1,
+                                                controller : controller,
+                                                template:'<p><span class="red">{{ text }}</span><button type="button" ng-click="btnClick(text)">点击</button></p>',
+                                                replace:true, //true 替换整个节点， false 替换节点内容。
+                                                scope:true,
+                                                restrict: 'EA'};
+                                        });
+                                        module.directive('bb', function(){
+                                            var func = function(element, attrs, link){
+                                                return function($scope){
+
+                                                }
+                                            };
+                                            var controller = function($scope){
+                                                $scope.text = "456";
+                                            }
+                                            return {compile: func,
+                                                priority: 1,
+                                                controller : controller,
+                                                templateUrl:'/course/5/5-6/template/template.html',
+                                                replace:true, //true 替换整个节点， false 替换节点内容。
+                                                scope:true,
+                                                restrict: 'EA'};
+                                        });
+                                        module.controller(controllerName,function($scope){
+                                            $scope.text = "123";
+                                            $scope.btnClick = function(text){
+                                                alert(text);
+                                            }
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                                结合ng-include 实现的一个动态更新内容的指令: <code>dynamic-template</code>
+                                <div id="dom18">
+                                    <select name="contentSelect" id="contentSelect" ng-model="contentSelect">
+                                        <option value='template/1.html'>1</option>
+                                        <option value='template/2.html'>2</option>
+                                    </select>
+                                    <div>
+                                        <dynamic-template></dynamic-template>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        console.log(js_course.splitLine);
+                                        var id = "dom18",controllerName = id+'Controller';
+                                        $('#'+id).attr('ng-controller',controllerName);
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.directive('dynamicTemplate', function(){
+                                            var func = function(element, attrs, link){
+                                                return function($scope,$element,$attrs){
+                                                    $element.append("加载完成了！");
+                                                    $scope.$watch('contentSelect',function(value){
+                                                        $scope.tpl = value;
+                                                    })
+                                                }
+                                            };
+                                            var controller = function($scope){
+                                                $scope.text = "456";
+                                            }
+                                            return {compile: func,
+                                                priority: 1,
+                                                controller : controller,
+                                                template:'<ng-include src="tpl"></ng-include>',
+                                                replace:true, //true 替换整个节点， false 替换节点内容。
+                                                scope:true,
+                                                restrict: 'EA'};
+                                        });
+                                        module.controller(controllerName,function($scope){
+                                            $scope.contentSelect = "template/2.html";
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                            </td>
                         </tr>
                         <tr>
                             <th>transclude</th>
-                            <td>可以是 'element' 或 true 两种值。</td>
+                            <td>
+                                可以是 'element' 或 true 两种值。
+                                <div id="dom19">
+                                    <button ng-click="show=true">show</button>
+                                    <dialog title="Hello {{username}}" visible="{{show}}" on-cancel="show=false;" on-ok="show=false;methodInParentScope();">
+                                    <!--上面的on-cancel、on-ok，是在directive的isoloate scope中通过&引用的。如果表达式中包含函数，那么需要将函数绑定在parent scope（当前是MyCtrl的scope）中-->
+                                        Body goes here: username:{{username}} , title:{{title}}.
+                                        <ul>
+                                            <!--这里还可以这么玩~names是parent scope的-->
+                                            <li ng-repeat="name in names">{{name}}</li>
+                                        </ul>
+                                    </dialog>
+                                </div>
+                                <script type="text/javascript">
+                                    (function(){
+                                        console.log(js_course.splitLine);
+                                        var id = "dom19",controllerName = id+'Controller';
+                                        $('#'+id).attr('ng-controller',controllerName);
+                                        var module = angular.module(id,[]),dom = document.getElementById(id);
+                                        module.directive('dialog', function(){
+                                            var template = ['<div ng-show="visible">',
+                                                            '    <h3>{{title}}</h3>',
+                                                            '    <div class="body" ng-transclude></div>',
+                                                            '    <div class="footer">',
+                                                            '        <button ng-click="onOk()">OK</button>',
+                                                            '        <button ng-click="onCancel()">Close</button>',
+                                                            '    </div>',
+                                                            '</div>'];
+                                            return {
+                                                priority: 1,
+                                                template:template.join(""),
+                                                replace:false, //true 替换整个节点， false 替换节点内容。
+                                                transclude:true,
+                                                scope:{
+                                                    title:"@",//引用dialog标签title属性的值
+                                                    onOk:"&",//以wrapper function形式引用dialog标签的on-ok属性的内容
+                                                    onCancel:"&",//以wrapper function形式引用dialog标签的on-cancel属性的内容
+                                                    visible:"@"//引用dialog标签visible属性的值
+                                                },
+                                                restrict: 'EA'
+                                            };
+                                        });
+                                        module.controller(controllerName,function($scope){
+                                            $scope.names = ["name1", "name2", "name3"];
+                                            $scope.show = false;
+                                            $scope.username = "Lcllao";
+                                            $scope.title = "parent title";
+                                            $scope.methodInParentScope = function() {
+                                                alert("记住。。scope里面通过&定义的东东，是在父scope中玩的！！。。。");
+                                            };
+                                        });
+                                        angular.bootstrap(dom, [id]);
+                                    })();
+                                </script>
+                            </td>
                         </tr>
                         <tr>
                             <th>compile</th>

@@ -1,0 +1,15 @@
+label.text-danger {
+/*    display: inline-block;
+    font-style: italic;
+    margin-left: 10px;
+    vertical-align: text-top;*/
+    margin-top: 5px;
+}
+
+input.text-danger, textarea.text-danger,select.text-danger { 
+    border-color: #E9322D;
+    -webkit-box-shadow: 0 0 6px #F8B9B7;
+    -moz-box-shadow: 0 0 6px #F8B9B7;
+    box-shadow: 0 0 6px #F8B9B7;
+}
+

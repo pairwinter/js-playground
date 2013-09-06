@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Member Portal-Please verify your identity</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+<meta name="description" content=" ">
+<meta name="author" content="Everbridge">
+<meta name="keywords" content=" ">
+<link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap.css?version=1.0" type="text/css">
+<link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap-theme.css?version=1.0" type="text/css">
+<link rel="stylesheet" href="./stylesheet/styles.css?version=1.0">
+<link rel="stylesheet" href="./stylesheet/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
+<link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
+</head>
+<body>
+<!-- Accessibility http://getbootstrap.com/getting-started/ --> 
+<a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a> 
+<!--head start-->
+<header class="navbar navbar-default navbar-static-top">
+	<div class="navbar-inverse">
+		<div class="container">
+			<div class="navbar-header"> <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a> </div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li> <a href="../login.html"  tabindex="" title="Login">Login</a> </li>
+				<li> <a href="../overview.html" tabindex="">Overview</a> </li>
+				<li> <a href="../faq.html" tabindex="">FAQs</a> </li>
+			</ul>
+		</div>
+	</div>
+</header>
+<!--head end--> 
+
+<!--main start-->
+<div class="container" id="main_container">
+	<div class="row">
+		<div class="col-lg-offset-3 col-lg-9">
+			<h1>Please verify your identity</h1><br><br>
+			<form id="signUpForm" class="form-horizontal" role="form" action="migrate_sign_up.html" method="post">
+				<div class="form-group">
+					<label class="col-lg-3 control-label">Username</label>
+					<div class="col-lg-6">
+						<p class="form-control-static">Happily</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="securityQuestion" class="col-lg-3 control-label">Security Question</label>
+					<div class="col-lg-6">
+						<p class="form-control-static">What is your maternal grandmother's maiden name?</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="securityAnswer" class="col-lg-3 control-label">Answer</label>
+					<div class="col-lg-6">
+						<input type="text" class="form-control" id="securityAnswer" name="securityAnswer"  maxlength="120" minlength="2" tabindex="" />
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-offset-3 col-lg-3">
+						<button type="submit" id="createBtn"  class="btn btn-primary btn-block">Login</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!--main end--> 
+
+<!--footer start-->
+<footer class="footer">
+	<div class="text-center"> 
+		<p class="footer-logo">Powered by </p>
+		<p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a> <span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
+	</div>
+</footer>
+
+<!--footer end--> 
+<script type="text/javascript" src="javascript/jquery.js?version="></script> 
+<script type="text/javascript" src="javascript/plugins/bootstrap/bootstrap.js?version="></script> 
+<script type="text/javascript" src="javascript/plugins/jquery-validation/jquery.validate.js?version="></script> 
+<script type="text/javascript" src="javascript/everbridge/EB_Common.js?version="></script> 
+<script type="text/javascript" src="javascript/everbridge/eb_validation.js?version="></script> 
+<script type="text/javascript" src="javascript/views/ssp.js?version="></script> 
+<script type="text/javascript" src="javascript/views/signUp.js?version="></script> 
+<script type="text/javascript">
+      $(function() {
+        EB_Common.views.signUp.initPage();
+      });
+    </script>
+</body>
+</html>

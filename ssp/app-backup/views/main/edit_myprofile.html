@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Member Portal-Edit My Profile</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <meta name="description" content=" ">
+    <meta name="author" content="Everbridge">
+    <meta name="keywords" content=" ">
+    <link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap.css?version=1.0" type="text/css">
+    <link rel="stylesheet" href="./stylesheet/styles.css?version=1.0">
+    <link rel="stylesheet" href="./stylesheet/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
+    <link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="./javascript/plugins/bootstrap/html5shiv.min.js"></script>
+      <script src="./javascript/plugins/bootstrap/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <!-- Accessibility http://getbootstrap.com/getting-started/ -->
+    <a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a>
+    <!--head start-->
+    <header class="navbar navbar-default navbar-static-top">
+      <div class="navbar-inverse">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="navbar-header">
+          <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">
+            Hi Dave (dbro234)
+          </span>
+          <a class="navbar-brand" href="login.html" tabindex="">Logout</a>
+        </div>
+        <nav class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li> <a href="main_home.html" tabindex="" title="Home">Home</a> </li>
+            <li> <a href="overview.html" tabindex="" title="Overview">Overview</a> </li>
+            <li> <a href="faq.html" tabindex="" title="FAQs">FAQs</a> </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!--head end-->
+
+    <!--main start-->
+    <div class="container" id="main_container">
+      <div class="row">
+        <div class="col-sm-3">
+          <!--Sidebar content-->
+          <div class="text-center"> 
+            <a id="help_hide" href="#" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
+          </div>
+          <div id="help_show" hidden class="help-answer-ct">
+            <p><strong>Reminders:</strong></p>
+            <p><strong>Contact information</strong><br>
+              The contact information you 
+              provide will be used to send 
+              you critical messages from 
+              [Organization name], as well 
+              as information on any of the 
+              Subscriptions to which you 
+              subscribe.<br>
+              Attempts to contact will be in 
+              the order on the page. You can 
+              adjust the order by moving the 
+              contact methods up or down.</p>
+            <p><strong>Information privacy</strong><br>
+              This option allows us to send 
+              messages to your contact 
+              information without allowing us 
+              to view or modify the 
+              information you enter.</p>
+            <p><a href="#" tabindex="" title="Get help">Get help</a></p>
+          </div>
+        </div>
+
+        <div class="col-sm-9">
+          <!--Body content-->
+          <h1>Edit My Profile</h1>
+          <p>Personal information</p>
+
+          <div class="alert alert-danger">
+            <button data-dismiss="alert" class="close" type="button">×</button>
+            <i class="icn_warning"></i>Sorry, some information is either missing or incorrect below.
+          </div>
+
+          <form id="mainForm" class="form-horizontal" role="form" action="main_home.html" method="post">
+
+            <div class="form-group">
+              <label for="firstname" class="col-sm-3 control-label"><i class="red">*</i> First Name</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="firstname" name="firstname" maxlength="40" tabindex="" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastname" class="col-sm-3 control-label"><i class="red">*</i> Last Name</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="lastname" name="lastname" maxlength="40" tabindex="" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="registrationEmail" class="col-sm-3 control-label"><i class="red">*</i> Registration Email</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="registrationEmail" name="registrationEmail" maxlength="80" tabindex="" required /> 
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-6">
+                <h3>Here's how to contact me. (Complete at least two)</h3>
+                <p class="help-block">Move up or down to change the order.</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="col-sm-3 control-label text-left"><i class="icn_up_gray_16" title="Up"></i><i class="icn_down_16" title="Down"></i> 1) Email</label>
+              <div class="col-sm-6">
+                <input type="email" class="form-control" id="email" name="email" placeholder="email@email.com" tabindex="" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="textmessage" class="col-sm-3 control-label text-left"><i class="icn_up_16" title="Up"></i><i class="icn_down_16" title="Down"></i> 2) Text Message</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="textmessage" name="textmessage" tabindex="" />
+                <p class="help-block">Standard text messaging rates will apply</p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="cellphone" class="col-sm-3 control-label text-left"><i class="icn_up_16" title="UP"></i><i class="icn_down_16" title="Down"></i> 3) Cell Phone</label>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" id="cellphone" name="cellphone" placeholder="555-555-5555" tabindex="" />
+                  </div>
+                  <div class="col-sm-6">
+                    <select class="form-control" tabindex="" title="United States">
+                      <option>United States</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="homephone" class="col-sm-3 control-label text-left"><i class="icn_up_16" title="UP"></i><i class="icn_down_gray_16" title="Down"></i> 4) Home Phone</label>
+              <div class="col-sm-6">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control" id="homephone" name="homephone" placeholder="555-555-5555" tabindex="" />
+                  </div>
+                  <div class="col-sm-6">
+                    <select class="form-control" tabindex="" title="United States">
+                      <option>United States</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
+                  </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-offset-3 col-sm-6" >
+                <input type="checkbox" id="checkbox">
+                Keep this information private
+              </label>
+            </div>
+            <hr />
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Username</label>
+              <div class="col-sm-6">
+                dbro234
+                <p><a title="Change password" id="change_pswlink" tabindex="" href="#myModal" data-toggle="modal">Change password</a></p>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-sm-offset-3 col-sm-6">
+                <div class="row">
+                  <div class="col-xs-6">
+                    <button type="submit" id="createBtn" class="btn btn-primary btn-block">Save</button>
+                  </div>
+                  <div class="col-xs-4">
+                    <button type="button" class="btn btn-link btn-block">Cancel</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+    <!--main end--> 
+
+    <!--footer start-->
+    <footer class="footer">
+      <div class="text-center"> 
+	  	<p class="footer-logo">Powered by </p>
+        <p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a>
+          <span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
+      </div>
+    </footer>
+    <!--footer end--> 
+
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="myModalLabel">Change password</h4>
+          </div>
+          <div class="modal-body">
+            <form  class="form-horizontal" role="form" action="" method="post">
+              <div class="form-group">
+                <label for="currentpsw" class="col-sm-4 control-label"><i class="red">*</i> Current password</label>
+                <div class="col-sm-6">
+                  <input type="password" class="form-control" id="currentpsw" name="currentpsw"  maxlength="64" minlength="8" tabindex="" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="newpsw" class="col-sm-4 control-label"><i class="red">*</i> New password</label>
+                <div class="col-sm-6">
+                  <input type="password" class="form-control" id="newpsw" name="newpsw" maxlength="64" minlength="8" tabindex=""  required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="confirmpsw" class="col-sm-4 control-label"><i class="red">*</i> Confirm Password</label>
+                <div class="col-sm-6">
+                  <input type="password" class="form-control" id="confirmpsw" name="confirmpsw" maxlength="64" minlength="8"  tabindex="" required />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" type="button" data-dismiss="modal">Save</button>
+            <a title="Cancel" data-dismiss="modal" id="Cancel" class="btn btn-link">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="javascript/jquery.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/bootstrap/bootstrap.js?version="></script> 
+    <script type="text/javascript" src="javascript/plugins/jquery-validation/jquery.validate.js?version="></script> 
+    <script type="text/javascript" src="javascript/everbridge/EB_Common.js?version="></script> 
+    <script type="text/javascript" src="javascript/everbridge/eb_validation.js?version="></script> 
+    <script type="text/javascript" src="javascript/views/ssp.js?version="></script> 
+    <script type="text/javascript" src="javascript/views/main.js?version="></script> 
+    <script type="text/javascript">
+      $(function() {
+        EB_Common.views.main.initEditProfilePage();
+      });
+    </script>
+  </body>
+</html>
