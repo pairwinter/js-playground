@@ -59,7 +59,6 @@ module.exports = function (grunt) {
         options: {
           middleware: function (connect) {
             return [
-              pushStateHook("http://localhost:9000"),
               lrSnippet,
               mountFolder(connect, '.tmp'),
               mountFolder(connect, yeomanConfig.app)
@@ -90,6 +89,15 @@ module.exports = function (grunt) {
     open: {
       server: {
         url: 'http://localhost:<%= connect.options.port %>'
+      }
+    },
+    regarde: {
+      all: {
+        // This'll just watch the index.html file, you could add **/*.js or **/*.css
+        // to watch Javascript and CSS files too.
+        files:['index.html'],
+        // This configures the task that will run when the file change
+        tasks: ['livereload']
       }
     },
     clean: {
