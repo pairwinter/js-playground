@@ -22,7 +22,7 @@
 
     <link rel="stylesheet" href="styles/bootstrap/bootstrap.css?version=1.0" type="text/css">
     <link rel="stylesheet" href="styles/styles.css?version=1.0">
-    <link rel="stylesheet" href="styles/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
+    <link rel="stylesheet" href="styles/jquery-validation/eb_validation.css?version=1.0" type="text/css">
     <link type="image/x-icon" href="images/favicon.ico" rel="shortcut icon">
 </head>
 <body ng-app="sspApp">
@@ -74,11 +74,16 @@
     <!--footer end-->
 
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/jquery-validation/jquery.validate.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/directives/directive-validator.js"></script>
     <script type="text/javascript" src="scripts/directives/directive-link-active.js"></script>
     <script type="text/javascript" src="scripts/directives/directive-focus.js"></script>
+    <script src="scripts/services/login/service.login.js"></script>
     <script src="scripts/controllers/login/controller-login.js"></script>
     <script src="scripts/controllers/signup/controller-signup.js"></script>
     <script src="scripts/controllers/overview/controller-overview.js"></script>

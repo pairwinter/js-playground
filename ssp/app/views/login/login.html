@@ -4,9 +4,9 @@
     <div class="col-sm-3">
       <!--Sidebar content-->
       <div class="text-center">
-        <a id="help_hide" href="javascript:void(0)" ng-click="loginHelpShow=!loginHelpShow" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
+        <a id="help_hide" href="javascript:void(0)" ng-click="helpIsCollapsed=!helpIsCollapsed" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
       </div>
-      <div id="help_show" hidden class="help-answer-ct" ng-show='loginHelpShow'>
+      <div class="help-answer-ct" collapse='helpIsCollapsed'>
         <p><strong>Reminders:</strong></p>
         <p>Usernames are a minimum of four characters, case sensitive and contain a combination of uppercase letters, lowercase letters, numbers, dash, underscore, at sign or period.</p>
         <p>Passwords are case sensitive, a minimum of eight characters and may contain uppercase letters, lowercase letters, numbers or symbols</p>
@@ -22,16 +22,13 @@
         below to check.
       </p>
 
-      <div class="alert alert-danger">
-        <button data-dismiss="alert" class="close" type="button">×</button>
-        The username or password is invalid, please relogin again.
-      </div>
+      <alert ng-repeat="error in errors" type="error.type" close="closeError($index)">{{error.msg}}</alert>
 
-      <form class="form-horizontal" role="form" action="../main_home.html" method="post">
+      <form class="form-horizontal" ssp-validator>
         <div class="form-group">
           <label for="userName" class="col-sm-3 control-label"><i class="red">*</i> Username</label>
           <div class="col-sm-6">
-            <input type="text" class="form-control" id="userName" name="userName" maxlength="80" minlength="4" placeholder="User Name" tabindex="" ssp-focus/>
+            <input ng-model='user.name' type="text" class="form-control" id="userName" name="userName" maxlength="80" placeholder="User Name" tabindex="" ssp-focus/>
           </div>
         </div>
         <div class="form-group">
@@ -42,7 +39,7 @@
         <div class="form-group">
           <label for="password" class="col-sm-3 control-label"><i class="red">*</i> Password</label>
           <div class="col-sm-6">
-            <input type="password" class="form-control" id="password" name="password" tabindex="" placeholder="Password" />
+            <input ng-model='user.pwd' type="password" class="form-control" id="password" name="password" tabindex="" placeholder="Password" />
           </div>
         </div>
         <div class="form-group">
