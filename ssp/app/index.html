@@ -1,9 +1,13 @@
 <!doctype html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title></title>
@@ -11,60 +15,76 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- build:css({.tmp,app}) styles/main.css -->
-        <link rel="stylesheet" href="styles/bootstrap.css">
-        <link rel="stylesheet" href="styles/main.css">
-        <!-- endbuild -->
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <!--<link rel="stylesheet" href="styles/bootstrap.css">-->
+    <!--<link rel="stylesheet" href="styles/main.css">-->
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="styles/bootstrap/bootstrap.css?version=1.0" type="text/css">
+    <link rel="stylesheet" href="styles/styles.css?version=1.0">
+    <link rel="stylesheet" href="styles/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
+    <link type="image/x-icon" href="images/favicon.ico" rel="shortcut icon">
 </head>
-  <body ng-app="sspApp">
+<body ng-app="sspApp">
     <!--[if lt IE 7]>
-      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
+        today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
+        experience this site.</p>
     <![endif]-->
-
-    <!--[if lt IE 9]>
-      <script src="bower_components/es5-shim/es5-shim.js"></script>
-      <script src="bower_components/json3/lib/json3.min.js"></script>
-    <![endif]-->
-
     <!-- Add your site or application content here -->
+    <a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a>
+    <!--head start-->
+    <header class="navbar navbar-default navbar-static-top">
+        <div class="navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="navbar-header">
+                <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <nav class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li> <a title="Login" tabindex=""  href="#/login" ssp-link-active='active'>Login</a> </li>
+                    <li> <a title="Sign up" tabindex="" href="#/signup" ssp-link-active='active'>Sign up</a> </li>
+                    <li> <a title="Overview" tabindex="" href="#/overview" ssp-link-active='active'>Overview</a> </li>
+                    <li> <a title="FAQs" tabindex="" href="#/faq" ssp-link-active='active'>FAQs</a> </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!--head end-->
     <div class="container" ng-view=""></div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-      (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-      g.src='//www.google-analytics.com/ga.js';
-      s.parentNode.insertBefore(g,s)}(document,'script'));
-    </script>
+    <!--footer start-->
+    <footer class="footer">
+        <div class="text-center">
+            <p class="footer-logo">Powered by </p>
+            <p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a><span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
+        </div>
+    </footer>
+    <!--footer end-->
 
-    <script src="bower_components/jquery/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
 
-        <!-- build:js scripts/plugins.js -->
-        <script src="bower_components/bootstrap-sass/js/bootstrap-affix.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-alert.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-dropdown.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tooltip.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-modal.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-transition.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-button.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-popover.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-typeahead.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-carousel.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-scrollspy.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-collapse.js"></script>
-        <script src="bower_components/bootstrap-sass/js/bootstrap-tab.js"></script>
-        <!-- endbuild -->
-
-        <!-- build:js scripts/modules.js -->
-        <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <!-- endbuild -->
-
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <!-- endbuild -->
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script type="text/javascript" src="scripts/directives/directive-link-active.js"></script>
+    <script type="text/javascript" src="scripts/directives/directive-focus.js"></script>
+    <script src="scripts/controllers/login/controller-login.js"></script>
+    <script src="scripts/controllers/signup/controller-signup.js"></script>
+    <script src="scripts/controllers/overview/controller-overview.js"></script>
+    <script src="scripts/controllers/faq/controller-faq.js"></script>
+    <script src="scripts/controllers/forgot/controller-forgotUsername.js"></script>
+    <script src="scripts/controllers/forgot/controller-forgotPassword.js"></script>
+    <!-- endbuild -->
 </body>
 </html>

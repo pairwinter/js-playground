@@ -1,103 +1,23 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Member Portal-Forgot Username</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-    <meta name="description" content=" ">
-    <meta name="author" content="Everbridge">
-    <meta name="keywords" content=" ">
-    <link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap.css?version=1.0" type="text/css">
-    <link rel="stylesheet" href="./stylesheet/styles.css?version=1.0">
-    <link rel="stylesheet" href="./stylesheet/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
-    <link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="./javascript/plugins/bootstrap/html5shiv.min.js"></script>
-      <script src="./javascript/plugins/bootstrap/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <!-- Accessibility http://getbootstrap.com/getting-started/ -->
-    <a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a>
-    <!--head start-->
-    <header class="navbar navbar-default navbar-static-top">
-      <div class="navbar-inverse">
-        <div class="container">
-          <div class="navbar-header">
-            <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a>
+<!--main start-->
+<div class="container" id="main_container">
+  <div class="row">
+    <div class="col-sm-offset-1 col-sm-11">
+      <h2>Forgot Username</h2>
+      <p> Forgot your username? Please enter your registered email address, we will send the username to your mailbox! </p>
+
+      <form id="form1" class="form-horizontal" action="" method="post">
+        <div class="form-group">
+          <label for="registemail" class="col-sm-3 control-label"><i class="red">*</i> Registration Email </label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="registemail" name="registemail"  maxlength="80" tabindex="" required />
           </div>
         </div>
-      </div>
-
-      <div class="container">
-        <div class="navbar-header">
-          <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-3">
+            <button type="submit" class="btn btn-primary btn-block"> Save </button>
+          </div>
         </div>
-        <nav class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="../login.html" tabindex="" title="Login" >Login</a> </li>
-            <li><a href="sign_up.html" tabindex=""  title="SIGN UP">SIGN UP</a> </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li> <a href="overview.html" tabindex="" title="Overview">Overview</a> </li>
-            <li> <a href="faq.html" tabindex="" title="FAQs">FAQs</a> </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <!--head end-->
-
-
-    <!--main start-->
-    <div class="container" id="main_container">
-      <div class="row">
-        <div class="col-sm-offset-1 col-sm-11">
-          <h2>Forgot Username</h2>
-          <p> Forgot your username? Please enter your registered email address, we will send the username to your mailbox! </p>
-
-          <form id="form1" class="form-horizontal" action="" method="post">
-            <div class="form-group">
-              <label for="registemail" class="col-sm-3 control-label"><i class="red">*</i> Registration Email </label>
-              <div class="col-sm-6">
-                <input type="text" class="form-control" id="registemail" name="registemail"  maxlength="80" tabindex="" required />
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-3">
-                <button type="submit" class="btn btn-primary btn-block"> Save </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
+      </form>
     </div>
-    <!--footer start-->
-    <footer class="footer">
-      <div class="text-center"> 
-        <p class="footer-logo">Powered by </p>
-        <p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a>
-          <span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
-      </div>
-    </footer>
-    <!--footer end-->
-    <script type="text/javascript" src="javascript/jquery.js?version="></script> 
-    <script type="text/javascript" src="javascript/plugins/bootstrap/bootstrap.js?version="></script> 
-    <script type="text/javascript" src="javascript/plugins/jquery-validation/jquery.validate.js?version="></script> 
-    <script type="text/javascript" src="javascript/everbridge/EB_Common.js?version="></script> 
-    <script type="text/javascript" src="javascript/everbridge/eb_validation.js?version="></script> 
-    <script type="text/javascript" src="javascript/views/ssp.js?version="></script> 
-    <script type="text/javascript" src="javascript/views/forgot_username.js?version="></script> 
-    <script type="text/javascript">
-      $(function() {
-        EB_Common.views.forgotUsername.initPage();
-      });
-    </script>
-  </body>
-</html>
+  </div>
+</div>

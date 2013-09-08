@@ -1,0 +1,157 @@
+<!--main start-->
+<div class="container" id="main_container">
+  <div class="row">
+    <div class="col-sm-3">
+      <!--Sidebar content-->
+      <div class="text-center">
+        <a id="help_hide" href="#" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
+      </div>
+      <div id="help_show" hidden class="help-answer-ct">
+        <p><strong>Reminders:</strong></p>
+        <p>Not clear what this is or what to do?<br>
+          <a href="#">Overview</a><br>
+          <a href="#">Frequently Asked Questions</a></p>
+        <br>
+        <p><strong>Username taken?</strong><br>
+          Maybe you signed up earlier.<br>
+          Try <a href="#" tabindex="">logging in.</a></p>
+        <br>
+        <p><strong>Email address</strong><br>
+          The Email address you enter
+          here will be your registration
+          Email address and will be used
+          to deliver your log-in
+          information should you require
+          log-in assistance."</p>
+        <br>
+        <br>
+        <p><strong>Security Question</strong><br>
+          Your security question and
+          answer will be used to ensure
+          your security should you forget
+          your username and/or
+          password and request log-in
+          assistance.</p>
+        <br>
+        <br>
+        <p><a href="#" tabindex=""><b>Get help</b></a></p>
+      </div>
+    </div>
+
+    <div class="col-sm-9">
+      <div class="alert alert-success" hidden="">
+        <button data-dismiss="success" class="close" type="button" id="successInfo" >×</button>
+        <strong>Save Successfully!</strong>
+      </div>
+
+      <h1>Sign up</h1>
+      <p>Creating a profile allows you to receive only the alerts you want and takes just a few
+        minutes. Once you're set up, you can log in and change your information at any time.</p>
+
+      <form id="signUpForm" class="form-horizontal" role="form" action="main_myprofile.html" method="post" >
+        <div class="form-group">
+          <label for="userName" class="col-sm-3 control-label"><i class="red">*</i> Username</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="userName" name="userName" maxlength="80" minlength="4" placeholder="User Name" tabindex="" required ssp-focus/>
+            <p class="help-block">Combine upper case letters, lowercase letters, numbers
+              and dash or underscore. (4 characters minimum, case sensitive)</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="firstname" class="col-sm-3 control-label"><i class="red">*</i> First Name</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="firstname" name="firstname" maxlength="40"  tabindex="" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lastname" class="col-sm-3 control-label"><i class="red">*</i> Last Name</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="lastname" name="lastname" maxlength="40" tabindex="" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="col-sm-3 control-label"><i class="red">*</i> Password</label>
+          <div class="col-sm-6">
+            <input type="password" class="form-control" id="password" name="password" maxlength="64" minlength="8" tabindex="" required />
+
+            <div class="progress margin10-T" id="passwordRule">
+              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 33%">
+              </div>
+              <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 33%">
+              </div>
+              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 34%">
+              </div>
+            </div>
+
+            <p class="help-block">We recommend a strong password that doesn't include
+              common words or names. Combine upper case letters,
+              lowercase letters, numbers and symbols. (8 characters
+              minimum, case sensitive) </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="col-sm-3 control-label"><i class="red">*</i> Confirm Password</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" maxlength="64" minlength="8" tabindex="" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="securityQuestion" class="col-sm-3 control-label"><i class="red">*</i> Security Question</label>
+          <div class="col-sm-6">
+            <select class="form-control" name="securityQuestion" id="securityQuestion" tabindex="" required>
+              <option value="">-Select-</option>
+              <option value="question_one">What is your maternal grandmother's maiden name?</option>
+              <option value="question_two">What is the city or town where your mother and father met?</option>
+              <option value="question_three">What is the name of your favorite childhood friend?</option>
+              <option value="question_four">What is the city or town where you met your spouse/significant other?</option>
+              <option value="question_five">Where was your first job?</option>
+              <option value="question_six">What school did you attend in sixth grade?</option>
+              <option value="question_seven">What was your childhood nickname?</option>
+              <option value="question_eight">What street did you live on in third grade?</option>
+              <option value="question_nine">What was the name of your favorite pet or stuffed animal?</option>
+              <option value="question_ten">What was the last name of your favorite teacher?</option>
+              <option value="question_eleven">What is the city or town of your birth?</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="securityAnswer" class="col-sm-3 control-label"><i class="red">*</i> Answer</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="securityAnswer" name="securityAnswer"  maxlength="120" minlength="2" tabindex="" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="col-sm-3 control-label"><i class="red">*</i> Registration Email</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="email" name="email" maxlength="80" minlength="6" tabindex="" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-6">
+            <label class="checkbox" for="acceptCheckbox">
+              <span class="sr-only">Select/Deselect this item in this section</span>
+              <input type="checkbox" checked="" value="true" id="acceptCheckbox" name="acceptCheckbox" tabindex="">
+              I accept the <a class="btn-link" href="#">Terms of Use</a> </label>
+            <input class="sr-only" type="text" name="acceptInput" id="acceptInput"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-4">
+            <button type="submit" id="createBtn"  class="btn btn-primary btn-block">Create Your Account ></button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!--main end-->

@@ -1,0 +1,13 @@
+var express = require('express');
+var app = express();
+app.use('/static', express.static(__dirname + '/app'));
+app.use('/scripts', express.static(__dirname + '/app/scripts'));
+app.use('/styles', express.static(__dirname + '/app/styles'));
+app.use('/bower_components', express.static(__dirname + '/app/bower_components'));
+app.use('/images', express.static(__dirname + '/app/images'));
+app.use('/views', express.static(__dirname + '/app/views'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+app.listen(8081);
+console.log('Listening on port 8081');

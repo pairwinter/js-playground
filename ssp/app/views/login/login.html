@@ -1,138 +1,70 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Member Portal-Log in to your account</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-    <meta name="description" content=" ">
-    <meta name="author" content="Everbridge">
-    <meta name="keywords" content=" ">
-    <link rel="stylesheet" href="./stylesheet/bootstrap/bootstrap.css?version=1.0" type="text/css">
-    <link rel="stylesheet" href="./stylesheet/styles.css?version=1.0">
-    <link rel="stylesheet" href="./stylesheet/jquery-validation/eb_validation.css?version=1.0" type="text/css"/>
-    <link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="./javascript/plugins/bootstrap/html5shiv.min.js"></script>
-      <script src="./javascript/plugins/bootstrap/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <a href="#main_container" class="sr-only" title="Skip to Main Content">Skip to Main Content</a>
-    <!--head start-->
-    <header class="navbar navbar-default navbar-static-top">
-      <div class="navbar-inverse">
-        <div class="container">
-          <div class="navbar-header">
-            <a href="#" class="navbar-brand" tabindex="" title="[Org Name]Member Portal" alt="[Org Name]Member Portal"><strong>[Org Name]Member Portal</strong></a>
-          </div>
-        </div>
+<!--main start-->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <!--Sidebar content-->
+      <div class="text-center">
+        <a id="help_hide" href="javascript:void(0)" ng-click="loginHelpShow=!loginHelpShow" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
       </div>
-      <div class="container">
-        <div class="navbar-header">
-          <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <nav class="navbar-collapse collapse">
-          <ul class="nav navbar-nav navbar-right">
-            <li class="active"> <a title="Login" tabindex=""  href="login.html">Login</a> </li>
-            <li> <a title="Sign up" tabindex="" href="sign_up.html">Sign up</a> </li>
-            <li> <a title="Overview" tabindex="" href="overview.html">Overview</a> </li>
-            <li> <a title="FAQs" tabindex="" href="faq.html">FAQs</a> </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <!--head end--> 
-
-    <!--main start-->
-    <div class="container" id="main_container">
-      <div class="row">
-        <div class="col-sm-3">
-          <!--Sidebar content-->
-          <div class="text-center"> 
-            <a id="help_hide" href="#" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
-          </div>
-          <div id="help_show" hidden class="help-answer-ct">
-            <p><strong>Reminders:</strong></p>
-            <p>Usernames are a minimum of four characters, case sensitive and contain a combination of uppercase letters, lowercase letters, numbers, dash, underscore, at sign or period.</p>
-            <p>Passwords are case sensitive, a minimum of eight characters and may contain uppercase letters, lowercase letters, numbers or symbols</p>
-            <p><a href="#" tabindex="" title="Get help">Get help</a></p>
-          </div>
-        </div>
-
-        <div class="col-sm-9">
-          <h1>Login to your account</h1>
-          <p>Welcome back! Use the username and password you created earlier to log back in. Not
-            sure if you've already signed up or not? Use the forgot username and/or password links
-            below to check.</p>
-
-          <div class="alert alert-danger">
-            <button data-dismiss="alert" class="close" type="button">×</button>
-            The username or password is invalid, please relogin again. 
-          </div>
-
-          <form id="loginForm" class="form-horizontal" role="form" action="../main_home.html" method="post">
-            <div class="form-group">
-              <label for="userName" class="col-sm-3 control-label"><i class="red">*</i> Username</label>
-              <div class="col-sm-6">
-                <input type="text" class="form-control" id="userName" name="userName" maxlength="80" minlength="4" placeholder="User Name" tabindex="" />
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-6">
-                <a class="btn-link pull-right" href="forgot_username.html" tabindex="" title="Forgot username">Forgot username</a> 
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="password" class="col-sm-3 control-label"><i class="red">*</i> Password</label>
-              <div class="col-sm-6">
-                <input type="password" class="form-control" id="password" name="password" tabindex="" placeholder="Password" />
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-6">
-                <a class="btn-link pull-right" href="forgot_psw.html" tabindex="" title="Forgot password">Forgot password</a>
-              </div>
-            </div>
-
-            <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-3">
-                <button type="submit" class="btn btn-primary btn-block">Login</button>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="col-sm-offset-3 col-sm-10">
-                <strong>Don't have an account?</strong>
-                <a href="sign_up.html" title="Sign up">Sign up</a>
-              </div>
-            </div>
-          </form>
-
-        </div>
+      <div id="help_show" hidden class="help-answer-ct" ng-show='loginHelpShow'>
+        <p><strong>Reminders:</strong></p>
+        <p>Usernames are a minimum of four characters, case sensitive and contain a combination of uppercase letters, lowercase letters, numbers, dash, underscore, at sign or period.</p>
+        <p>Passwords are case sensitive, a minimum of eight characters and may contain uppercase letters, lowercase letters, numbers or symbols</p>
+        <p><a href="#" tabindex="" title="Get help">Get help</a></p>
       </div>
     </div>
-    <!--main end--> 
 
-    <!--footer start-->
-    <footer class="footer">
-      <div class="text-center"> 
-        <p class="footer-logo">Powered by </p>
-        <p><a href="/register/terms/8800387990220"  target="_blank" tabindex=""> Terms of Use </a><span id="copyright">&copy;&nbsp; 2013 Everbridge, Inc.</span></p>
+    <div class="col-sm-9">
+      <h1>Login to your account</h1>
+      <p>
+          Welcome back! Use the username and password you created earlier to log back in. Not
+        sure if you've already signed up or not? Use the forgot username and/or password links
+        below to check.
+      </p>
+
+      <div class="alert alert-danger">
+        <button data-dismiss="alert" class="close" type="button">×</button>
+        The username or password is invalid, please relogin again.
       </div>
-    </footer>
-    <!--footer end--> 
 
-    <script type="text/javascript" src="javascript/jquery.js?version=1.0"></script> 
-    <script type="text/javascript" src="javascript/plugins/bootstrap/bootstrap.js?version=1.0"></script> 
-    <script type="text/javascript" src="javascript/plugins/jquery-validation/jquery.validate.js?version=1.0"></script> 
-    <script type="text/javascript" src="javascript/everbridge/EB_Common.js"></script> 
-    <script type="text/javascript" src="javascript/everbridge/eb_validation.js"></script> 
-    <script type="text/javascript" src="javascript/views/ssp.js"></script>
-  </body>
-</html>
+      <form class="form-horizontal" role="form" action="../main_home.html" method="post">
+        <div class="form-group">
+          <label for="userName" class="col-sm-3 control-label"><i class="red">*</i> Username</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" id="userName" name="userName" maxlength="80" minlength="4" placeholder="User Name" tabindex="" ssp-focus/>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-6">
+            <a class="btn-link pull-right" href="#/forgot_username" tabindex="" title="Forgot username">Forgot username</a>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="col-sm-3 control-label"><i class="red">*</i> Password</label>
+          <div class="col-sm-6">
+            <input type="password" class="form-control" id="password" name="password" tabindex="" placeholder="Password" />
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-6">
+            <a class="btn-link pull-right" href="#/forgot_password" tabindex="" title="Forgot password">Forgot password</a>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-3">
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-3 col-sm-10">
+            <strong>Don't have an account?</strong>
+            <a href="sign_up.html" title="Sign up">Sign up</a>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!--main end-->
