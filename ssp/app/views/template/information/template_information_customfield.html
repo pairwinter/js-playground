@@ -1,0 +1,32 @@
+<div class="form-group" ng-switch on="customField.displayFormat">
+    <label class="col-sm-3 control-label">{{ customField.name }}</label>
+    <div class="col-sm-6" ng-switch-when="F" ng-switch on="customField.dataType">
+        <input ng-switch-when="DATE" datepicker-popup show-weeks="false" type="text" class="form-control" tabindex="" ng-model="customField.savedValues" ng-disabled="!customField.editable">
+        <input ng-switch-default type="text" class="form-control" tabindex="" ng-model="customField.savedValues" ng-disabled="!customField.editable">
+    </div>
+    <div class="col-sm-6" ng-switch-when="L">
+        <select class="form-control" tabindex="" ng-model="customField.savedValues">
+            <option ng-repeat="value in customField.definedValues" value="{{ value }}" ng-selected="value == customField.savedValues">{{ value }}</option>
+        </select>
+    </div>
+    <div class="col-sm-6" ng-switch-when="S">
+        <select class="form-control" tabindex="" ng-disabled="!customField.editable" multiple style="height:150px;width: 100px;display: inline;vertical-align: top" ng-model="customField.definedValuesSelected">
+            <option ng-repeat="value in customField.definedValues | orderBy:'toString()'" value="{{ value }}" ng-dblclick="customField.savedValues.push(customField.definedValues.splice(customField.definedValues.indexOf(value),1)[0]);">{{ value }}</option>
+        </select>
+        <table style="display: inline-block;">
+            <tr>
+                <td style="height: 150px;vertical-align: middle">
+                    <ul style="list-style-type: none;padding: 0;margin: 0">
+                        <li> <button type="button" style="width: 30px;" ng-click="customFieldsMove('right')" ng-disabled="!customField.editable">&gt;</button> </li>
+                        <li> <button type="button" style="width: 30px;" ng-click="customFieldsMove('left')" ng-disabled="!customField.editable">&lt;</button> </li>
+                        <li> <button type="button" style="width: 30px;" ng-click="customFieldsMove('rightAll')" ng-disabled="!customField.editable">&gt;&gt;</button> </li>
+                        <li> <button type="button" style="width: 30px;" ng-click="customFieldsMove('leftAll')" ng-disabled="!customField.editable">&lt;&lt;</button> </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <select class="form-control" tabindex="" ng-disabled="!customField.editable" multiple style="height:150px;width: 100px;display: inline;vertical-align: top" ng-model="customField.savedValuesSelected">
+            <option ng-repeat="c in customField.savedValues" value="{{ c }}" ng-dblclick="customField.definedValues.push(customField.savedValues.splice($index,1)[0]);">{{ c }}</option>
+        </select>
+    </div>
+</div>

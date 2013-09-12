@@ -1,0 +1,36 @@
+<!--main start-->
+<div class="row" ng-controller="SubscriptionCtrl">
+    <div class="col-sm-3">
+        <!--Sidebar content-->
+        <div class="text-center"><a id="help_hide" href="#" title="Help & answers" class="btn btn-info help-answer">Help
+            & answers</a></div>
+        <div id="help_show" hidden class="help-answer-ct">
+            <p>
+                <strong>Subscriptions</strong><br>
+                Select
+            </p>
+
+            <p><a href="#" tabindex="" title="Get help">Get help</a></p>
+        </div>
+    </div>
+    <div class="col-sm-9">
+        <form name='subscriptionForm' ng-submit="submit()">
+            <h1>Edit My Subscriptions</h1>
+            <p>Keep me informed about the items selected below.</p>
+            <alert ng-repeat="alert in alerts" type="alert.type" close="closeError($index)">{{alert.msg}}</alert>
+            <div ssp-subscription></div>
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button type="submit" id="createBtn" class="btn btn-primary btn-block" ng-disabled="subscriptionForm.$pristine">Save</button>
+                        </div>
+                        <div class="col-xs-4">
+                            <a href="#/home">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

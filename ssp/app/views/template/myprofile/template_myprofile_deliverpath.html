@@ -1,0 +1,82 @@
+<div class="form-group" ng-switch on="path.type">
+    <label class="col-sm-3 control-label text-left">
+        <i ng-class="{icn_up_gray_16:$first,icn_up_16:!$first}" title="Up" ng-click="deliverpathUp($index)" tabindex=""></i>
+        <i ng-class="{icn_down_gray_16:$last,icn_down_16:!$last}" title="Down" ng-click="deliverpathDown($index)" tabindex=""></i>
+        {{ $index +1 }}) {{ path.name }}
+    </label>
+    <div class="col-sm-6" ng-switch-when="EMAIL">
+        <input type="text" class="form-control" placeholder="email@email.com" tabindex="" ng-model="path.value"/>
+    </div>
+    <div class="col-sm-6" ng-switch-when="PHONE">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="555-555-5555" tabindex=""/>
+            </div>
+            <div class="col-sm-6">
+                <select class="form-control" tabindex="" title="United States" ng-model="path.countryCode">
+                    <option ng-repeat="country in countries" value="{{ country.code }}" ng-selected="path.countryCode == country.code">{{ country.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" ng-switch-when="SMS">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="555-555-5555" tabindex=""/>
+            </div>
+            <div class="col-sm-6">
+                <select class="form-control" tabindex="" title="United States" ng-model="path.countryCode">
+                    <option ng-repeat="country in countries" value="{{ country.code }}" ng-selected="path.countryCode == country.code">{{ country.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" ng-switch-when="TTYTDD">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="555-555-5555" tabindex=""/>
+            </div>
+            <div class="col-sm-6">
+                <select class="form-control" tabindex="" title="United States" ng-model="path.countryCode">
+                    <option ng-repeat=" country in ttytddCountries" value="{{ country.code }}" ng-selected="path.countryCode">{{ country.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" ng-switch-when="TA">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="555-555-5555" tabindex=""/>
+            </div>
+            <div class="col-sm-6">
+                <select class="form-control" tabindex="" title="United States" ng-model="path.countryCode">
+                    <option ng-repeat="country in countries" value="{{ country.code }}" ng-selected="path.countryCode == country.code">{{ country.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" ng-switch-when="FAX">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="555-555-5555" tabindex=""/>
+            </div>
+            <div class="col-sm-6">
+                <select class="form-control" tabindex="" title="United States" ng-model="path.countryCode">
+                    <option ng-repeat="country in countries" value="{{ country.code }}" ng-selected="path.countryCode == country.code">{{ country.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6" ng-switch-when="PAGER">
+        <div class="row">
+            <div class="col-sm-6">
+                <input type="text" class="form-control" placeholder="555-555-5555" tabindex=""/>
+            </div>
+            <div class="col-sm-6">
+                <select class="form-control" tabindex="" title="United States" ng-model="path.countryCode">
+                    <option ng-repeat="country in countries" value="{{ country.code }}" ng-selected="path.countryCode == country.code">{{ country.name }}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<ul class="subscrip_oneul">
+    <li ng-repeat="subscription in subscriptions" style=" overflow: hidden; ">
+        <h3>
+            <span title="{{ subscription.name }}" ng-click="subscription.show = !subscription.show">
+                <i ng-class="{icn_minus_16:!subscription.show,icn_add_16:subscription.show}"></i>{{ subscription.name }}
+            </span>
+        </h3>
+        <ul ng-show="!subscription.show" class="subscrip_twoul  col-sm-7">
+            <li>
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="subscription.checked" ng-checked="subscription.checked" tabindex="" ng-change="selectAllCategories(subscription)">
+                    <h4>
+                        <b>Select all items in all categories</b>
+                    </h4>
+                </label>
+            </li>
+            <li ng-repeat="category in subscription.nodes">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-checked="category.checked" ng-model="category.checked" ng-change="categoryChange(category,subscription)" tabindex="">
+                    </label>
+                    <span title="{{ category.name }}" ng-click="category.show = !category.show">
+                        <h4>
+                            <i ng-class="{icn_minus_16:!category.show,icn_add_16:category.show}"></i>{{ category.name }}({{ category.nodes.length }})
+                        </h4>
+                    </span>
+                </div>
+                <ul ng-show="!category.show" class="subscrip_thrul">
+                    <li ng-repeat="leaf in category.nodes">
+                        <label class="checkbox">
+                            <input type="checkbox" ng-checked="leaf.checked" ng-model="leaf.checked" ng-change="selectLeaf(category,subscription)">
+                            <h5>{{ leaf.name }}</h5>
+                        </label>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+</ul>

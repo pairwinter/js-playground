@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-sm-3">
+        <!--Sidebar content-->
+        <div class="text-center">
+            <a id="help_hide" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
+        </div>
+        <div id="help_show" hidden class="help-answer-ct">
+            <p><strong>Reminders:</strong></p>
+
+            <p><strong>Contact information</strong><br>
+                The contact information you
+                provide will be used to send
+                you critical messages from
+                [Organization name], as well
+                as information on any of the
+                Subscriptions to which you
+                subscribe.<br>
+                Attempts to contact will be in
+                the order on the page. You can
+                adjust the order by moving the
+                contact methods up or down.</p>
+
+            <p><strong>Information privacy</strong><br>
+                This option allows us to send
+                messages to your contact
+                information without allowing us
+                to view or modify the
+                information you enter.</p>
+
+            <p><a href="#" tabindex="" title="Get help">Get help</a></p>
+        </div>
+    </div>
+
+    <div class="col-sm-9">
+        <!--Body content-->
+        <h1>Edit My Profile</h1>
+
+        <p>Personal information</p>
+
+        <form class="form-horizontal" role="form" name="myprofileForm" ssp-myprofile-validator>
+            <ul style="list-style-type: none">
+                <li ng-repeat="profile in profiles">
+                    <div ssp-myprofile-field></div>
+                </li>
+            </ul>
+
+            <div class="form-group">
+                <div class="col-sm-6">
+                    <h3>Here's how to contact me. (Complete at least two)</h3>
+                    <p class="help-block">Move up or down to change the order.</p>
+                </div>
+            </div>
+            <ul style="list-style-type: none" ui-sortable="deliverpathSortComplete" ng-model="paths">
+                <li ng-repeat="path in paths">
+                    <div ssp-myprofile-deliverpath-field></div>
+                </li>
+            </ul>
+            <div class="form-group">
+                <label class="col-sm-offset-3 col-sm-6"> <input type="checkbox" id="checkbox" ng-model="private"> Keep this information private </label>
+            </div>
+            <hr/>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Username</label>
+
+                <div class="col-sm-6">
+                    dbro234
+                    <p><a title="Change password" id="change_pswlink" tabindex="" href="#myModal" data-toggle="modal">Change password</a></p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <button type="submit" id="createBtn" class="btn btn-primary btn-block">Save</button>
+                        </div>
+                        <div class="col-xs-4">
+                            <button type="button" class="btn btn-link btn-block">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

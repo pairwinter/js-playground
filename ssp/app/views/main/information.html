@@ -1,0 +1,45 @@
+<div class="container" id="main_container">
+    <div class="row">
+        <div class="col-sm-3">
+            <!--Sidebar content-->
+            <div class="text-center">
+                <a id="help_hide" href="#" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
+            </div>
+            <div id="help_show" hidden class="help-answer-ct">
+                <p><strong>Subscriptions</strong><br>
+                    Select</p>
+
+                <p><a tabindex="">Get help</a></p>
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            <!--Body content-->
+
+            <h1>Edit My Information</h1>
+
+            <p>A little extra informative help text here to let user know whats going on.</p>
+
+            <form id="mainForm" class="form-horizontal" role="form" action="main_review.html" method="post">
+                <ul style="list-style-type: none">
+                    <li ng-repeat="customField in customFields">
+                        <div ssp-information-customfield></div>
+                    </li>
+                </ul>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <button type="submit" class="btn btn-primary btn-block">Save</button>
+                            </div>
+                            <div class="col-xs-4">
+                                <button type="button" class="btn btn-link">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

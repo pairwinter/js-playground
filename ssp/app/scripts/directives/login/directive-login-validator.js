@@ -1,5 +1,5 @@
 'use strict';
-angular.module('sspApp').directive('sspValidator', function(){
+angular.module('sspApp').directive('sspLoginValidator', function(){
   return {
     restict: 'A',
     link: function(scope, element){

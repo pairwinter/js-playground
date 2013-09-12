@@ -24,7 +24,7 @@
 
       <alert ng-repeat="error in errors" type="error.type" close="closeError($index)">{{error.msg}}</alert>
 
-      <form class="form-horizontal" ssp-validator>
+      <form name="loginForm" class="form-horizontal" ssp-login-validator>
         <div class="form-group">
           <label for="userName" class="col-sm-3 control-label"><i class="red">*</i> Username</label>
           <div class="col-sm-6">

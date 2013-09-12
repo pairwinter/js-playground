@@ -13,19 +13,12 @@
     <title></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <!-- build:css({.tmp,app}) styles/main.css -->
-    <!--<link rel="stylesheet" href="styles/bootstrap.css">-->
-    <!--<link rel="stylesheet" href="styles/main.css">-->
-    <!-- endbuild -->
-
     <link rel="stylesheet" href="styles/bootstrap/bootstrap.css?version=1.0" type="text/css">
     <link rel="stylesheet" href="styles/styles.css?version=1.0">
     <link rel="stylesheet" href="styles/jquery-validation/eb_validation.css?version=1.0" type="text/css">
     <link type="image/x-icon" href="images/favicon.ico" rel="shortcut icon">
 </head>
-<body ng-app="sspApp">
+<body ng-app="sspApp" ng-controller="MainCtrl">
     <!--[if lt IE 7]>
     <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser
         today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better
@@ -51,10 +44,17 @@
                     <span class="icon-bar"></span>
                 </button>
             </div>
+            <div ng-show="isShowUsername">
+                <span class="navbar-brand">
+                {{ username }}
+                </span>
+                <a class="navbar-brand" href="/" tabindex="">Logout</a>
+            </div>
             <nav class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li> <a title="Login" tabindex=""  href="#/login" ssp-link-active='active'>Login</a> </li>
-                    <li> <a title="Sign up" tabindex="" href="#/signup" ssp-link-active='active'>Sign up</a> </li>
+                    <li ng-show="isShowLogin"> <a title="Login" tabindex=""  href="#/login" ssp-link-active='active'>Login</a> </li>
+                    <li ng-show="isShowSignup"> <a title="Sign up" tabindex="" href="#/signup" ssp-link-active='active'>Sign up</a> </li>
+                    <li ng-show="isShowHome"> <a title="Home" tabindex="" href="#/home" ssp-link-active='active'>Home</a> </li>
                     <li> <a title="Overview" tabindex="" href="#/overview" ssp-link-active='active'>Overview</a> </li>
                     <li> <a title="FAQs" tabindex="" href="#/faq" ssp-link-active='active'>FAQs</a> </li>
                 </ul>
@@ -62,7 +62,10 @@
         </div>
     </header>
     <!--head end-->
-    <div class="container" ng-view=""></div>
+    <div class="container" ng-view="" ng-show="!signup"></div>
+    <div class="container" ng-show="signup">
+        <ng-include src='stepUrl'></ng-include>
+    </div>
 
     <!--footer start-->
     <footer class="footer">
@@ -73,18 +76,40 @@
     </footer>
     <!--footer end-->
 
-    <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/jquery/jquery.js"></script>
-    <script src="bower_components/jquery-validation/jquery.validate.js"></script>
+    <script src="bower_components/jquery-ui/ui/jquery-ui.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-sortable/src/sortable.js"></script>
+    <script src="bower_components/angular-ui-date/src/date.js"></script>
+    <script src="bower_components/jquery.validation/jquery.validate.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/dependents/httpInterceptor.js"></script>
     <script src="scripts/app.js"></script>
-    <script type="text/javascript" src="scripts/directives/directive-validator.js"></script>
+    <script src="scripts/controllers/controller-main.js"></script>
+    <script type="text/javascript" src="scripts/directives/login/directive-login-validator.js"></script>
+    <script type="text/javascript" src="scripts/directives/signup/directive-signup-validator.js"></script>
     <script type="text/javascript" src="scripts/directives/directive-link-active.js"></script>
     <script type="text/javascript" src="scripts/directives/directive-focus.js"></script>
+    <script type="text/javascript" src="scripts/directives/subscription/directive-subscription.js"></script>
+    <script type="text/javascript" src="scripts/directives/myprofile/directive-myprofile-validator.js"></script>
+    <script type="text/javascript" src="scripts/directives/myprofile/directive-myprofile-field.js"></script>
+    <script type="text/javascript" src="scripts/directives/myprofile/directive-myprofile-deliverpath-field.js"></script>
+    <script type="text/javascript" src="scripts/directives/location/directive-location-validator.js"></script>
+    <script type="text/javascript" src="scripts/directives/information/directive-information-customfield.js"></script>
     <script src="scripts/services/login/service.login.js"></script>
+    <script src="scripts/services/signup/service.signup.js"></script>
+    <script src="scripts/services/myprofile/service-myprofile.js"></script>
+    <script src="scripts/services/information/service-information.js"></script>
+    <script src="scripts/services/location/service-location.js"></script>
+    <script src="scripts/services/subscription/service-subscription.js"></script>
     <script src="scripts/controllers/login/controller-login.js"></script>
+    <script src="scripts/controllers/home/controller-home.js"></script>
+    <script src="scripts/controllers/home/controller-subscription.js"></script>
+    <script src="scripts/controllers/home/controller-myprofile.js"></script>
+    <script src="scripts/controllers/home/controller-location.js"></script>
+    <script src="scripts/controllers/home/controller-information.js"></script>
     <script src="scripts/controllers/signup/controller-signup.js"></script>
     <script src="scripts/controllers/overview/controller-overview.js"></script>
     <script src="scripts/controllers/faq/controller-faq.js"></script>

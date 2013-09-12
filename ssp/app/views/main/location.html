@@ -1,0 +1,166 @@
+<!--main start-->
+<div class="container" id="main_container">
+    <div class="row">
+        <div class="col-sm-3">
+            <!--Sidebar content-->
+            <div class="text-center">
+                <a id="help_hide" title="Help & answers" class="btn btn-info help-answer">Help & answers</a>
+            </div>
+            <div id="help_show" hidden class="help-answer-ct">
+                <p>
+                    <strong>Location name:</strong><br>
+                    Location name
+                    Using a name for your
+                    locations(s) allows you to easily
+                    identify them later.<br>
+                    You are able to add more than
+                    one if desired i.e. home, work,
+                    childcare addresses.
+                </P>
+
+                <p>
+                    <strong>Address</strong><br>
+                    By providing an address you
+                    will be able to receive alerts
+                    that effect a specific location i.e
+                    weather, evacuations, etc.<br>
+                    The more address information
+                    you provide here, the better
+                    our ability to get your match.
+                </p>
+
+                <p>
+                    Good:<br>
+                    23 Main St.<br>
+                    Denver<br>
+                    Colorado<br>
+                    87654
+                </p>
+
+                <p>
+                    Bad:<br>
+                    23 Main<br>
+                    Denver
+                </p>
+
+                <p><a href="#" tabindex="" title="Get help">Get help</a></p>
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            <!--Body content-->
+            <h1>Edit My Locations</h1>
+
+            <p>Enter one or more locations you care about. You'll receive an alert if something happens that affects them.</p>
+
+            <div class="row">
+                <div class="col-md-9 text-right">
+                    <button type="button" class="btn" tabindex="" id="addLocation" ng-click="addNew()">+ New Location</button>
+                </div>
+                <div class="col-md-9">
+                    <div id="locationList" class="table-responsive">
+                        <table class="table table-striped" ng-show="addresses.length">
+                            <thead>
+                                <tr>
+                                    <th>Location Name</th>
+                                    <th>Address</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="address in addresses">
+                                    <td>{{ address.locationName }}</td>
+                                    <td>{{ address.streetAddress }}</td>
+                                    <td><a class="btn btn-link" editlink title="Edit" ng-click="edit($index)">Edit</a> <a class="btn btn-link" title="Delete" ng-click="remove(address.id)">Delete</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <form class="form-horizontal" name="locationForm" ssp-location-validator>
+                <div id="locationContainer">
+                    <div class="form-group">
+                        <label for="locationName" class="col-sm-3 control-label"><i class="red">*</i> Location Name</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" id="locationName" name="locationName" ng-model="address.locationName" class="form-control" maxlength="40" tabindex="" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="country" class="col-sm-3 control-label"><i class="red">*</i> Country</label>
+
+                        <div class="col-sm-6">
+                            <select id="country" name="country" class="form-control" tabindex="" title="United States" ng-model="address.country">
+                                <option ng-repeat="country in countries" value="{{ country.code }}" ng-selected="country.code == address.country">{{ country.value }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-sm-3 control-label"><i class="red">*</i> Address</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="3451 No. Main St." id="address" name="address" ng-model="address.streetAddress" maxlength="100" tabindex="" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="apt_suite_unit" class="col-sm-3 control-label">Apt/Suite/Unit</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="apt_suite_unit" name="apt_suite_unit" ng-model="address.suite" maxlength="10" tabindex=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="city" class="col-sm-3 control-label">City</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" value="Provo" id="city" name="city" ng-model="address.city" maxlength="40" tabindex=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="state" class="col-sm-3 control-label">State/Province</label>
+
+                        <div class="col-sm-6" ng-switch="address.country">
+                            <select id="state" name="state" ng-model="address.state" maxlength="10" tabindex="" class="form-control" ng-switch-when="US">
+                                <option ng-repeat="state in states" value="{{ state.value }}" ng-selected="address.state == state.value">{{ state.code }}</option>
+                            </select>
+                            <input ng-switch-default type="text" class="form-control" value="Provo" name="state"  ng-model="address.state" maxlength="40" tabindex=""/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="postalcode" class="col-sm-3 control-label">Postal Code</label>
+
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="postalcode" name="postalcode" ng-model="address.postalCode" tabindex="" value="87690"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <button type="button" id="verifyAddress" class="btn btn-default" tabindex="" data-toggle="modal" data-target="#pointmap">Verify This Address</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-6">
+                        <div class="row">
+                            <div class="col-xs-6" ng-switch on="address.isAdd">
+                                <button type="submit" class="btn btn-primary btn-block" ng-click="add()" ng-switch-when="true">Add</button>
+                                <button type="submit" class="btn btn-primary btn-block" ng-click="save(address.id)" ng-switch-default>Save</button>
+                            </div>
+                            <div class="col-xs-4">
+                                <a href="#/home">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
