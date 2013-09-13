@@ -38,7 +38,12 @@ var sspApp = angular.module('sspApp', ['ui.sortable','ui.bootstrap.datepicker','
     })
     .when('/subscription',{
       templateUrl: 'views/main/subscription.html',
-      controller: 'SubscriptionCtrl'
+      controller: 'SubscriptionCtrl',
+      resolve: {
+          loadData : function(subscriptionService){
+              return subscriptionService.getSubscription();
+          }
+      }
     })
     .when('/myprofile',{
       templateUrl: 'views/main/myprofile.html',

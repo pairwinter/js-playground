@@ -1,5 +1,8 @@
 'use strict';
 angular.module('sspApp').controller('MyprofileCtrl', ['$scope','myprofileService',function ($scope,myprofileService) {
+
+    console.log('MyprofileCtrl');
+
     myprofileService.getMyprofile(null,function(data){
       $scope.profiles = data.myprofile.profiles;
     });
