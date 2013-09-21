@@ -1,0 +1,78 @@
+<html>
+<head>
+    <title> backbone </title>
+    <meta charset="utf-8">
+    <!-- 此设置用于指定地图应以全屏模式显示，且用户不得调整地图的大小。请注意，您需要在网页的 <head> 元素中添加此 <meta> 标记，才能使用 iPhone 的 Safari 浏览器。-->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap.css"/>
+    <!--<link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap-theme.css"/>-->
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/underscore.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true">
+    </script>
+    <script type="text/javascript" src="map_page.js"></script>
+</head>
+<body>
+    <div class="control_container">
+        <a href="../../../index.html">Index</a>
+            <span class="control">
+                <a href="javascript:" class="openControl">+</a>
+                <a href="javascript:" class="closeControl">-</a>
+            </span>
+        <h2 class="title">Google Map</h2>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">Base</h3>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">map</h4>
+            <div class="section_sub_content" style="display: block">
+                <div style="margin-bottom: 10px">
+                    <button type="button" class=" btn btn-primary" id="addMarker">添加Marker</button>
+                    CurrentLevel: <span id='mapZoomLevel'></span>;
+                    CurrentCenter: <span id='mapCenter'></span>;
+                </div>
+                <div id="map"></div>
+                <div id='homeControlTemplate' style="display: none">
+                    <div><span><button class="btn btn-primary">Home</button></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            window.map = js_course.createMap('map','100%','400');
+            $('#mapZoomLevel').text(map.getZoom());
+            var center = map.getCenter();
+            $('#mapCenter').text(center.lat() + ',' + center.lng());
+            google.maps.event.addListener(map,'bounds_changed', function () {
+//                this 是 map 对象
+                var zoomLevel = this.getZoom();
+                $('#mapZoomLevel').text(zoomLevel);
+                console.log(this.getBounds());
+            });
+            google.maps.event.addListener(map,'click', function (e) {
+                js_course.placeMarker(map, e.latLng);
+            });
+            $('#addMarker').click(function(){
+                js_course.createMarker(map,null);
+            });
+            js_course.placeMultMarker(map,10);
+
+            google.maps.event.addListener(map,'center_changed', function () {
+//                this 是 map 对象
+                var center = this.getCenter();
+                $('#mapCenter').text(center.lat() + ',' + center.lng());
+            });
+
+            var homeControl = new  js_course.createHomeControl(map,new google.maps.LatLng( -33.83290488735444,151.18252563476565));
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControl.getControlDom());
+        });
+    </script>
+</body>
+</html>
