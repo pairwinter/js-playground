@@ -13,7 +13,8 @@
     "angular-ui": "~0.4.0",
     "jquery-ui": "~1.10.3",
     "angular-local-storage": "*",
-    "angular-scenario": "~1.0.7"
+    "angular-scenario": "~1.0.7",
+    "jquery-tiptip": "*"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",

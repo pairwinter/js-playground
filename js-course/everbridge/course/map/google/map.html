@@ -9,13 +9,30 @@
     <meta name="Description" content="">
     <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
     <link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap.css"/>
+    <style type="text/css">
+        .overlayer_controller{
+            text-align: center;
+            overflow: hidden;
+            background-color: darkgray;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .overlayer_controller ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .overlayer_controller ul li{
+            float: left;
+            padding: 0 5px;
+        }
+    </style>
     <!--<link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap-theme.css"/>-->
     <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
     <script type="text/javascript" src="../../../resources/javascripts/bootstrap/bootstrap.js"></script>
     <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/underscore.js"></script>
     <script type="text/javascript" src="../../../resources/utils.js"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true">
-    </script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="map_page.js"></script>
 </head>
 <body>
@@ -41,6 +58,15 @@
                 <div id='homeControlTemplate' style="display: none">
                     <div><span><button class="btn btn-primary">Home</button></span></div>
                 </div>
+                <div id='overLayerControlTemplate' style="display: none">
+                    <div class="overlayer_controller">
+                        <ul>
+                            <li><button class="btn btn-primary hide_overlayer">Hide OverLayer</button></li>
+                            <li><button class="btn btn-primary show_overlayer">Show OverLayer</button></li>
+                            <li><button class="btn btn-primary remove_overlayer">Remove OverLayer</button></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -60,7 +86,7 @@
                 js_course.placeMarker(map, e.latLng);
             });
             $('#addMarker').click(function(){
-                js_course.createMarker(map,null);
+                js_course.placeMarker(map,new google.maps.LatLng(39.90828645766302,116.37209552526475));
             });
             js_course.placeMultMarker(map,10);
 
@@ -70,8 +96,12 @@
                 $('#mapCenter').text(center.lat() + ',' + center.lng());
             });
 
-            var homeControl = new  js_course.createHomeControl(map,new google.maps.LatLng( -33.83290488735444,151.18252563476565));
+            var homeControl = new  js_course.createHomeControl(map,new google.maps.LatLng(39.90828645766302,116.37209552526475));
             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(homeControl.getControlDom());
+
+            js_course.createStyledMapType(map);
+
+            var overLayerControl = new js_course.OverLayerControl(map,'TOP_CENTER');
         });
     </script>
 </body>

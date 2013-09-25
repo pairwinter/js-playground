@@ -11,6 +11,29 @@
 
     }
     jc.createMap = function(canvasId,width,height){
+        var styles = [
+            {
+                featureType : 'all',
+                stylers : [
+                    {saturation : 0}
+                ]
+            },{
+                featureType : 'road.arterial',
+                elementType : 'geometry',
+                stylers : [
+                    {hue : "#FF0000"},
+                    {saturation : 50}
+                ]
+            }
+            ,{
+                featureType : "poi.business",
+                elementType : "labels",
+                stylers : [
+                    {visibility : "off"}
+                ]
+            }
+
+        ];
         var options = {
             center : new google.maps.LatLng(-34.0,150),
             zoom : 8,
@@ -22,32 +45,29 @@
                 position : google.maps.ControlPosition.TOP_RIGHT
             },
             mapTypeControlOptions : {
-                style : google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                style : google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                mapTypeIds : [google.maps.MapTypeId.ROADMAP,'styled_map']
             },
             overviewMapControl : true,
-
-            mapTypeId : google.maps.MapTypeId.ROADMAP
+            mapTypeId : google.maps.MapTypeId.ROADMAP,
+            styles : styles
         };
         var mapCanvas = document.getElementById(canvasId);
         detectBrowser(mapCanvas,width,height);
         return new google.maps.Map(mapCanvas,options);
-    }
-    jc.createMarker = function createMarker(map,position) {
-        var marker = new google.maps.Marker({
-            map : map,
-            position : map.getCenter(),
-            title : 'click to zoom'
-        });
-        google.maps.event.addListener(marker,'click', function () {
-            this.map.setZoom(8);
-            map.setCenter(this.getPosition());
-        });
     };
     jc.placeMarker = function placeMarker(map,location) {
+        if(!jc.markers){
+            jc.markers = [];
+        }
         var marker = new google.maps.Marker({
             map : map,
             position:location
         });
+        google.maps.event.addListener(marker,'click', function () {
+            marker.setMap(null);
+        });
+        jc.markers.push(marker);
         return marker;
     };
     jc.attachMarkerMessage = function attachMakerMessage(marker, msg) {
@@ -82,16 +102,73 @@
         var homeControlJQDom = $('#homeControlTemplate').clone().show();
         homeControlJQDom.find('button').click(function () {
             map.panTo(control.getHome());
-            map.setZoom(5);
+            map.setZoom(16);
         });
         this.homeControlDom = homeControlJQDom[0];
 
+    };
+    jc.OverLayerControl = function OverLayerControl(map,position) {
+        var control = this;
+        var overLayerControlJQDom = $('#overLayerControlTemplate').clone().show();
+        overLayerControlJQDom.find('button').click(function (e) {
+            var j_button = $(e.target);
+            if(j_button.hasClass('hide_overlayer')){
+                if(jc.markers){
+                    $.each(jc.markers,function(i,marker){
+                        marker.setMap(null);
+                    });
+                }
+            }else if(j_button.hasClass('show_overlayer')){
+                if(jc.markers){
+                    $.each(jc.markers,function(i,marker){
+                        marker.setMap(map);
+                    });
+                }
+            }else if(j_button.hasClass('remove_overlayer')){
+                if(jc.markers){
+                    $.each(jc.markers,function(i,marker){
+                        marker.setMap(null);
+                    });
+                }
+                jc.markers.length = 0;
+            };
+        });
+        this.overLayerControlDom = overLayerControlJQDom[0];
+        map.controls[google.maps.ControlPosition[position]].push(this.overLayerControlDom);
     };
     jc.createHomeControl.prototype.getHome = function () {
         return this.home;
     };
     jc.createHomeControl.prototype.getControlDom = function () {
         return this.homeControlDom;
+    }
+
+    jc.createStyledMapType = function (map) {
+        var styles = [
+            {
+                stylers : [
+                    {hue : '#00ffe6'},
+                    {saturation : -20}
+                ]
+            },
+            {
+                featureType : 'road',
+                elementType : 'geometry',
+                stylers : [
+                    {lightness : 100},
+                    {visibility : 'simplified'}
+                ]
+            },
+            {
+                featureType : 'road',
+                elementType : 'labels',
+                stylers : [
+                    {visibility : 'off'}
+                ]
+            }
+        ];
+        var styledMapType = new google.maps.StyledMapType(styles,{name : 'Styled map'});
+        map.mapTypes.set('styled_map',styledMapType);
     }
 
 })(js_course);

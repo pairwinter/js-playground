@@ -26,7 +26,7 @@ module.exports = function(config) {
     urlRoot : '/_karma_/',
 
     proxies : {
-      '/' : 'http://localhost:8080/'
+      '/' : 'http://localhost:8082/'
     },
 
     // list of files to exclude
