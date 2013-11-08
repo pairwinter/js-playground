@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+	<definition template="/WEB-INF/views/settings/ssp/previewPage.jsp" name="previewPage"/>
+	<definition template="/WEB-INF/views/settings/ssp/sspConfig.jsp" name="sspConfig"/>
+	<definition template="/WEB-INF/views/settings/ssp/sspOptions.jsp" name="sspOptions"/>
+	<definition template="/WEB-INF/views/settings/ssp/userProfileSetting.jsp" name="userProfileSetting"/>
+	<definition template="/WEB-INF/views/settings/ssp/subScriptions.jsp" name="subScriptions"/>
+	<definition template="/WEB-INF/views/settings/ssp/customerFields.jsp" name="customerFields"/>
+	<definition template="/WEB-INF/views/settings/ssp/location.jsp" name="location"/>
+	<definition template="/WEB-INF/views/settings/ssp/contactPath.jsp" name="contactPath"/>
+	<definition template="/WEB-INF/views/settings/ssp/banner.jsp" name="banner"/>
+	<definition template="/WEB-INF/views/settings/ssp/review.jsp" name="reviewPage"/>
+	<definition template="/WEB-INF/views/settings/ssp/homePage.jsp" name="homePage"/>
+	<definition template="/WEB-INF/views/settings/ssp/faq.jsp" name="faq"/>
+	<definition template="/WEB-INF/views/settings/ssp/overView.jsp" name="overView"/>
+    <definition template="/WEB-INF/views/settings/ssp/signUpPage.jsp" name="signUpPage"/>
+</tiles-definitions>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+    <definition template="/WEB-INF/views/settings/network/orgIdentity.jsp" name="network/orgIdentity"/>
+    <definition template="/WEB-INF/views/settings/network/subscribe.jsp" name="network/subscribe"/>
+    <definition template="/WEB-INF/views/settings/network/alertus.jsp" name="network/alertus"/>
+    <definition template="/WEB-INF/views/settings/network/generic.jsp" name="network/generic"/>
+    <definition template="/WEB-INF/views/settings/network/ipaws.jsp" name="network/ipaws" />
+    
+    <definition template="/WEB-INF/views/settings/network/sameCodes.jsp" name="network/samecodes"/>
+    <definition template="/WEB-INF/views/settings/network/senderAgencyName.jsp" name="network/senderagencyname"/>
+    <definition template="/WEB-INF/views/settings/network/cmasFields.jsp" name="network/cmasfields" />
+</tiles-definitions>

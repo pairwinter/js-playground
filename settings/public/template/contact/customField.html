@@ -1,0 +1,176 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%-- <script type="text/javascript"
+	src="${ctx }/statics/javascripts/views/settings/contact/customField.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.contact.js" ctx="${ctx}"></fileCompress:jscompress>
+<div class="margin10">
+	<div class="b-panel-header">
+		<h3>
+			<spring:message code="setting.contact.customFields" htmlEscape="false" />
+            <a class="icon_help right" href="#" roboHelpIndex="53" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+		</h3>
+		<div class="b-panel-tools">
+		    <button id="addCustom" type="button" class="button button-tbl gray ">
+		        <i class="icn_action_add " id=""></i><spring:message code="button.add" htmlEscape="false" />
+		    </button>
+		</div>
+	</div>
+	<form id="addForm" style="display:none;"> 
+        <div style="position:absolute;left:-2000px;">
+            <input type="text" class="input-invisible {duplicateNameCt:['#itemsContainer_add','input[name=\'definedValue\']']}" name="duplicateForAdd"/>
+        </div>
+	     <div class="advancedsearch_div" >
+			<h3><spring:message code="setting.contact.customFields.addFields" htmlEscape="false" /></h3>
+			<div class="advanced-search-assist b-bg-white">
+				<table cellspacing="0" cellpadding="0" class="b-formpanel-noborder">
+					<tbody>
+						<tr>
+							<td width="150px"><label for="name"><spring:message code="setting.contact.customFields.name" htmlEscape="false" /></label></td>
+							<td>
+							    <input id="addName" type="text" pos="right" name="name" class="input_long {required:true}" maxlength="40">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="dataType"><spring:message code="setting.contact.customFields.dataType" htmlEscape="false" /></label></td>
+							<td>
+								<select id="addDataType" name="dataType" class="select select_long">
+									<option value="STRING"><spring:message code="setting.contact.customFields.string" htmlEscape="false" /></option>
+									<option value="DATE"><spring:message code="setting.contact.customFields.date" htmlEscape="false" /></option>
+									<option value="NUMBER"><spring:message code="setting.contact.customFields.number" htmlEscape="false" /></option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td class="b-text-top">
+							<label for="cycles"><spring:message code="setting.contact.customFields.displayFormat" htmlEscape="false" /></label></td>
+							<td>
+							   <select id="addDisplayFormat" name="displayFormat" class="select select_long">
+									<option value="L"><spring:message code="setting.contact.customFields.singleList" htmlEscape="false" /></option>
+									<option value="F"><spring:message code="setting.contact.customFields.textbox" htmlEscape="false" /></option>
+									<option value="S"><spring:message code="setting.contact.customFields.multiList" htmlEscape="false" /></option>
+							  </select>
+		                    </td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>
+							  <ul class="b-distance" id="itemsContainer_add" style="display:none;">
+							  </ul>
+							  <div>
+							  	<a id="addItems_add" href="#" ><i class="icn_addLink_12"></i> <spring:message code="button.add.another.items" htmlEscape="false" /></a>
+							  </div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="margin20-T">
+					<input type="submit" value="<spring:message code="button.save" htmlEscape="false" />" class="button orange margin5-R" id="addCustomField">
+					<input id="cancel" class="button gray" type="button" value="<spring:message code="button.cancel" htmlEscape="false" />">
+				</div>
+			</div>
+		</div> 
+	</form>
+
+	<div class="b-grid-single">
+		<table id="customFieldTable" cellspacing="0" cellpadding="0" width="100%"
+			class="b-grid-single-table">
+			<thead>
+				<tr>
+					<th width="28%"><spring:message code="setting.contact.customFields.name" htmlEscape="false" /></th>
+					<th width="28%"><spring:message code="setting.contact.customFields.dataType" htmlEscape="false" /></th>
+					<th width="28%"><spring:message code="setting.contact.customFields.displayFormat" htmlEscape="false" /></th>
+					<th width="100px;"></th>
+				</tr>
+			</thead>
+			<tbody id="customFieldBody">
+			  <c:choose>
+				<c:when test="${fn:length(orgContactAttrs) != 0}">
+					<c:forEach var="orgContactAttr" items="${orgContactAttrs}"
+						varStatus="status">
+						<tr displayformat="${orgContactAttr.displayFormat}" id="${orgContactAttr.id}" name="data">
+							<td><c:out value="${orgContactAttr.name}"/></td>
+							<td><c:choose> 
+									<c:when test="${orgContactAttr.dataType  == 'DATE'}"><spring:message code="setting.contact.customFields.date" htmlEscape="false" /></c:when> 
+									<c:when test="${orgContactAttr.dataType  == 'NUMBER'}"><spring:message code="setting.contact.customFields.number" htmlEscape="false" /></c:when> 
+									<c:when test="${orgContactAttr.dataType  == 'STRING'}"><spring:message code="setting.contact.customFields.string" htmlEscape="false" /></c:when> 
+							</c:choose></td>
+							<td><c:choose> 
+									<c:when test="${orgContactAttr.displayFormat  == 'L'}"><spring:message code="setting.contact.customFields.singleList" htmlEscape="false" /></c:when> 
+									<c:when test="${orgContactAttr.displayFormat  == 'F'}"><spring:message code="setting.contact.customFields.textbox" htmlEscape="false" /></c:when> 
+									<c:when test="${orgContactAttr.displayFormat  == 'S'}"><spring:message code="setting.contact.customFields.multiList" htmlEscape="false" /></c:when>
+							</c:choose></td>
+							<td>
+                                <a title="<spring:message code="button.edit" htmlEscape="false" />" href="#" class="icn_edit_16"></a>
+								<a class="icn_trash_16" href="javascript:void(0);" title="<spring:message code="button.delete" htmlEscape="false" />" ></a>
+							</td>
+						</tr>
+					</c:forEach>
+				</c:when>	
+				<c:otherwise>
+				  <tr id="emptyData">
+				  	<td colspan="4">
+				  		<div class="ui-jqgrid-empty-data" style="margin:13px;"><spring:message code="global.grid.emptyDataCaption" htmlEscape="false" /></div>
+				  	</td>
+				  </tr>
+				</c:otherwise>
+			  </c:choose>
+			</tbody>
+		</table>
+	</div>
+</div>	
+
+<table style="display:none;">
+	<tr id="editGrid" style="display:none;" name="gridSub">
+	  <td colspan="4" class="b-grid-single-sub">
+	     <form id="updateForm">
+           <div style="position:absolute;left:-2000px;">
+              <input type="text" class="input-invisible {duplicateNameCt:['#itemsContainer','input[name=\'definedValue\']']}" name="duplicateForUpdate"/>
+           </div>
+	  	   <div class="b-panel-body ">
+				<table cellspacing="0" cellpadding="0" class="b-formpanel-noborder">
+					<tbody>
+						<tr>
+							<td width="150px"><label for="name"><spring:message code="setting.contact.customFields.name" htmlEscape="false" /></label></td>
+							<td>
+							    <input type="text" id="updateName" pos="right" name="name" class="input_long {required:true}" maxlength="40">
+							</td>
+						</tr>
+						<tr>
+							<td><label for="dataType"><spring:message code="setting.contact.customFields.dataType" htmlEscape="false" /></label></td>
+							<td>
+							</td>
+						</tr>
+						<tr>
+							<td class="b-text-top">
+							<label for="cycles"><spring:message code="setting.contact.customFields.displayFormat" htmlEscape="false" /></label></td>
+							<td>
+							  <span></span>
+		                    </td>
+						</tr>
+						<tr id="addItemsTr">
+							<td>&nbsp;</td>
+							<td>
+							  <ul class="b-distance" id="itemsContainer">
+							  </ul>
+							  <div>
+							  	<a id="addItems" href="#" ><i class="icn_addLink_12"></i> <spring:message code="button.add.another.items" htmlEscape="false" /></a>
+							  </div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="margin20-T">
+					<input type="submit" value="<spring:message code="button.update" htmlEscape="false" />" class="button orange margin5-R" id="updateCustomField">
+					<input id="collapsedBtn" class="button gray" type="button" value="<spring:message code="button.cancel" htmlEscape="false" />">
+				</div>
+			</div>
+		</form>
+	  </td>
+	</tr>
+</table>
+<script type="text/javascript">
+$(function() {
+	EB_View.settings.contact.customField.initCustomFieldPage();
+});
+</script>

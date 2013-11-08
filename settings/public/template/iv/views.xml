@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+	"-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+	"http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+	<definition template="/WEB-INF/views/settings/iv/weatherThreshold.jsp" name="weatherThreshold"/>
+	<definition template="/WEB-INF/views/settings/iv/topic.jsp" name="topic"/>
+	<definition template="/WEB-INF/views/settings/iv/topicCategory.jsp" name="topicCategory"/>
+	<definition template="/WEB-INF/views/settings/iv/twitter.jsp" name="twitter"/>
+	<definition template="/WEB-INF/views/settings/iv/twitterThreshold.jsp" name="twitterThreshold"/>
+	<definition template="/WEB-INF/views/settings/iv/recipientAppThreshold.jsp" name="recipientAppThreshold"/>
+</tiles-definitions>

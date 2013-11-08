@@ -1,0 +1,27 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%@taglib prefix="setting" tagdir="/WEB-INF/tags/settings/broadcast" %>
+<%-- <script type="text/javascript"
+	src="${ctx }/statics/javascripts/views/settings/broadcast/default.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.broadcast.js" ctx="${ctx}"></fileCompress:jscompress>
+
+<setting:default languages="${languages}"
+				 languageId="${org.language}"
+				 requestedFlag="${org.organizationBroadcastSetting.confirmFlag}"
+                 vmPreference="${org.organizationBroadcastSetting.vmPreference}"
+				 maxCycles="${org.organizationBroadcastSetting.maxCycles}"
+				 defaultCycles="${org.organizationBroadcastSetting.defaultCycles}"
+				 standardDuration="${org.organizationBroadcastSetting.standardDuration}"
+				 cycleIntervals="${cycleIntervals}"
+				 pathIntervals="${pathIntervals}"
+				 cycleInterval="${org.organizationBroadcastSetting.cycleInterval}"
+				 pathInterval="${org.organizationBroadcastSetting.pathInterval}"
+                 deliveryPathOrder="${org.organizationBroadcastSetting.deliveryPathOrder}"></setting:default>
+
+
+<script type="text/javascript">
+$(function() {
+	EB_View.settings.broadcast.defaultMsg.initDefaultPage("/settings/broadcast/default");
+});
+</script>
