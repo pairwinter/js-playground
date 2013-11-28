@@ -1,0 +1,74 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%-- <script type="text/javascript"
+	src="${ctx }/statics/javascripts/views/settings/contact/recordType.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.contact.js" ctx="${ctx}"></fileCompress:jscompress>
+<div class="margin10">
+	<h3>
+		<spring:message code="setting.contact.recordTypes" htmlEscape="false" />
+        <a class="icon_help right" href="#" roboHelpIndex="52" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+	</h3>
+	<div class="b-grid-single">
+		<form id="updateRecordTypeForm">
+            <input type="hidden" id="records" value="${contactRecordTypes.size()}" />
+			<table id="recordTypeTable" cellspacing="0" cellpadding="0"
+				width="100%" class="b-grid-single-table">
+				<thead>
+					<tr>
+						<th><spring:message code="setting.contact.recordTypes.recordType" htmlEscape="false" /></th>
+						<th><spring:message code="setting.contactsetting.recordtype.fillcolor" htmlEscape="false" /></th>
+						<th width="100px;"></th>
+					</tr>
+				</thead>
+				<tbody id="typeBody">
+					<c:forEach var="contactRecordType" items="${contactRecordTypes}"
+						varStatus="status">
+						<tr>
+							<td id="${contactRecordType.id}"><c:out value="${contactRecordType.name}" /></td>
+							<c:set var="fillColor" value="${contactRecordType.fillColor}"/>
+							<c:if test="${contactRecordType.fillColor==null}">
+								<c:set var="fillColor" value="#881133"/>
+							</c:if>
+							<td>
+                <input type="text" name="colorPickerAttach" class="colorpicker-source" style="background-color:${fillColor}" disabled="disabled" color="${fillColor}"/>
+                                <input type="hidden" originalValue="${fillColor}" value="${fillColor}" name="colorPicker"/>
+                            </td>
+							<td><a class="icn_edit_16" href="javascript:void(0);"
+										title="<spring:message code="button.edit" htmlEscape="false" />"
+										onclick="EB_View.settings.contact.recordType.update(this);"></a><c:if
+									test="${contactRecordType.recordType == 'CUSTOMIZE' }"><a class="icn_trash_16" href="javascript:void(0);"
+										title="<spring:message code="button.delete" htmlEscape="false" />"
+										onclick="EB_View.settings.contact.recordType.deleteType(this);"></a>
+								</c:if></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			</form>
+		<form id="addRecordTypeForm">
+			<table id="addRecordTypeTable" cellspacing="0" cellpadding="0"
+				width="100%" class="b-grid-single-table">
+					<tr id="addRow">
+						<td><input type="text" class="width_percent94 {required:true}"
+							maxlength="50" name="name" id="name" pos="bottom"></td>
+						<td>
+						   <input type="text" id="colorPickerAttach" name="colorPickerAttach" class="colorpicker-source" disabled="disabled"/>
+                           <input id="fillColor" type="hidden" name="fillColor" />
+						</td>
+						<td width="100px;"><a href="javascript:void(0)" id="add"><i
+								class="icn_addLink_12 margin5-R"></i>
+							<spring:message code="button.add" htmlEscape="false" /></a></td>
+					</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<link rel="stylesheet" href="${ctx}/statics/javascripts/plugin/colorpicker/css/jquery.colorpicker.css?version=${util:getBuildInfo()}"  />
+<script type="text/javascript" src="${ctx}/statics/javascripts/plugin/colorpicker/jquery.colorpicker.js?version=${util:getBuildInfo()}"></script>
+<script type="text/javascript">
+	$(function() {
+		EB_View.settings.contact.recordType.initRecordTypePage();
+	});
+</script>

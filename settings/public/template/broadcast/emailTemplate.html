@@ -1,0 +1,67 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%-- <script type="text/javascript"
+	src="${ctx}/statics/javascripts/views/settings/broadcast/emailTemplate.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.broadcast.js" ctx="${ctx}"></fileCompress:jscompress>
+<!-- setting panel -->
+<form id="emailTemplateForm" class="margin10">
+	<div>
+		<h3>
+			<spring:message code="setting.broadcast.email" htmlEscape="false" />
+            <a class="icon_help right" href="#" roboHelpIndex="51" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+		</h3>
+		<div>
+			<ul>
+				<li class="margin10-B">
+					<b>
+						<spring:message code="setting.broadcast.email.header"
+							htmlEscape="false" />:
+                    </b>
+                    <div class="b-setting-textarea">
+                        <textarea name="defaultHeader" id="defaultHeader" ><c:out value="${emailTemplate.defaultHeader}"/></textarea>
+                    </div>
+					<%--<div>--%>
+						<%--<textarea class="input_textarea" name="defaultHeader" id="defaultHeader" maxlength="300"--%>
+							<%--style="height: 150px; width: 100%;">${emailTemplate.defaultHeader}</textarea>--%>
+					<%--</div>--%>
+					<span class="title-font1 italic margin5-T"><spring:message
+								code="setting.broadcast.email.length" htmlEscape="false" />:
+							<span id ="defaultHeaderLength"></span>
+					</span>
+				</li>
+				<li>
+                    <b>
+						<spring:message code="setting.broadcast.email.footer"
+							htmlEscape="false" />:
+                    </b>
+					<%--<div>--%>
+						<%--<textarea class="input_textarea" name="defaultFooter" id="defaultFooter" maxlength="300"--%>
+							<%--style="height: 150px; width: 100%;">${emailTemplate.defaultFooter}</textarea>--%>
+					<%--</div>--%>
+                    <div class="b-setting-textarea">
+                        <textarea name="defaultFooter" id="defaultFooter" ><c:out value="${emailTemplate.defaultFooter}"/></textarea>
+                    </div>
+					<span class="title-font1 italic margin5-T"><spring:message
+								code="setting.broadcast.email.length" htmlEscape="false" />:
+							<span id ="defaultFooterLength"></span>
+					</span>
+				</li>
+			</ul>
+		</div>
+
+		<div class="b-line" style="margin-top: 20px;"></div>
+
+		<div class="clearfix">
+			<input type="submit" id="formBut0" class="button orange"
+				value="<spring:message code="button.save" htmlEscape="false" />">
+			<input type="reset" id="cancel" class="button gray" style="display: none"
+				value="<spring:message code="button.cancel" htmlEscape="false" />">
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+$(function() {
+	EB_View.settings.broadcast.emailTemplate.initEmailTemplatePage("${emailTemplate.id}");
+});
+</script>

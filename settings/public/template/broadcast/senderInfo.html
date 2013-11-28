@@ -1,0 +1,101 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%-- <script type="text/javascript"
+	src="${ctx }/statics/javascripts/views/settings/broadcast/senderInfo.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.broadcast.js" ctx="${ctx}"></fileCompress:jscompress>
+<!-- setting panel -->
+<form id="senderInfoForm">
+	<div class="margin10">
+		<h3 class="margin10_B">
+			<spring:message code="setting.broadcast.senderinfo"
+				htmlEscape="false" />
+            <a class="icon_help right" href="#" roboHelpIndex="13" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+		</h3>
+
+        <table cellpadding="0" cellspacing="0" class="b-formpanel" width="100%">
+            <tbody>
+            <tr>
+                <td class="input_width143"><label><spring:message code="setting.broadcast.senderinfo.email" htmlEscape="false" /></label></td>
+                <td><span class="margin5-R" id="emailContent"><c:out value="${org.emailFromDisplay}" /></span>
+                <input id="newEmail" class="input_long required margin5_R" type="text" maxlength="80" name="newEmail" style="display:none;">
+                <a id="saveEmail" href="javascript:void(0);" style="display:none;"><spring:message code="button.save" htmlEscape="false" /></a>
+                <a id="editEmail" href="javascript:void(0);" ><spring:message code="button.edit" htmlEscape="false" /></a>
+                <a id="cancelEmail" href="javascript:void(0);" style="display:none;"><spring:message code="button.cancel" htmlEscape="false" /></a>
+		</td>
+        </tr>
+            <tr>
+                <td class="input_width143"><label><spring:message
+					code="setting.broadcast.senderinfo.sendercallerid" htmlEscape="false" /></label></td>
+			<td>
+				<table cellpadding="0" cellspacing="0" class="b-grid-single-table" width="100%">
+					<thead>
+						<tr>
+                            <th width="8%" class="text-center"><spring:message code="setting.broadcast.senderinfo.default" htmlEscape="false" /></th>
+							<th width="40%"><spring:message code="setting.country" htmlEscape="false" /></th>
+							<th width="35%" class="text-right"><spring:message code="setting.broadcast.senderinfo.callerid" htmlEscape="false" /></th>
+							<th width="15%"></th>
+						</tr>
+					</thead>
+					<tbody id="senderInfoBody">
+						<c:forEach var="senderInformation" items="${senderInformations}"
+							varStatus="status">
+							<tr id="${senderInformation.id}" name="data"
+								<c:choose> <c:when test="${status.index % 2 == 0}"> class="bg_s" </c:when> 
+								<c:otherwise> class="bg_d" </c:otherwise> </c:choose>>
+                                <td class="txt_top"><input type="radio" name="isDefault"
+                                                                       <c:if test="${senderInformation.isDefault}">checked="checked"</c:if> />
+                                </td>
+								<td id="${senderInformation.countryCode}" class="txt_top" >${senderInformation.countryName}</td>
+								<td class="txt_top">${senderInformation.callerId}</td>
+								<td class="text-center txt_top"><a class="icn_edit_16" href="javascript:void(0);" title="<spring:message code="button.edit" htmlEscape="false" />"
+									onclick="EB_View.settings.broadcast.senderInfo.update(this);"></a><a class="icn_trash_16" title="<spring:message code="button.delete" htmlEscape="false" />"
+									href="javascript:void(0);" onclick="EB_View.settings.broadcast.senderInfo.deleteType(this);"></a>
+									</td>
+							</tr>
+						</c:forEach>
+						<tr id="addSenderInfoRow">
+                            <td>&nbsp;</td>
+							<td  class="txt_top"><select name="code" id="code" class="select width_percent98 {required:true}" pos="bottom">
+									<option value=""><spring:message code="setting.select.country" htmlEscape="false" /></option>
+									<c:forEach var="country" items="${countries}">
+										<option value="${country.code}">${country.value}</option>
+									</c:forEach>
+							</select></td>
+							<td class="txt_top"><input type="text" class="width_percent94 {required:true,phone_length:['#code']}" name="callerId" pos="bottom"
+								id="callerId" maxlength="20"></td>
+							<td class="text-center txt_top"><a href="javascript:void(0);" id="addSenderInfo"><i class="icn_addLink_12 margin5-R"></i><spring:message
+					code="button.add" htmlEscape="false" /></a></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+        <tr>
+            <td class="input_width143"><label><spring:message
+					code="setting.permission" htmlEscape="false" /></label></td>
+            <td><input id="senderInfoPermission" name="senderInfoPermission" type="checkbox"
+				<c:if test="${org.senderInfoPermission}">checked</c:if> /> <spring:message
+					code="setting.broadcast.senderinfo.permissioninfo"
+					htmlEscape="false" /></td>
+		</tr>
+            </tbody>
+            </table>
+
+		<div class="b-line" style="margin-top: 20px;"></div>
+
+		<div class="clearfix">
+			<input type="button"
+				value="<spring:message code="button.save" htmlEscape="false" />"
+				class="button orange" id="formBut0"> <input type="reset" style="display: none"
+				value="<spring:message code="button.cancel" htmlEscape="false" />"
+				class="button gray" id="cancel">
+		</div>
+	</div>
+</form>
+<script type="text/javascript">
+$(function() {
+	EB_View.settings.broadcast.senderInfo.initPage();
+});
+</script>

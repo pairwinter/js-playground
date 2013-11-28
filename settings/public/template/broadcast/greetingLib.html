@@ -1,0 +1,80 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<script type="text/javascript" src="${ctx}/statics/javascripts/plugin/fileupload/swfupload.js?version=${util:getBuildInfo()}"></script>
+<script type="text/javascript" src="${ctx}/statics/javascripts/plugin/fileupload/swfupload.queue.js?version=${util:getBuildInfo()}"></script>
+<script type="text/javascript" src="${ctx}/statics/javascripts/views/notification/base/base.js?version=${util:getBuildInfo()}"></script>
+<script type="text/javascript" src="${ctx}/statics/javascripts/views/notification/message/voice/voice.js?version=${util:getBuildInfo()}"></script>
+<script type="text/javascript" src="${ctx}/statics/javascripts/views/settings/broadcast/greetingLib.js?version=${util:getBuildInfo()}"></script>
+<%-- <fileCompress:jscompress compressedFileName="eb_view.settings.broadcast.greetingLib.js" ctx="${ctx}"></fileCompress:jscompress> --%>
+
+<h3 class="margin10">
+    <spring:message code="setting.broadcast.greeting" htmlEscape="false" />
+    <a class="icon_help right" href="#" roboHelpIndex="49" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+</h3>
+<form id="greetingLibForm">
+<div class="w_50p left">
+  <div class="b-panel-body">
+	<dl class="b-dl-list">
+    <dt><label><spring:message code="setting.broadcast.greeting.nonPriority" htmlEscape="false" /></label></dt>
+		<dd>
+			<input type="hidden" id="standardAudioKey" value="${standardAudio.id }">
+			<div id="nonPriority"></div>
+		</dd>
+	</dl>
+  </div>
+</div>
+<div class="w_50p left margin20-L">
+<div class="b-panel-body">
+	<dl class="b-dl-list">
+		<dt><label><spring:message code="setting.broadcast.greeting.priority" htmlEscape="false" /></label></dt>
+		<dd>
+			<input type="hidden" id="emergencyAudioKey" value="${emergencyAudio.id }">
+			<div id="priority"></div>
+		</dd>
+	</dl>
+  </div>
+</div>
+</form>
+<div class="clear"></div>
+
+<div class="b-line" style="margin-top: 20px;"></div>
+
+<div class="clearfix gray_line">
+	<input type="button" id="save" class="button orange"
+		value="<spring:message code="button.save" htmlEscape="false" />">
+	<input type="button" id="cancel" class="button gray" style="display: none"
+		value="<spring:message code="button.cancel" htmlEscape="false" />">
+</div>
+<jsp:include page="../../template/notification/voice/voice.jsp"></jsp:include>
+<script type="text/javascript">
+$(function(){
+	var file = {};
+    file.index = 1;
+    file.hideProgress = true;
+    file.swfFileId=1;
+    
+    var options = {};
+	options.sessionId = "<%=session.getId()%>";
+    if(${standardAudio ne null}){
+    	var standardFile = $.extend(true,{},file);
+		var standardVoiceData = {audioKey:"${standardAudio.id}"};
+	    
+	    standardFile.fileName = "${standardAudio.name}";
+        standardFile.id = "${standardAudio.id}";
+	    standardVoiceData.audioFiles = [standardFile];
+	    standardVoiceData.voiceSource = "${standardRecordType}";
+	    options.standardVoiceData = standardVoiceData;
+    }
+    if(${emergencyAudio ne null}){
+        var emergencyFile = $.extend(true,{},file);
+		var emergencyVoiceData = {audioKey:"${emergencyAudio.id}"};
+        emergencyFile.id = "${emergencyAudio.id}";
+	    emergencyFile.fileName = "${emergencyAudio.name}";
+	    emergencyVoiceData.audioFiles = [emergencyFile];
+	    emergencyVoiceData.voiceSource = "${emergencyRecordType}";
+		options.emergencyVoiceData = emergencyVoiceData;
+    }
+	EB_View.settings.broadcast.greetingLib.initPage(options);
+})
+</script>

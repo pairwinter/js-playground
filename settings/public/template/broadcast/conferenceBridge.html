@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%-- <script type="text/javascript"
+	src="${ctx }/statics/javascripts/views/settings/broadcast/conferenceBridge.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.broadcast.js" ctx="${ctx}"></fileCompress:jscompress>
+<!-- setting panel -->
+	<div class="margin10">
+		<h3>
+            <spring:message code="setting.broadcast.conferenceBridges" htmlEscape="false" />
+            <a class="icon_help right" href="#" roboHelpIndex="50" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+        </h3>
+			<form id="updateConferenceBridgeForm" class="b-grid-single" >
+				<table cellpadding="0" cellspacing="0" class="b-grid-single-table">
+					<thead>
+						<tr>
+							<th width="15%"><spring:message code="setting.broadcast.conferenceBridges.name" htmlEscape="false" /></th>
+							<th width="13%"><spring:message code="setting.country" htmlEscape="false" /></th>
+							<th width="15%"><spring:message code="setting.broadcast.conferenceBridges.number" htmlEscape="false" /></th>
+							<th width="15%"><spring:message code="setting.broadcast.conferenceBridges.accessCode" htmlEscape="false" /></th>
+							<th width="15%"><spring:message code="setting.broadcast.conferenceBridges.lastModifyBy" htmlEscape="false" /></th>
+							<th width="15%"><spring:message code="setting.broadcast.conferenceBridges.lastModifyDate" htmlEscape="false" /></th>
+							<th width="12%"></th>
+						</tr>
+					</thead>
+					<tbody id="conferenceBridgeBody">
+						<c:forEach var="conferenceBridge" items="${conferenceBridges}"
+							varStatus="status">
+							<tr id="${conferenceBridge.id}" name="data">
+								<td  width="15%" class="txt_top"><c:out value="${conferenceBridge.name}" /></td>
+								<td width="13%" id="${conferenceBridge.countryCode}" class="txt_top">${conferenceBridge.countryName}</td>
+								<td width="15%" class="txt_top">${conferenceBridge.number}</td>
+								<td width="15%" path="${conferenceBridge.accessPath}" class="txt_top">${conferenceBridge.accessCode}</td>
+								<td width="15%" class="txt_top"><c:out value="${conferenceBridge.lastModifiedName}" /></td>
+								<td width="15%" class="txt_top"><fmt:formatDate value="${conferenceBridge.lastModifiedDate}" timeZone="${user.timeZoneId}" pattern="yyyy-MM-dd HH:mm:ss z"/></td>
+								<td width="12%" class="nowrap txt_top"><c:if test="${conferenceBridge.isDefault}"><span style="padding:0 10px"></span></c:if><c:if test="${not conferenceBridge.isDefault}"><a class="icn_edit_16" href="javascript:void(0);" title="<spring:message code="button.edit" htmlEscape="false" />"
+                                    onclick="EB_View.settings.broadcast.conferenceBridge.update(this);"></a></c:if><a class="icn_trash_16" title="<spring:message code="button.delete" htmlEscape="false" />"
+									href="javascript:void(0);" onclick="EB_View.settings.broadcast.conferenceBridge.deleteType(this);"></a>
+                                    </td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</form>
+			<form id="addConferenceBridgeForm" >
+				<table cellpadding="0" cellspacing="0" class="b-grid-single-table">
+						<tr id="addConferenceBridgeRow">
+							<td width="15%" class="txt_top"><input type="text" class="width_percent94 {required:true}" maxlength="30" name="name" id="name" pos="bottom"></td>
+							<td width="13%" class="txt_top"><select name="code" id="code" class="select width_percent94 required" pos="bottom">
+									<option value=""><spring:message code="setting.select.country" htmlEscape="false" /></option>
+									<c:forEach var="country" items="${countries}">
+										<option value="${country.code}">${country.value}</option>
+									</c:forEach>
+							</select></td>
+							<td width="15%" class="txt_top"><input type="text" class="width_percent94 {required:true,digits:true,phone_length:['#code']}" maxlength="20" name="number" id="number" pos="bottom"></td>
+							<td width="15%" id="wizard" class="txt_top"><a id="dialog_link" href="javascript:void(0);" onclick="EB_View.settings.broadcast.conferenceBridge.setCode(this);"><spring:message code="setting.broadcast.conferenceBridges.wizard" htmlEscape="false" /></a></td>
+							<td width="15%" class="txt_top"></td>
+							<td width="15%" class="txt_top"></td>
+							<td width="12%" class="txt_top"><a href="javascript:void(0)" id="addConferenceBridge"><i class="icn_addLink_12 margin5-R"></i><spring:message code="button.add" htmlEscape="false" /></a></td>
+						</tr>
+				</table>
+			</form>	
+		<%-- <form id="conferenceBridgePermissionForm" >
+		<ul class="b-ul-layout">
+			<li class="left text-right"><label class="margin25-R"><spring:message code="setting.permission" htmlEscape="false" /></label></li>
+			<li><input id="conferenceBridgePermission" name="conferenceBridgePermission" type="checkbox" <c:if test="${org.conferenceBridgePermission}">checked</c:if>  /> <spring:message code="setting.broadcast.conferenceBridges.preferences.desc" htmlEscape="false" /></li>
+		</ul>
+
+
+		<div class="b-line" style="margin-top: 20px;"></div>
+
+		<div class="clearfix">
+			<input type="button"
+				value="<spring:message code="button.save" htmlEscape="false" />"
+				class="button orange margin5-R" id="formBut0"> <input type="reset"
+				value="<spring:message code="button.cancel" htmlEscape="false" />"
+				class="button gray" id="cancel" style="display: none">
+		</div>
+		</form> --%>
+	</div>
+
+<div id="dialog" style="display: none" title="<spring:message code="setting.broadcast.conferenceBridges.dialog.title" htmlEscape="false" />">
+    <div class="left" style="width: 220px;">
+                  <label><spring:message code="setting.broadcast.conferenceBridges.dialog.conference" htmlEscape="false" /></label>
+                  <HR>
+                  <div class="margin10-T"><span class="label_v"> <spring:message code="setting.broadcast.conferenceBridges.dialog.wait" htmlEscape="false" /></span><select id="sel_seconds" name="sel_seconds" style="width:58px"></select><input type="button" id="add_seconds" name="add_seconds" value="&gt&gt" class="margin5-L" /></div>
+                  <div class="margin10-T"><span class="label_v"><spring:message code="setting.broadcast.conferenceBridges.dialog.dial" htmlEscape="false" /></span><select id="sel_dial" name="sel_dial" style="width:58px"></select><input type="button" id="add_dial" name="add_dial" value="&gt&gt" class="margin5-L"/></div>
+                  <div class="margin10-T"><span class="label_v"><spring:message code="setting.broadcast.conferenceBridges.dialog.code" htmlEscape="false" /></span><input type="text" style=" width:52px" id="accesscodestr" name="accesscodestr" maxlength="20"/><input type="button" id="add_accesscode" name="add_accesscode" value="&gt&gt" class="margin5-L"/></div>
+    </div>
+    <div class="right" style="width: 300px;">
+                  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                      <tr><td colspan="2"><label><spring:message code="setting.broadcast.conferenceBridges.dialog.steps" htmlEscape="false" /></label><br>
+                      <hr></td></tr>
+                      <tr><td class="margin10-T"><select multiple id="codestr" name="codestr" class="multiple" style="width:280px; height:110px"></select></td>
+                      <td class="txt_top">
+                          <a class="icn_up" id="moveUp" href="javascript:void(0);" title="<spring:message code="button.up" htmlEscape="false" />"></a><br>
+                          <a class="icn_down margin5-T" id="moveDown" href="javascript:void(0);" title="<spring:message code="button.down" htmlEscape="false" />"></a> <br>
+                          <a class="icn_trash_16 margin5-T" id="remove" href="javascript:void(0);" title="<spring:message code="button.delete" htmlEscape="false" />"></a>
+                      </td>
+                      </tr>
+                      </table>
+    </div>
+</div>
+<script type="text/javascript">
+$(function() {
+	EB_View.settings.broadcast.conferenceBridge.initConferenceBridgePage();
+});
+</script>

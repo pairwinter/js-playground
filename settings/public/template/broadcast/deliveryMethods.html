@@ -1,0 +1,65 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%-- <script type="text/javascript"
+	src="${ctx }/statics/javascripts/views/settings/broadcast/deliveryMethods.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.broadcast.js" ctx="${ctx}"></fileCompress:jscompress>
+<!-- setting panel -->
+<div>
+	<h3><spring:message code="setting.broadcast.deliverymethods"
+				htmlEscape="false" />
+        <a class="icon_help right" href="#" roboHelpIndex="14" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+    </h3>
+    <div class="b-grid-single margin10" id="deliveryMethodDiv" style="display:none;">
+		<form id="updateDeliveryMethodForm" >
+		<table class="b-grid-single-table" width="100%">
+			<thead>
+				<tr>
+					<th width="15%"><spring:message code="setting.broadcast.deliverymethods.seq" htmlEscape="false" /></th>
+                    <th width="10%"><spring:message code="setting.broadcast.cycles.default" htmlEscape="false" /></th>
+					<th width="35%"><spring:message code="setting.broadcast.deliverymethods.code" htmlEscape="false" /></th>
+					<th width="35%"><spring:message code="setting.broadcast.deliverymethods.prompt" htmlEscape="false" /></th>
+					<th width="10%"></th>
+				</tr>
+			</thead>
+			<tbody id="deliveryMethodsBody">
+				<c:forEach var="organizationPath" items="${organizationPaths}"
+					varStatus="status">
+					<tr id="${organizationPath.id}" name="data" flag="${organizationPath.pathFlag}" waitTime="${organizationPath.waitTime}">
+						<td><span class="margin10-L txt_middle">${organizationPath.seq}</span></td>
+                        <td><input type="checkbox" name="isDefault"
+						<c:if test="${organizationPath.isDefault}">checked="checked"</c:if> /></td>
+						<td id="${organizationPath.pathId}">${organizationPath.sysPrompt}</td>
+						<td><c:out value="${organizationPath.prompt}" /></td>
+						<td><a class="icn_edit_16" href="javascript:void(0);" title="<spring:message code="button.edit" htmlEscape="false" />"
+							onclick="EB_View.settings.broadcast.deliveryMethods.update(this);"></a><a class="icn_trash_16" title="<spring:message code="button.delete" htmlEscape="false" />"
+							href="javascript:void(0);" onclick="EB_View.settings.broadcast.deliveryMethods.deleteType(this);"></a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
+		</form>
+		<form id="addDeliveryMethodForm" >
+		<table class="b-grid-single-table" width="100%">
+			<tr id="addDeliveryMethodsRow" <c:if test="${fn:length(systemPaths) == 0}">style="display:none"</c:if> >
+                <td width="15%"><span style="display:none;">${fn:length(organizationPaths)+1}</span></td>
+                <td width="5%" ></td>
+				<td width="35%"><select name="code" id="code" class="select width_percent94 {required:true}" pos="bottom">
+						<option value=""><spring:message code="setting.select.Code" htmlEscape="false" /></option>
+						<c:forEach var="systemPath" items="${systemPaths}">
+							<option value="${systemPath.id}" flag="${systemPath.pathFlag}">${systemPath.prompt}</option>
+						</c:forEach>
+				</select></td>
+				<td width="35%"><input type="text" class="width_percent94 {required:true}" maxlength="20" name="prompt" id="prompt" pos="bottom">
+                    &nbsp;&nbsp;<a name="operte_advanced" id="new_advanced" style="display: none" href="javascript:void(0)"><spring:message code="contact.field.text.advanced"/></a></td>
+				<td width="10%"><a href="javascript:void(0)" id="addDeliveryMethods"><i class="icn_addLink_12 margin5-R"></i><spring:message code="button.add" htmlEscape="false" /></a></td>
+			</tr>
+		</table>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+$(function() {
+	EB_View.settings.broadcast.deliveryMethods.initPage();
+});
+</script>

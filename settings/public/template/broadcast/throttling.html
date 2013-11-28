@@ -1,0 +1,108 @@
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@ include file="/WEB-INF/commons/taglibs.jsp"%>
+<%-- <script type="text/javascript"
+	src="${ctx }/statics/javascripts/views/settings/broadcast/throttling.js?version=${util:getBuildInfo()}"></script> --%>
+<fileCompress:jscompress compressedFileName="eb_view.settings.broadcast.js" ctx="${ctx}"></fileCompress:jscompress>
+<!-- setting panel -->
+
+<div>
+	<form id="throttlingForm" class="margin10-T" >
+		<h3>
+            <spring:message code="setting.broadcast.throttling" htmlEscape="false" />
+            <a class="icon_help right" href="#" roboHelpIndex="15" title="<spring:message code="global.menu.help" htmlEscape="false" />"></a>
+        </h3>
+        <div class="b-panel-body">
+		    <label><spring:message code="setting.broadcast.throttling.preferences" htmlEscape="false" /></label>
+			<div class="title-font1"><spring:message code="setting.broadcast.throttling.preferences.desc" htmlEscape="false" />
+			</div>
+		    <div class="b-panel-broadcast margin22_L">
+				<input type="checkbox" id="applyByFlag" name="applyByFlag" <c:if test="${org.throttleSetting.applyByFlag}">checked</c:if>/><span class="lh_23"> <spring:message code="setting.broadcast.throttling.enforceAllFlag" htmlEscape="false" /></span><br>
+				<input class="margin22_L" type="checkbox" id="enforceAllFlag" name="enforceAllFlag"  <c:if test="${org.throttleSetting.enforceAllFlag}">checked</c:if> <c:if test="${org.throttleSetting.applyByFlag == false}">disabled</c:if> /><span class="lh_23"> <spring:message code="setting.broadcast.throttling.applyByFlag" htmlEscape="false" /></span> <br>
+				<input type="checkbox" id="senderReviewFlag" name="senderReviewFlag" <c:if test="${org.throttleSetting.senderReviewFlag}">checked</c:if> /> <span class="lh_23"><spring:message code="setting.broadcast.throttling.senderToggleFlag" htmlEscape="false" /></span>
+			</div>
+            <div class="clearfix">
+                <input type="button"
+                    value="<spring:message code="button.save" htmlEscape="false" />"
+                    class="button orange" id="formBut0"> <input type="reset" style="display: none"
+                    value="<spring:message code="button.cancel" htmlEscape="false" />"
+                    class="button gray" id="cancel">
+            </div>
+        </div>
+	</form>
+    <div class="b-panel-body margin10-T">
+        <label><spring:message code="setting.broadcast.throttling.rule" htmlEscape="false" /></label>
+		<div class="title-font1"><spring:message code="setting.broadcast.throttling.rule.desc" htmlEscape="false" /></div>
+	    <div class="b-panel-broadcast">
+	    	<form id="amountForm">
+               <div class="margin5_B" style="height:25px;">
+					<spring:message code="setting.broadcast.throttling.maxNum" htmlEscape="false" /> <span id="amountVal" class="graybg"><c:choose> <c:when test="${org.throttleSetting.defaultAmount == 0}"><spring:message code="setting.broadcast.throttling.maxCall.noLimit" htmlEscape="false" /></c:when> 
+					<c:when test="${org.throttleSetting.defaultAmount == null}"><spring:message code="setting.broadcast.throttling.maxCall.noLimit" htmlEscape="false" /></c:when>
+							<c:otherwise>${org.throttleSetting.defaultAmount}</c:otherwise> </c:choose></span>
+							<input type="text" class="input_width40 margin5-R {required:true,range:[1,9999]}" maxlength="4" name="newAmount" id="newAmount" style="display:none;">
+							<a id="editAmount" href="#"><spring:message code="button.edit" htmlEscape="false" /></a>
+							<a id="saveAmount" href="#" style="display:none;"><spring:message code="button.save" htmlEscape="false" /></a>
+							<a id="noLimitAmount" href="#" style="display:none;"><spring:message code="setting.broadcast.throttling.maxCall.noLimit" htmlEscape="false" /></a>
+							<a id="cancelAmount" href="#" style="display:none;"><spring:message code="button.cancel" htmlEscape="false" /></a>
+							
+               </div>
+            </form>
+        <div class="margin10">
+		<form id="updateThrottlingForm"  >
+		<table cellspacing="0" cellpadding="0" class="b-grid-single-table">
+			<thead>
+				<tr>
+					<th width="20%"><spring:message code="setting.broadcast.throttling.ruleName" htmlEscape="false" /></th>
+					<th width="25%"><spring:message code="setting.broadcast.throttling.country" htmlEscape="false" /></th>
+					<th width="20%"><spring:message code="setting.broadcast.throttling.pattern" htmlEscape="false" /></th>
+					<th width="15%"><spring:message code="setting.broadcast.throttling.maxCall" htmlEscape="false" /></th>
+					<th width="20%"></th>
+				</tr>
+			</thead>
+			<tbody id="throttlingBody">
+			<c:forEach var="throttleRule" items="${throttleRules}"
+						varStatus="status">
+						<tr id="${throttleRule.id}" name="data">
+							<td><c:out value="${throttleRule.name}" /></td>
+							<td id="${throttleRule.countryCode}">${throttleRule.countryName}</td>
+							<td>${throttleRule.rule}</td>
+							<td>${throttleRule.amount}</td>
+							<td class="nowrap"><a class="icn_edit_16" href="javascript:void(0);" title="<spring:message code="button.edit" htmlEscape="false" />"
+								onclick="EB_View.settings.broadcast.throttling.update(this);"></a><a class="icn_trash_16" title="<spring:message code="button.delete" htmlEscape="false" />"
+								href="javascript:void(0);" onclick="EB_View.settings.broadcast.throttling.deleteType(this);"></a></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</form>
+		<form id="addThrottlingForm" >
+			<table cellspacing="0" cellpadding="0" class="b-grid-single-table">
+				<tr id="addThrottlingRow">
+					<td width="20%" class="txt_top"><input type="text" class="width_percent94 {required:true}" maxlength="30" name="name" pos="bottom"
+						id="name"></td>
+					<td width="25%" class="txt_top">
+						<select name="countryCode" id="code" class="select width_percent94 required" pos="bottom">
+							<option value=""><spring:message code="setting.select.country" htmlEscape="false" /></option>
+                            <c:forEach var="country" items="${countries}">
+                                <option value="${country.code}">${country.value}</option>
+                            </c:forEach>
+						</select></td>
+					<td width="20%" class="txt_top"><input type="text" class="width_percent94 {required:true,digits:true,rangelength:[3,20]}" maxlength="20" name="rule" pos="bottom"
+						id="rule"></td>
+					<td width="15%" class="txt_top"><input type="text" class="width_percent94 {required:true,range:[1,9999]}" maxlength="4" name="amount" pos="bottom"
+						id="amount"></td>
+					<td width="20%" class="txt_top"><a href="javascript:void(0)" id="addThrottling" class="nowrap" ><i class="icn_addLink_12 margin5-R"></i><spring:message code="button.add" htmlEscape="false" /></a></td>
+				</tr>
+			</table>
+		</form>
+		</div>
+	</div>
+    </div>
+
+	<div class="b-line" style="margin-top: 20px;"></div>
+</div>
+<script type="text/javascript">
+$(function() {
+	EB_View.settings.broadcast.throttling.initPage();
+});
+</script>
