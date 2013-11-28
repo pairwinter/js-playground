@@ -171,4 +171,6 @@
         map.mapTypes.set('styled_map',styledMapType);
     }
 
+
+
 })(js_course);
