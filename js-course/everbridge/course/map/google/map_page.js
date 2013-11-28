@@ -170,7 +170,4 @@
         var styledMapType = new google.maps.StyledMapType(styles,{name : 'Styled map'});
         map.mapTypes.set('styled_map',styledMapType);
     }
-
-
-
 })(js_course);
