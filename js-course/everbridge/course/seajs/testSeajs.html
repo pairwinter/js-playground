@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title> backbone </title>
+    <meta charset="utf-8">
+    <meta name="Generator" content="EditPlus">
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <script type="text/javascript" src="../../resources/javascripts/seajs/sea-debug.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+<div class="control_container">
+    <a href="../../index.html">Index</a>
+    <h2 class="title">SeaJS</h2>
+</div>
+<div>
+    <input type="text" readonly id="lineInput"/>
+    <button id="setVal" type="button">Set</button> <br/>
+    <input type="text" readonly id="lineInput2"/>
+    <button id="setVal2" type="button">Set</button>
+
+    <button id="clear" type="button">Clear</button>
+</div>
+</body>
+<script type="text/javascript">
+    seajs.use(['jquery'],function($){
+        $('#clear').click(function () {
+            $('#lineInput').val('');
+            $('#lineInput2').val('');
+        });
+        $('#setVal').click(function(){
+            seajs.use(['a'],function(a){
+                var line = a.aLine();
+                $('#lineInput').val(line);
+            });
+        });
+        $('#setVal2').click(function(){
+            seajs.use(['def'],function(){
+                seajs.use(['def/d'],function(d){
+                    var line = d.dLine();
+                    $('#lineInput2').val(line);
+                });
+                seajs.use(['a'],function(a){
+                    var line = a.aLine();
+                    $('#lineInput').val(line);
+                });
+            });
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,11 @@
+(function(){
+    seajs.config({
+        alias:{
+            a:'./a',
+            b:'./b',
+            c:'./c',
+            def:'./def',
+            'jquery':'../../resources/javascripts/jquery'
+        }
+    });
+})();

@@ -9593,5 +9593,9 @@ window.jQuery = window.$ = jQuery;
 if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
 	define( "jquery", [], function () { return jQuery; } );
 }
+// For SeaJs ， CMD
+if ( typeof define === "function" && define.cmd) {
+    define( "jquery", [], function () { return jQuery; } );
+}
 
 })( window );
