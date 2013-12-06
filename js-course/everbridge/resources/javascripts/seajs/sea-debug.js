@@ -417,7 +417,7 @@ function getCurrentScript() {
 
 var REQUIRE_RE = /"(?:\\"|[^"])*"|'(?:\\'|[^'])*'|\/\*[\S\s]*?\*\/|\/(?:\\\/|[^\/\r\n])+\/(?=[^\/])|\/\/.*|\.\s*require|(?:^|[^$])\brequire\s*\(\s*(["'])(.+?)\1\s*\)/g
 var SLASH_RE = /\\\\/g
-
+//这个方法比较牛，因为它解析了模块中的requrie语句，把解析出来的模块当做当前module的deps。
 function parseDependencies(code) {
   var ret = []
 
@@ -473,6 +473,11 @@ function Module(uri, deps) {
 }
 
 // Resolve module.dependencies
+/**
+ * 解析当前module的依赖，将依赖的id，转变为uri.
+ * 要注意它后者Module.resolve的区别，后者类似一个工具方法。具体参见它的注释。
+ * @returns {Array}
+ */
 Module.prototype.resolve = function() {
   var mod = this
   var ids = mod.dependencies
@@ -489,6 +494,7 @@ Module.prototype.load = function() {
   var mod = this
 
   // If the module is being loaded, just wait it onload call
+//    如果当前模块正在被载入，直接返回。
   if (mod.status >= STATUS.LOADING) {
     return
   }
@@ -496,25 +502,28 @@ Module.prototype.load = function() {
   mod.status = STATUS.LOADING
 
   // Emit `load` event for plugins such as combo plugin
+//    获取mod的依赖模块的uri。
   var uris = mod.resolve()
   emit("load", uris)
 
-  var len = mod._remain = uris.length
+  var len = mod._remain = uris.length //mod模块依赖的其他的模块的个数。
   var m
 
   // Initialize modules and register waitings
+//    遍历mod的所有依赖模块，看看每个模块的载入状态。
   for (var i = 0; i < len; i++) {
     m = Module.get(uris[i])
 
     if (m.status < STATUS.LOADED) {
-      // Maybe duplicate
+      // Maybe duplicate，
+      // 如果m还没有载入，那么就把m与mod进行关联，这是在告诉m模块，mod模块正在等待他载入。
       m._waitings[mod.uri] = (m._waitings[mod.uri] || 0) + 1
     }
     else {
-      mod._remain--
+      mod._remain-- //如果这个m模块已经加载，那么mod模块的依赖数减少。
     }
   }
-
+//如果mod依赖的模块数为0，即mod依赖的其他模块已经全部载入。那么就调用mod的onload方法。
   if (mod._remain === 0) {
     mod.onload()
     return
@@ -543,23 +552,25 @@ Module.prototype.load = function() {
 }
 
 // Call this method when module is loaded
+// 模块加载完后调用该方法。
 Module.prototype.onload = function() {
   var mod = this
-  mod.status = STATUS.LOADED
-
+  mod.status = STATUS.LOADED //更改状态为已加载
+  //Module.use中添加的属性。最终是执行seajs.use中的callback。
   if (mod.callback) {
     mod.callback()
   }
 
-  // Notify waiting modules to fire onload
+  // Notify waiting modules to fire onload，
+  // 告诉那些依赖当前的模块的其他模块，说“我加载完了，你们看看你们是否还有别的依赖的模块没有加载完，如果全部都加载了，请调用你们的onload方法”。
   var waitings = mod._waitings
   var uri, m
 
   for (uri in waitings) {
     if (waitings.hasOwnProperty(uri)) {
-      m = cachedMods[uri]
-      m._remain -= waitings[uri]
-      if (m._remain === 0) {
+      m = cachedMods[uri] //取出一个依赖当前mod模块的m模块。
+      m._remain -= waitings[uri] //缩减m模块的依赖个数。
+      if (m._remain === 0) {//m模块没有依赖了，就调用它的onload方法。
         m.onload()
       }
     }
@@ -575,45 +586,46 @@ Module.prototype.fetch = function(requestCache) {
   var mod = this
   var uri = mod.uri
 
-  mod.status = STATUS.FETCHING
+  mod.status = STATUS.FETCHING //修改模块状态为正在从后台获取。
 
   // Emit `fetch` event for plugins such as combo plugin
   var emitData = { uri: uri }
-  emit("fetch", emitData)
+  emit("fetch", emitData) //如果为seajs绑定了事件fetch就触发它。
   var requestUri = emitData.requestUri || uri
 
   // Empty uri or a non-CMD module
+  // 如果uri不存在，或者uri已经在fetchedList（已经获取完的集合）中，就直接调用模块的load方法。
   if (!requestUri || fetchedList[requestUri]) {
     mod.load()
     return
   }
-
+//  如果当前的uri正在获取。
   if (fetchingList[requestUri]) {
-    callbackList[requestUri].push(mod)
+    callbackList[requestUri].push(mod)//把当前模块记录到回调列表中。
     return
   }
 
-  fetchingList[requestUri] = true
+  fetchingList[requestUri] = true //
   callbackList[requestUri] = [mod]
 
   // Emit `request` event for plugins such as text plugin
+//    如果为seajs绑定了事件request就触发它。
   emit("request", emitData = {
     uri: uri,
     requestUri: requestUri,
     onRequest: onRequest,
     charset: data.charset
   })
-
+//如果在上面的事件处理中emitData的requested仍不为true
   if (!emitData.requested) {
-    requestCache ?
-        requestCache[emitData.requestUri] = sendRequest :
-        sendRequest()
+//  如果存在“请求缓存”requestCache，就把发送当前mod请求的函数放在这个缓存中，备用。否则的话，直接发送请求。
+    requestCache ? requestCache[emitData.requestUri] = sendRequest : sendRequest()
   }
 
   function sendRequest() {
     request(emitData.requestUri, emitData.onRequest, emitData.charset)
   }
-
+  //加载完之后，进行回调。
   function onRequest() {
     delete fetchingList[requestUri]
     fetchedList[requestUri] = true
@@ -638,15 +650,16 @@ Module.prototype.exec = function () {
   // When module is executed, DO NOT execute it again. When module
   // is being executed, just return `module.exports` too, for avoiding
   // circularly calling
+  //如果模块已经执行了，就不在执行了。如果模块正在被执行，就返回module.exports，避免循环调用。
   if (mod.status >= STATUS.EXECUTING) {
     return mod.exports
   }
 
-  mod.status = STATUS.EXECUTING
+  mod.status = STATUS.EXECUTING //设置模块状态为正在执行。
 
   // Create require
   var uri = mod.uri
-
+  //看到了吧，模块中的require在这里，用它来加载其他的模块。
   function require(id) {
     return Module.get(require.resolve(id)).exec()
   }
@@ -654,21 +667,23 @@ Module.prototype.exec = function () {
   require.resolve = function(id) {
     return Module.resolve(id, uri)
   }
-
+  //异步引用模块的方法。
   require.async = function(ids, callback) {
     Module.use(ids, callback, uri + "_async_" + cid())
     return require
   }
 
-  // Exec factory
+  // Exec factory ，factory就是define(id,deps,factory),也就是我们定义的模块的具体执行内容，是一个回调函数。
   var factory = mod.factory
-
+ //执行模块中的内容，并返回模块的执行结果。
   var exports = isFunction(factory) ?
       factory(require, mod.exports = {}, mod) :
       factory
-
+  //这个地方，一般情况下，exports会是undefined，因为我们在define的时候，
+  // 最后的语句基本是exports.<<attributes>> = <<value>>,也就是说我们把模块的处理结果放在了,factroy的第二个参数中了。而没有返回任何对象或者函数。
+  // 当然了，你也可以返回他们。
   if (exports === undefined) {
-    exports = mod.exports
+    exports = mod.exports //如果没有返回，使用mod.exports。
   }
 
   // Emit `error` event
@@ -676,19 +691,25 @@ Module.prototype.exec = function () {
     emit("error", mod)
   }
 
-  // Reduce memory leak
+  // Reduce memory leak ，为了避免内容溢出，删掉模块的factory。
   delete mod.factory
-
+  //此时exorts中肯定包含了模块的信息，为了统一，将这个结果在此放在mod.exports中，解释mod.exports已经存储了exports。
   mod.exports = exports
-  mod.status = STATUS.EXECUTED
+  mod.status = STATUS.EXECUTED //更改模块状态为已经执行。
 
   // Emit `exec` event
-  emit("exec", mod)
+  emit("exec", mod)  //如果为seajs注册了事件exec，那么就执行它。
 
-  return exports
+  return exports //，模块执行完了，返回结果。
 }
 
 // Resolve id to uri
+    /**
+     * 将模块id，根据refUri，转变成相应的模块路径。
+     * @param id 模块id
+     * @param refUri 参照物，根据这个uri，生成id相应的uri。
+     * @returns {*}
+     */
 Module.resolve = function(id, refUri) {
   // Emit `resolve` event for plugins such as text plugin
   var emitData = { id: id, refUri: refUri }
@@ -721,18 +742,20 @@ Module.define = function (id, deps, factory) {
   }
 
   // Parse dependencies according to the module factory code
+//解析结果当做module的deps。
   if (!isArray(deps) && isFunction(factory)) {
     deps = parseDependencies(factory.toString())
   }
 
   var meta = {
     id: id,
-    uri: Module.resolve(id),
+    uri: Module.resolve(id), //如果id是undefined,那么这是一个匿名模块，它的uri是""
     deps: deps,
     factory: factory
   }
 
   // Try to derive uri in IE6-9 for anonymous modules
+//    如果是匿名模块，那么就把script的src作为当前模块的uri。
   if (!meta.uri && doc.attachEvent) {
     var script = getCurrentScript()
 
@@ -746,10 +769,10 @@ Module.define = function (id, deps, factory) {
 
   // Emit `define` event, used in nocache plugin, seajs node version etc
   emit("define", meta)
-
+//  当前模块加载进来之后，就把它缓存到cachedMods中。
   meta.uri ? Module.save(meta.uri, meta) :
-      // Save information for "saving" work in the script onload event
-      anonymousMeta = meta
+  // Save information for "saving" work in the script onload event
+  anonymousMeta = meta
 }
 
 // Save meta data to cachedMods
@@ -770,7 +793,13 @@ Module.get = function(uri, deps) {
   return cachedMods[uri] || (cachedMods[uri] = new Module(uri, deps))
 }
 
-// Use function is equal to load a anonymous module
+    /**
+     * Use function is equal to load a anonymous module
+     * 这个use函数就是用于创建一个匿名module。
+     * @param ids 这个module依赖的其他module的id
+     * @param callback 这个module加载完成（所依赖的其他module也加载完了）之后执行的回调
+     * @param uri 这个module对象的uri。
+     */
 Module.use = function (ids, callback, uri) {
   var mod = Module.get(uri, isArray(ids) ? ids : [ids])
 
