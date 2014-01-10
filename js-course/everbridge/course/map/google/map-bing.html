@@ -1,0 +1,168 @@
+<html>
+<head>
+    <title> backbone </title>
+    <meta charset="utf-8">
+    <!-- 此设置用于指定地图应以全屏模式显示，且用户不得调整地图的大小。请注意，您需要在网页的 <head> 元素中添加此 <meta> 标记，才能使用 iPhone 的 Safari 浏览器。-->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap.css"/>
+    <style type="text/css">
+        .overlayer_controller{
+            text-align: center;
+            overflow: hidden;
+            background-color: darkgray;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .overlayer_controller ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .overlayer_controller ul li{
+            float: left;
+            padding: 0 5px;
+        }
+    </style>
+    <!--<link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap-theme.css"/>-->
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/underscore.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../../openlayer/resources/OpenLayers-2.13/OpenLayers.debug.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
+</head>
+<body>
+    <div class="control_container">
+        <a href="../../../index.html">Index</a>
+            <span class="control">
+                <a href="javascript:" class="openControl">+</a>
+                <a href="javascript:" class="closeControl">-</a>
+            </span>
+        <h2 class="title">Google Map</h2>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">Base</h3>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">map</h4>
+            <div class="section_sub_content" style="display: block">
+                <div style="margin-bottom: 10px">
+                    <button type="button" class=" btn btn-primary" id="addMarker">添加Marker</button>
+                    CurrentLevel: <span id='mapZoomLevel'></span>;
+                    CurrentCenter: <span id='mapCenter'></span>;
+                </div>
+                <div id="map" style="height: 400px;width: 100%"></div>
+                <div id='homeControlTemplate' style="display: none">
+                    <div><span><button class="btn btn-primary">Home</button></span></div>
+                </div>
+                <div id='overLayerControlTemplate' style="display: none">
+                    <div class="overlayer_controller">
+                        <ul>
+                            <li><button class="btn btn-primary hide_overlayer">Hide OverLayer</button></li>
+                            <li><button class="btn btn-primary show_overlayer">Show OverLayer</button></li>
+                            <li><button class="btn btn-primary remove_overlayer">Remove OverLayer</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var bingLayer = new OpenLayers.Layer.Bing({'isBaseLayer': true,'key':'AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf'});
+        function build(urls){
+            var moonTypeOptions = {
+                getTileUrl: function(coord, zoom) {
+                    var bounds = map.getBounds();
+                    var northEast = bounds.getNorthEast();
+                    var southWest = bounds.getSouthWest();
+                    var lonLat = new OpenLayers.LonLat( northEast.lng() ,northEast.lat() ).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
+                    var lonLat2 = new OpenLayers.LonLat( southWest.lng() ,southWest.lat() ).transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
+                    bounds = new OpenLayers.Bounds();
+                    bounds.extend(lonLat);
+                    bounds.extend(lonLat2);
+                    bingLayer.urls = urls;
+
+
+                    var res = this.getServerResolution();
+                    var x = Math.round((bounds.left - this.maxExtent.left) /
+                            (res * this.tileSize.w));
+                    var y = Math.round((this.maxExtent.top - bounds.top) /
+                            (res * this.tileSize.h));
+                    var z = this.getServerZoom();
+
+                    return {'x': x, 'y': y, 'z': z};
+
+
+                    return bingLayer.getURL(bounds);
+                },
+                tileSize: new google.maps.Size(256, 256),
+                maxZoom: 9,
+                minZoom: 0,
+                radius: 1738000,
+                name: 'Moon'
+            };
+
+            var moonMapType = new google.maps.ImageMapType(moonTypeOptions);
+
+            function initialize() {
+                var myLatlng = new google.maps.LatLng(0, 0);
+                var mapOptions = {
+                    center: myLatlng,
+                    zoom: 1,
+                    streetViewControl: false,
+                    mapTypeControlOptions: {
+                        mapTypeIds: ['moon']
+                    }
+                };
+
+                var map = window.map = new google.maps.Map(document.getElementById('map'),
+                        mapOptions);
+                map.mapTypes.set('moon', moonMapType);
+                map.setMapTypeId('moon');
+            }
+
+// Normalizes the coords that tiles repeat across the x axis (horizontally)
+// like the standard Google map tiles.
+            function getNormalizedCoord(coord, zoom) {
+                var y = coord.y;
+                var x = coord.x;
+
+                // tile range in one direction range is dependent on zoom level
+                // 0 = 1 tile, 1 = 2 tiles, 2 = 4 tiles, 3 = 8 tiles, etc
+                var tileRange = 1 << zoom;
+
+                // don't repeat across y-axis (vertically)
+                if (y < 0 || y >= tileRange) {
+                    return null;
+                }
+
+                // repeat across x-axis
+                if (x < 0 || x >= tileRange) {
+                    x = (x % tileRange + tileRange) % tileRange;
+                }
+
+                return {
+                    x: x,
+                    y: y
+                };
+            }
+
+            google.maps.event.addDomListener(window, 'load', initialize);
+        }
+        window._callback_OpenLayers_Layer_Bing_2 =function(metadata){
+            var res = metadata.resourceSets[0].resources[0];
+            var url = res.imageUrl.replace("{quadkey}", "${quadkey}");
+            url = url.replace("{culture}", 'en-US');
+            this.url = [];
+            for (var i=0; i<res.imageUrlSubdomains.length; ++i) {
+                this.url.push(url.replace("{subdomain}", res.imageUrlSubdomains[i]));
+            }
+            build(this.url);
+        }
+    </script>
+    <!--<script type="text/javascript" src="http://dev.virtualearth.net/REST/v1/Imagery/Metadata/Road?key=AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf&jsonp=_callback_OpenLayers_Layer_Bing_2&include=ImageryProviders"></script>-->
+</body>
+</html>

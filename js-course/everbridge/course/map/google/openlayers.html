@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title> backbone </title>
+    <meta charset="utf-8">
+    <!-- 此设置用于指定地图应以全屏模式显示，且用户不得调整地图的大小。请注意，您需要在网页的 <head> 元素中添加此 <meta> 标记，才能使用 iPhone 的 Safari 浏览器。-->
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta name="Author" content="">
+    <meta name="Keywords" content="">
+    <meta name="Description" content="">
+    <link rel="stylesheet" type="text/css" href="../../../resources/js-course.css">
+    <link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap.css"/>
+    <style type="text/css">
+        .overlayer_controller{
+            text-align: center;
+            overflow: hidden;
+            background-color: darkgray;
+            padding: 8px;
+            border-radius: 5px;
+        }
+        .overlayer_controller ul{
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .overlayer_controller ul li{
+            float: left;
+            padding: 0 5px;
+        }
+    </style>
+    <!--<link rel="stylesheet" href="../../../resources/css/bootstrap/bootstrap-theme.css"/>-->
+    <script type="text/javascript" src="../../../resources/javascripts/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/bootstrap/bootstrap.js"></script>
+    <script type="text/javascript" src="../../../resources/javascripts/plugin/backbone/underscore.js"></script>
+    <script type="text/javascript" src="../../../resources/utils.js"></script>
+    <script type="text/javascript" src="../../../openlayer/resources/OpenLayers-2.13/OpenLayers.debug.js"></script>
+</head>
+<body>
+    <div class="control_container">
+        <a href="../../../index.html">Index</a>
+            <span class="control">
+                <a href="javascript:" class="openControl">+</a>
+                <a href="javascript:" class="closeControl">-</a>
+            </span>
+        <h2 class="title">Google Map</h2>
+    </div>
+    <div class="jc_section">
+        <h3 class="jc_section_title">Base</h3>
+        <div class="jc_section_sub1">
+            <h4 class="section_sub_title">map</h4>
+            <div class="section_sub_content" style="display: block">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            var mapOption={
+                div: "map",
+                projection:new OpenLayers.Projection("EPSG:4326"),
+                layers:[new OpenLayers.Layer.Bing({'isBaseLayer': true,'key':'AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf'})]
+            };
+            map = new OpenLayers.Map(mapOption);
+            map.setCenter(new OpenLayers.LonLat(0, 0), 3);
+        });
+    </script>
+</body>
+</html>
