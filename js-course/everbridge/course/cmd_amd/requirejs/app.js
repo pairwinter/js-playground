@@ -14,6 +14,7 @@ requirejs.config({
 require(['jquery'],function($){
     $('#clear').click(function () {
         $('#lineInput').val('');
+        $('#lineInput1').val('');
         $('#lineInput2').val('');
     });
     $('#setVal').click(function(){
@@ -29,15 +30,15 @@ require(['jquery'],function($){
         });
     });
     $('#setVal2').click(function(){
-        require(['def'],function(){
+        require(['app/def'],function(){
             require(['def/d'],function(d){
                 var line = d.dLine();
                 $('#lineInput2').val(line);
             });
-            require(['a'],function(a){
-                var line = a.aLine();
-                $('#lineInput').val(line);
-            });
+//            require(['a'],function(a){
+//                var line = a.aLine();
+//                $('#lineInput').val(line);
+//            });
         });
     });
 });

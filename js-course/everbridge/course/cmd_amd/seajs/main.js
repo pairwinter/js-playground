@@ -5,7 +5,7 @@
             b:'./b',
             c:'./c',
             def:'./def',
-            'jquery':'../../resources/javascripts/jquery'
+            'jquery':'../../../resources/javascripts/jquery'
         }
     });
 })();
