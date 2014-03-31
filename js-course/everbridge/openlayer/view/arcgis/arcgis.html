@@ -19,19 +19,19 @@
 </html>
 <script type="text/javascript">
     var mapOptions = {
-        maxExtent: new OpenLayers.Bounds(-174,18.4,-63.5,71),
-        maxResolution: 0.25,
-        projection: "EPSG:4326",
+//        maxExtent: new OpenLayers.Bounds(-174,18.4,-63.5,71),
+//        maxResolution: 0.25,
+//        projection: "EPSG:4326",
         zoom:10
     };
     map = new OpenLayers.Map( 'map', mapOptions );
     layer = new OpenLayers.Layer.ArcGIS93Rest( "ArcGIS Server Layer",
-            "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export"
+//            "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/export"
 //            "http://cache1.arcgisonline.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer/export"
-//            "http://140.241.251.197/ArcGIS/rest/services/maps/Terrain_Base_tiled/MapServer/export"
+            "http://140.241.251.197/ArcGIS/rest/services/maps/Terrain_Base_tiled/MapServer/export"
 //            "http://gis.fcgov.com/FTCArcGIS/rest/services/LETAMaps/MapServer/export"
 );
     map.addLayer(layer);
-    map.addControl( new OpenLayers.Control.MousePosition() );
-    map.setCenter(new OpenLayers.LonLat(-115, 45), 0);
+    map.addControl(new OpenLayers.Control.MousePosition());
+    map.setCenter(new OpenLayers.LonLat(-115, 45), 10);
 </script>
