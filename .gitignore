@@ -1,17 +1,11 @@
 .externalToolBuilders/
-*.class
-*.project
-*.classpath
 *.settings/
-bin/
 target/
 # Package Files #
 *.jar
-*.war
 *.ear
 .idea/
 *.iml
-version.properties
 test-output/
 *.bak
 *.log*

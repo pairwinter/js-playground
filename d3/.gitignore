@@ -1,22 +1,2 @@
-.externalToolBuilders/
-*.class
-*.project
-*.classpath
-*.settings/
-bin/
-target/
-# Package Files #
-*.jar
-*.war
-*.ear
-.idea/
-*.iml
-version.properties
-test-output/
-*.bak
-*.log*
-*.lnk
-bin-debug/
-*.wav
-*/node_modules/
-*/bower_components/
+node_modules/
+public/bower_components/
