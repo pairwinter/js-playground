@@ -12,7 +12,5 @@ test-output/
 *.lnk
 bin-debug/
 *.wav
-*/node_modules/
-*/bower_components/
-d3/bower.json
-d3/public/bower_components/
+**/node_modules/
+**/bower_components/
