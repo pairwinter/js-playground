@@ -18,7 +18,7 @@ var arc = d3.svg.arc()
     .outerRadius(100);
 
 
-var svg = d3.select('body').append('svg').attr('width', 400).attr('height', 400);
+var svg = d3.select('#root').append('svg').attr('width', 400).attr('height', 400);
 
 var arcs = svg.selectAll('g')
     .data(pieData)

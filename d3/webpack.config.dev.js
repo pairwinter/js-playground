@@ -24,6 +24,7 @@ function resolveApp(relativePath) {
 }
 
 var entryInputs = {
+    index: './src/index.js',
     pie: './src/pie/pie.js',
     bar: './src/bar/bar.js',
     transition: './src/transition/transition.js',
@@ -37,6 +38,7 @@ var entryInputs = {
 
 function buildHtmlWebpackPlugin(options) {
     var _options = {
+        links: entryInputs,
         template: options.template || './html-webpack-plugin-template.pug',
         filename: options.filename || parseFilename(options)
     };
@@ -105,7 +107,10 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
-        new CopyWebpackPlugin([ { from: 'public/bower_components', to: 'bower_components' } ])
+        new CopyWebpackPlugin([
+            { from: 'public/bower_components', to: 'bower_components' },
+            { from: 'public/stylesheets', to: 'stylesheets' }
+        ])
     ]),
     devtool: "cheap-eval-source-map"
 };

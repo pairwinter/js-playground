@@ -1,9 +1,15 @@
 doctype html
 html
+    link(rel='stylesheet', href='/stylesheets/style.css')
     script(src='/bower_components/d3/d3.js')
     script(src='/bower_components/d3-tip/index.js')
     head
-        title= title
+        title= htmlWebpackPlugin.options.title
     body
+        div
+            ul.navigation
+                each val, index in htmlWebpackPlugin.options.links
+                    li
+                        a(href='/' + index + '.html')= index
         div#root
         <span></span>

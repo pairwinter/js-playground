@@ -10,7 +10,8 @@ test-output/
 *.bak
 *.log*
 *.lnk
-bin-debug/
 *.wav
 **/node_modules/
 **/bower_components/
+public/images/
+public/javascripts/
