@@ -1,0 +1,13 @@
+doctype html
+html
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    head
+        title= htmlWebpackPlugin.options.title
+    body
+        div
+            ul.navigation
+                each val, index in htmlWebpackPlugin.options.links
+                    li
+                        a(href='/' + index + '.html')= index
+        div#root
+        <span></span>

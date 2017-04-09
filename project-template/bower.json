@@ -1,0 +1,20 @@
+{
+  "name": "d3",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Damon.Liu <damon.liudong@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/pairwinter/js-playground",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "./public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  }
+}

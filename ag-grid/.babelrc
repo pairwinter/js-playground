@@ -1,0 +1,17 @@
+{
+  "presets": [
+    "es2015",
+    "stage-0",
+    "react"
+  ],
+  "plugins": [
+    [
+      "transform-react-jsx"
+    ]
+  ],
+  "env": {
+    "start-local": {
+      "presets": ["react-hmre"]
+    }
+  }
+}

@@ -24,17 +24,7 @@ function resolveApp(relativePath) {
 }
 
 var entryInputs = {
-    index: './src/index.js',
-    pie: './src/pie/pie.js',
-    bar: './src/bar/bar.js',
-    transition: './src/transition/transition.js',
-    axis: './src/axis/axis.js',
-    pack: './src/pack/pack.js',
-    cluster: './src/cluster/cluster.js',
-    tree: './src/tree/tree.js',
-    interactiveTree: './src/tree/interactiveTree.js',
-    chord: './src/chord/chord.js',
-    force: './src/force/force.js'
+    index: './src/index.js'
 };
 
 function buildHtmlWebpackPlugin(options) {
@@ -70,7 +60,6 @@ _.each(entryInputs, function (value, key) {
         chunks: [key]
     }));
 });
-
 
 
 module.exports = {
@@ -109,8 +98,8 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
         new CopyWebpackPlugin([
-            { from: 'public/bower_components', to: 'bower_components' },
-            { from: 'public/stylesheets', to: 'stylesheets' }
+            {from: 'public/bower_components', to: 'bower_components'},
+            {from: 'public/stylesheets', to: 'stylesheets'}
         ])
     ]),
     devtool: "cheap-eval-source-map"
