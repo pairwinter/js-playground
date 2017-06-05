@@ -1,0 +1,12 @@
+.test-floating-row{
+    background-color: powderblue !important;
+}
+.test-new-row{
+    background-color: powderblue !important;
+}
+.test-add-full-width{
+    border: 1px #999;
+    text-align: center;
+    border-style: dotted;
+    border-bottom-style: solid;
+}

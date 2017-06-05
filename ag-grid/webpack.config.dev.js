@@ -25,7 +25,9 @@ function resolveApp(relativePath) {
 
 var entryInputs = {
     index: './src/index.js',
-    start: './src/start/start.js'
+    start: './src/start/start.js',
+    pagination: './src/start/pagination.js',
+    pagination2: './src/start/pagination2.js'
 };
 
 function buildHtmlWebpackPlugin(options) {
@@ -104,6 +106,7 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
         new CopyWebpackPlugin([
+            {from: 'public/bower_components', to: 'bower_components'},
             {from: 'public/stylesheets', to: 'stylesheets'}
         ])
     ]),

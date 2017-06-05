@@ -36,5 +36,5 @@ compiler.plugin('done', function (stats) {
     logger.info('webpack compiled done!');
 });
 xhdDevApp.listen(DEFAULT_PORT, '127.0.0.1', function () {
-    console.log(chalk.green('D3 started at: http://localhost:' + DEFAULT_PORT));
+    console.log(chalk.green('Ag-Grid started at: http://localhost:' + DEFAULT_PORT));
 });
