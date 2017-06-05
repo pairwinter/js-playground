@@ -15,3 +15,4 @@ test-output/
 **/bower_components/
 public/images/
 public/javascripts/
+.DS_Store

@@ -1,18 +1,2 @@
-.externalToolBuilders/
-*.settings/
-target/
-# Package Files #
-*.jar
-*.ear
-.idea/
-*.iml
-test-output/
-*.bak
-*.log*
-*.lnk
-*.wav
-**/node_modules/
-**/bower_components/
-public/images/
-public/javascripts/
 src/testFile_*
+_tmp

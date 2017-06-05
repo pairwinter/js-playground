@@ -9,6 +9,8 @@
   "license": "ISC",
   "dependencies": {
     "del": "^2.2.2",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "lodash": "^4.17.4",
+    "mkdirp": "^0.5.1"
   }
 }
