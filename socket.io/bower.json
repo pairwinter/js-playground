@@ -1,0 +1,17 @@
+{
+  "name": "socket.io.playground",
+  "description": "socket.io playground",
+  "main": "index.js",
+  "authors": [
+    "Damon Liu"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/pairwinter/js-playground",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

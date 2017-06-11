@@ -1,0 +1,11 @@
+html
+    //- layout.pug
+    head
+        title My Site - #{title}
+        script(src="/jquery/dist/jquery.js")
+        block scripts
+    body
+        block content
+        block foot
+            #footer
+                p some footer content
