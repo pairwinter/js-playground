@@ -24,7 +24,8 @@ function resolveApp(relativePath) {
 }
 
 var entryInputs = {
-    index: './src/socket.begin.js'
+    index: './src/index.js', //default, just for navigation
+    chat: './src/chat/index.js'
 };
 
 function buildHtmlWebpackPlugin(options) {
@@ -79,6 +80,11 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: 'babel-loader'
+            },
+            {
                 test: /\.pug$/,
                 use: 'pug-loader'
             },
@@ -98,8 +104,9 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
         new CopyWebpackPlugin([
-            {from: 'public/bower_components', to: 'bower_components'},
-            {from: 'public/stylesheets', to: 'stylesheets'}
+            {from: 'public/bower_components', to: 'bower_components'}
+            // ,
+            // {from: 'public/stylesheets', to: 'stylesheets'}
         ])
     ]),
     devtool: "cheap-module-eval-source-map"
