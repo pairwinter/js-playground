@@ -6,7 +6,7 @@
  * @date    Created at 4:42 PM 06/06/2017
  * @ignore  =====================================================================================
  */
-
+require('./tools')
 var stream = require('stream');
 var tools = require('./tools');
 class MyReadable extends stream.Readable {
