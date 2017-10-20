@@ -1,0 +1,40 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.6,
+          10.1
+        ]
+      },
+      "properties": {
+        "name": "Dinagat Islands"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"name": "Point 2"},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.60054183006287,
+          10.102525452662006
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"name": "Point 3"},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          125.6005847454071,
+          10.101374139160903
+        ]
+      }
+    }
+  ],
+  "type": "FeatureCollection"
+}

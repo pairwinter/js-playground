@@ -14,4 +14,4 @@ import {
 
 gulp.task('test-es6', function () {
     testPromise();
-})
+});

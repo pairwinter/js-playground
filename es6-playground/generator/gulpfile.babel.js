@@ -14,8 +14,8 @@ import {
 
 gulp.task('generator', function () {
     testGenerator();
-})
+});
 
 gulp.task('testGeneratorAjax', function () {
     testGeneratorAjax();
-})
+});

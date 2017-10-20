@@ -1,0 +1,14 @@
+<Map srs="+init=epsg:4326">
+    <Style name="My Style">
+        <Rule>
+            <MarkersSymbolizer width="6" height="6" fill="blue" stroke="blue" allow-overlap="false" opacity="1" stroke-opacity="0.5" stroke-width="0"/>
+        </Rule>
+    </Style>
+    <Layer name="world" srs="+init=epsg:4326">
+        <StyleName>My Style</StyleName>
+        <Datasource>
+            <Parameter name="file">/Users/damon/Documents/workspace/code/pairwinter/js-playground/mapnik/gisResources/1.37m/ship.shp</Parameter>
+            <Parameter name="type">shape</Parameter>
+        </Datasource>
+    </Layer>
+</Map>
